@@ -1,0 +1,458 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <!-- start Mixpanel --><script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
+    loaded: function(mixpanel) {
+        distinct_id = mixpanel.get_distinct_id();
+    }
+});</script><!-- end Mixpanel -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Automated Testing with Java | MockLab</title>
+
+
+
+
+
+
+
+<meta name="description" content="Creating automated tests in Java and MockLab">
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="MockLab">
+<meta property="og:title" content="Automated Testing with Java">
+
+
+
+
+  <meta property="og:description" content="Creating automated tests in Java and MockLab">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2018-07-10T14:09:22+01:00">
+  
+    <link rel="next" href="/docs/default-responses/" title="How to: Serve a Default Response">
+  
+  
+    <link rel="prev" href="/docs/advanced-stubbing/" title="Advanced Stubbing">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : null,
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="MockLab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<link href="https://fonts.googleapis.com/css?family=Cairo:300" rel="stylesheet">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@1/dist/instantsearch.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.0/dist/instantsearch-theme-algolia.min.css">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+  </head>
+
+  <body>
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<nav class="header-nav sticky">
+  <ul class="header-nav__container">
+    <li class="header-nav__logo">
+        <a href="/">
+            <img src="/images/mocklab_logo_with_text.png" title="MockLab logo"/>
+        </a>
+    </li>
+
+    <li class="header-nav__item">
+        <a href="/docs/getting-started/" title="Docs">Docs</a>
+    </li>
+    <li class="header-nav__item">
+        <a href="/blog/" title="Docs">Blog</a>
+    </li>
+    <li class="header-nav__item">
+        <a href="https://get.mocklab.io/pricing" title="Docs">Pricing</a>
+    </li>
+    <li class="header-nav__item header-nav__item--last">
+        <a href="https://app.mocklab.io" title="Login" target="_blank">Login</a>
+    </li>
+
+    <li class="header-nav__cta">
+        <a href="https://app.mocklab.io/login?for=signup" title="Get started" target="_blank">Get Started</a>
+    </li>
+  </ul>
+
+</nav>
+
+    
+
+<div id="main" role="main">
+  
+
+
+<div class="sidebar sticky">
+  <nav class="nav__list">
+
+    <ul>
+      
+
+      
+      <li>
+        <a href="/docs/getting-started/">
+
+        Getting Started
+      </a>
+      
+      <li>
+        <a href="/docs/stubbing/">
+
+        Stubbing responses
+      </a>
+      
+      <li>
+        <a href="/docs/advanced-stubbing/">
+
+        Advanced Stubbing
+      </a>
+      
+      <li>
+        <a href="/docs/response-templating/">
+
+        Response Templating
+      </a>
+      
+      <li>
+        <a href="/docs/automated-testing-with-java/" class="nav__list-item--selected">
+        
+
+        Automated Testing with Java
+      </a>
+      
+      <li>
+        <a href="/docs/recording-stubs/">
+
+        Recording Stubs
+      </a>
+      
+      <li>
+        <a href="/docs/stateful-scenarios/">
+
+        Simulating State with Scenarios
+      </a>
+      
+      <li>
+        <a href="/docs/simulating-faults/">
+
+        Simulating Faults
+      </a>
+      
+      <li>
+        <a href="/docs/delays/">
+
+        Response Delays
+      </a>
+      
+      <li>
+        <a href="/docs/proxying/">
+
+        Proxying
+      </a>
+      
+      <li>
+        <a href="/docs/default-responses/">
+
+        How to: Serve a Default Response
+      </a>
+      
+      <li>
+        <a href="/docs/soap-stubbing/">
+
+        How to: Stub a SOAP response
+      </a>
+      
+      <li>
+        <a href="/docs/exploratory-testing-tutorial/">
+
+        Tutorial: Testing a Spring Boot App
+      </a>
+      
+      <li>
+        <a href="/docs/provisioning/">
+
+        API Reference: Provisioning
+      </a>
+      
+      <li>
+        <a href="/docs/mocking/">
+
+        API Reference: Mocking
+      </a>
+      
+      <li>
+        <a href="/docs/terms-and-conditions/">
+
+        MockLab Terms of Service
+      </a>
+      
+      <li>
+        <a href="/docs/privacy-policy/">
+
+        Privacy Policy
+      </a>
+      
+    </ul>
+  </nav>
+</div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Automated Testing with Java">
+    <meta itemprop="description" content="Everything that can be done with MockLab’s web UI can also be done via its APIs. This can be useful when automatingtesting, as it allows stubs to be configured and torn down on-demans by individual test cases rather than it beingnecessary to configure an entire test suite’s stubs manually up-front. Working this way can make your tests a lot morereadable as it makes their preconditions expicit.">
+    <meta itemprop="datePublished" content="July 10, 2018">
+    
+
+    <div class="page__inner-wrap">
+      <header>
+        <h1 class="page__title" itemprop="headline">Automated Testing with Java
+</h1>
+      </header>
+      <section class="page__content" itemprop="text">
+        <p>Everything that can be done with MockLab’s web UI can also be done via its APIs. This can be useful when automating
+testing, as it allows stubs to be configured and torn down on-demans by individual test cases rather than it being
+necessary to configure an entire test suite’s stubs manually up-front. Working this way can make your tests a lot more
+readable as it makes their preconditions expicit.</p>
+
+<p>MockLab’s API is 100% compatible with <a href="http://wiremock.org/docs/api/">WireMock’s</a>. This means that WireMock
+can be used as a Java client for MockLab.</p>
+
+<h2 id="adding-wiremock-to-your-project">Adding WireMock to your project</h2>
+
+<p>WireMock is distributed in two different types of JAR - a standard “thin” JAR, and a “fat” standalone JAR. The latter of these
+contains all of WireMock’s dependencies and repackages (shades) most of these. Either can be used as a dependency in your
+project and which you choose depends primarily on whether you have dependencies already present that conflict with WireMock’s.
+Picking the standalone version generally avoids these problems but at the cost of a larger JAR download.</p>
+
+<p>If you’re using Gradle you can add WireMock to your build file’s dependencies as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>testCompile 'com.github.tomakehurst:wiremock:2.8.0' // thin JAR
+testCompile 'com.github.tomakehurst:wiremock-standalone:2.8.0' // standalone JAR
+</code></pre>
+</div>
+
+<p>Or if you’re using Maven:</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- Thin JAR --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>com.github.tomakehurst<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>wiremock<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>2.8.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="c">&lt;!-- Standalone JAR --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>com.github.tomakehurst<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>wiremock-standalone<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>2.8.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="configuring-your-test">Configuring your test</h2>
+
+<p>After you’ve created a mock API in the MockLab UI, setting up a WireMock client to it is a one-line task (you can copy-paste this from
+your mock API’s Settings page):</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">WireMock</span> <span class="n">paymentGatewayMock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WireMock</span><span class="o">(</span><span class="s">"https"</span><span class="o">,</span> <span class="s">"payments-example.mocklab.io"</span><span class="o">,</span> <span class="mi">443</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<p>Then in your test cases you can create stubs as <a href="http://wiremock.org/docs/stubbing/">documented on the WireMock site</a>:</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">paymentGatewayMock</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">post</span><span class="o">(</span><span class="s">"/send-payment"</span><span class="o">).</span><span class="na">willReturn</span><span class="o">(</span><span class="n">created</span><span class="o">()));</span>
+</code></pre>
+</div>
+
+<p>And make assertions about received requests:</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">paymentGatewayMock</span><span class="o">.</span><span class="na">verifyThat</span><span class="o">(</span><span class="n">postRequestedFor</span><span class="o">(</span><span class="n">urlPathEqualTo</span><span class="o">(</span><span class="s">"/send-payment"</span><span class="o">)));</span>
+</code></pre>
+</div>
+
+<h2 id="example-project">Example project</h2>
+
+<p>For a complete, working example of a Java web project using MockLab with automated tests see <a href="https://github.com/mocklab/mocklab-demo-app">the mocklab demo app</a>.</p>
+
+        
+        <div id ="feedback">
+        <p id ="feedback_title">Was this article helpful?<br></p>
+        <p class ="emoji" id ="happy_emoji">😁</p>
+        <p class ="emoji" id ="neutral_emoji">😐</p>
+        <p class ="emoji" id ="sad_emoji">😔</p>
+      </div>
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+
+      </footer>
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+<nav class="page__footer-links">
+  <div class="page__footer-links-block">
+    <ul>
+      <li>&copy; 2018 MockLab</li>
+      <li><a href="mailto:info@mocklab.io">info@mocklab.io</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <h3>Help</h3>
+    <ul>
+      <li><a href="/docs/getting-started/">Docs</a></li>
+      <li><a href="/docs/getting-started/">Blog</a></li>
+      <li><a href="https://get.mocklab.io/pricing">Pricing</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <h3>Policies</h3>
+    <ul>
+      <li><a href="/docs/terms-and-conditions/">Terms and conditions</a></li>
+      <li><a href="/docs/privacy-policy/">Privacy policy</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <ul>
+
+    </ul>
+  </div>
+</nav>
+
+      </footer>
+    </div>
+
+    <script src="/assets/js/main.min.js"></script>
+
+
+
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-78148205-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+<script>
+    window.intercomSettings = {
+        app_id: "xjme6u4w"
+    };
+</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/xjme6u4w';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+
+
+  </body>
+</html>
+

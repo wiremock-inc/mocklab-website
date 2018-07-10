@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "hostname": {
+      "type": "string",
+      "pattern": "^[a-z0-9\\-]*$",
+      "maxLength": 256
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

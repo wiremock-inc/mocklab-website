@@ -1,0 +1,153 @@
+#%RAML 0.8
+---
+title: Provisioning
+version: v1
+mediaType: application/json
+
+documentation:
+  - title: Provisioning
+    content: |
+       MockLab provisioning API documentation.
+
+schemas:
+  - newMockApi: !include schemas/new-mock-api.schema.json
+
+/v1/mock-apis:
+    get:
+      responses:
+        200:
+          description:  List of all my mock APIs
+          body:
+            application/json:
+              example: |
+                {
+                  "mockApis": [
+                    {
+                      "id": "414w8dwr",
+                      "name": "My first mock API",
+                      "domains": ["414w8dwr.mocklab.io", "my-custom-hostname.mocklab.io"],
+                      "ownerId": "lw5r75vd"
+                    },
+                    {
+                      "id": "ndzew",
+                      "name": "Number two API",
+                      "domains": ["ndzew.mocklab.io"],
+                      "ownerId": "lw5r75vd"
+                    }
+                  ]
+                }
+
+
+    post:
+      description: Create a new mock API
+      body:
+        application/json:
+          schema: newMockApi
+          example: |
+            {
+              "name": "My first mock API",
+              "hostname": "my-custom-hostname"
+            }
+
+      responses:
+        201:
+          description: New mock API created
+          body:
+            application/json:
+              example: |
+                {
+                  "id": "414w8dwr",
+                  "name": "My first mock API",
+                  "domains": ["414w8dwr.mocklab.io", "my-custom-hostname.mocklab.io"],
+                  "ownerId": "lw5r75vd"
+                }
+
+
+/v1/mock-apis/{apiId}:
+  get:
+    responses:
+      200:
+        description: Single mock API details
+        body:
+          application/json:
+            example: |
+              {
+                "id": "414w8dwr",
+                "name": "My first mock API",
+                "domains": ["414w8dwr.mocklab.io", "my-custom-hostname.mocklab.io"],
+                "ownerId": "lw5r75vd"
+              }
+
+  delete:
+    responses:
+      200:
+        description: mock API deleted
+
+
+  /collaborators:
+    get:
+      description: Get all collaborators for a mock API
+      responses:
+        200:
+          description: All collaborators for a single mock API
+          body:
+            application/json:
+              example: |
+                {
+                  "mockApiCollaborators": [
+                    {
+                      "id": "vnldx",
+                      "mockApiId": "9p84x",
+                      "userId": "87dkb",
+                      "username": "user-one"
+                    },
+                    {
+                      "id": "1nwen",
+                      "mockApiId": "9p84x",
+                      "userId": "mnmex",
+                      "username": "user-two"
+                    }
+                  ]
+                }
+
+    post:
+      description: Add a new collaborator to a mock API
+      body:
+        application/json:
+          example: |
+            {
+              "mockApiCollaborator": {
+                "username": "new-user-three"
+              }
+            }
+
+      responses:
+        201:
+          description: New collaborator added
+          body:
+            application/json:
+              example: |
+                {
+                  "mockApiCollaborator": {
+                    "id": "gxzlp",
+                    "mockApiId": "9p84x",
+                    "userId": "nl9dn",
+                    "username": "new-user-three"
+                  }
+                }
+
+        422:
+          description: User does not exist or is already a collaborator on this API
+
+        404:
+          description: The mock API was not found
+
+        403:
+          description: The authenticated user is not allowed to perform this operation on this API
+
+    /{collaboratorId}:
+      delete:
+        description: Delete a collaborator from a mock API
+        responses:
+          200:
+            description: The collaborator was successfull deleted

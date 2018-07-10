@@ -1,0 +1,227 @@
+<!DOCTYPE HTML><html><head><title>Provisioning API documentation</title><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="generator" content="https://github.com/kevinrenskers/raml2html 3.0.1"><link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css"><script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script><script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script><style>
+      body, h1, h2, h3, h4, ul, ol, p, a {
+        font-family: 'Cairo', sans-serif;
+      }
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+        font-family: 'Source Code Pro', monospace;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+    </style></head><link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet"><body data-spy="scroll" data-target="#sidebar"><div class="container"><div class="row"><div class="col-md-9" role="main"><div class="page-header"><p></p></div><div class="panel panel-default"><div class="panel-heading"><h3 id="v1_mock_apis" class="panel-title">/v1/mock-apis</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_v1_mock_apis"><span class="parent"></span>/v1/mock-apis</a> <span class="methods"><a href="#v1_mock_apis_get"><span class="badge badge_get">get</span></a> <a href="#v1_mock_apis_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_v1_mock_apis" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#v1_mock_apis_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"></div><div class="clearfix"></div></div><div onclick="window.location.href = '#v1_mock_apis_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a new mock API</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="v1_mock_apis_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/v1/mock-apis</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#v1_mock_apis_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="v1_mock_apis_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>List of all my mock APIs</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "mockApis": [
+    {
+      "id": "414w8dwr",
+      "name": "My first mock API",
+      "domains": ["414w8dwr.mocklab.io", "my-custom-hostname.mocklab.io"],
+      "ownerId": "lw5r75vd"
+    },
+    {
+      "id": "ndzew",
+      "name": "Number two API",
+      "domains": ["ndzew.mocklab.io"],
+      "ownerId": "lw5r75vd"
+    }
+  ]
+}
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="v1_mock_apis_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/v1/mock-apis</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new mock API</p></div><ul class="nav nav-tabs"><li class="active"><a href="#v1_mock_apis_post_request" data-toggle="tab">Request</a></li><li><a href="#v1_mock_apis_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="v1_mock_apis_post_request"><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "hostname": {
+      "type": "string",
+      "pattern": "^[a-z0-9\\-]*$",
+      "maxLength": 256
+    }
+  },
+  "required": [
+    "name"
+  ]
+}</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  "name": "My first mock API",
+  "hostname": "my-custom-hostname"
+}
+</code></pre></div><div class="tab-pane" id="v1_mock_apis_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><p>New mock API created</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "id": "414w8dwr",
+  "name": "My first mock API",
+  "domains": ["414w8dwr.mocklab.io", "my-custom-hostname.mocklab.io"],
+  "ownerId": "lw5r75vd"
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="v1_mock_apis__apiId_" class="panel-title">/v1/mock-apis/{apiId}</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_v1_mock_apis__apiId_"><span class="parent"></span>/v1/mock-apis/{apiId}</a> <span class="methods"><a href="#v1_mock_apis__apiId__get"><span class="badge badge_get">get</span></a> <a href="#v1_mock_apis__apiId__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_v1_mock_apis__apiId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#v1_mock_apis__apiId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"></div><div class="clearfix"></div></div><div onclick="window.location.href = '#v1_mock_apis__apiId__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="v1_mock_apis__apiId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/v1/mock-apis/{apiId}</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#v1_mock_apis__apiId__get_request" data-toggle="tab">Request</a></li><li><a href="#v1_mock_apis__apiId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="v1_mock_apis__apiId__get_request"><h3>URI Parameters</h3><ul><li><strong>apiId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="v1_mock_apis__apiId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Single mock API details</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "id": "414w8dwr",
+  "name": "My first mock API",
+  "domains": ["414w8dwr.mocklab.io", "my-custom-hostname.mocklab.io"],
+  "ownerId": "lw5r75vd"
+}
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="v1_mock_apis__apiId__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent"></span>/v1/mock-apis/{apiId}</h4></div><div class="modal-body"><ul class="nav nav-tabs"><li class="active"><a href="#v1_mock_apis__apiId__delete_request" data-toggle="tab">Request</a></li><li><a href="#v1_mock_apis__apiId__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="v1_mock_apis__apiId__delete_request"><h3>URI Parameters</h3><ul><li><strong>apiId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="v1_mock_apis__apiId__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>mock API deleted</p></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_v1_mock_apis__apiId__collaborators"><span class="parent">/v1/mock-apis/{apiId}</span>/collaborators</a> <span class="methods"><a href="#v1_mock_apis__apiId__collaborators_get"><span class="badge badge_get">get</span></a> <a href="#v1_mock_apis__apiId__collaborators_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_v1_mock_apis__apiId__collaborators" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#v1_mock_apis__apiId__collaborators_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get all collaborators for a mock API</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#v1_mock_apis__apiId__collaborators_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Add a new collaborator to a mock API</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="v1_mock_apis__apiId__collaborators_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/v1/mock-apis/{apiId}</span>/collaborators</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get all collaborators for a mock API</p></div><ul class="nav nav-tabs"><li class="active"><a href="#v1_mock_apis__apiId__collaborators_get_request" data-toggle="tab">Request</a></li><li><a href="#v1_mock_apis__apiId__collaborators_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="v1_mock_apis__apiId__collaborators_get_request"><h3>URI Parameters</h3><ul><li><strong>apiId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="v1_mock_apis__apiId__collaborators_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>All collaborators for a single mock API</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "mockApiCollaborators": [
+    {
+      "id": "vnldx",
+      "mockApiId": "9p84x",
+      "userId": "87dkb",
+      "username": "user-one"
+    },
+    {
+      "id": "1nwen",
+      "mockApiId": "9p84x",
+      "userId": "mnmex",
+      "username": "user-two"
+    }
+  ]
+}
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="v1_mock_apis__apiId__collaborators_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/v1/mock-apis/{apiId}</span>/collaborators</h4></div><div class="modal-body"><div class="alert alert-info"><p>Add a new collaborator to a mock API</p></div><ul class="nav nav-tabs"><li class="active"><a href="#v1_mock_apis__apiId__collaborators_post_request" data-toggle="tab">Request</a></li><li><a href="#v1_mock_apis__apiId__collaborators_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="v1_mock_apis__apiId__collaborators_post_request"><h3>URI Parameters</h3><ul><li><strong>apiId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "mockApiCollaborator": {
+    "username": "new-user-three"
+  }
+}
+</code></pre></div><div class="tab-pane" id="v1_mock_apis__apiId__collaborators_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><p>New collaborator added</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "mockApiCollaborator": {
+    "id": "gxzlp",
+    "mockApiId": "9p84x",
+    "userId": "nl9dn",
+    "username": "new-user-three"
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><p>The authenticated user is not allowed to perform this operation on this API</p><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>The mock API was not found</p><h2>HTTP status code <a href="http://httpstatus.es/422" target="_blank">422</a></h2><p>User does not exist or is already a collaborator on this API</p></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_v1_mock_apis__apiId__collaborators__collaboratorId_"><span class="parent">/v1/mock-apis/{apiId}/collaborators</span>/{collaboratorId}</a> <span class="methods"><a href="#v1_mock_apis__apiId__collaborators__collaboratorId__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_v1_mock_apis__apiId__collaborators__collaboratorId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#v1_mock_apis__apiId__collaborators__collaboratorId__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Delete a collaborator from a mock API</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="v1_mock_apis__apiId__collaborators__collaboratorId__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent">/v1/mock-apis/{apiId}/collaborators</span>/{collaboratorId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Delete a collaborator from a mock API</p></div><ul class="nav nav-tabs"><li class="active"><a href="#v1_mock_apis__apiId__collaborators__collaboratorId__delete_request" data-toggle="tab">Request</a></li><li><a href="#v1_mock_apis__apiId__collaborators__collaboratorId__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="v1_mock_apis__apiId__collaborators__collaboratorId__delete_request"><h3>URI Parameters</h3><ul><li><strong>apiId</strong>: <em>required (string)</em></li><li><strong>collaboratorId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="v1_mock_apis__apiId__collaborators__collaboratorId__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>The collaborator was successfull deleted</p></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#v1_mock_apis">/v1/mock-apis</a></li><li><a href="#v1_mock_apis__apiId_">/v1/mock-apis/{apiId}</a></li></ul></div></div></div></div></body></html>

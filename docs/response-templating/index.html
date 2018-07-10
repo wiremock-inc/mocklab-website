@@ -1,0 +1,563 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <!-- start Mixpanel --><script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
+    loaded: function(mixpanel) {
+        distinct_id = mixpanel.get_distinct_id();
+    }
+});</script><!-- end Mixpanel -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Response Templating | MockLab</title>
+
+
+
+
+
+
+
+<meta name="description" content="Making responses dynamic using Handlebars templates">
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="MockLab">
+<meta property="og:title" content="Response Templating">
+
+
+
+
+  <meta property="og:description" content="Making responses dynamic using Handlebars templates">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2018-07-10T14:09:22+01:00">
+  
+    <link rel="next" href="/docs/simulating-faults/" title="Simulating Faults">
+  
+  
+    <link rel="prev" href="/docs/recording-stubs/" title="Recording Stubs">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : null,
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="MockLab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<link href="https://fonts.googleapis.com/css?family=Cairo:300" rel="stylesheet">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@1/dist/instantsearch.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.0/dist/instantsearch-theme-algolia.min.css">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+  </head>
+
+  <body>
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<nav class="header-nav sticky">
+  <ul class="header-nav__container">
+    <li class="header-nav__logo">
+        <a href="/">
+            <img src="/images/mocklab_logo_with_text.png" title="MockLab logo"/>
+        </a>
+    </li>
+
+    <li class="header-nav__item">
+        <a href="/docs/getting-started/" title="Docs">Docs</a>
+    </li>
+    <li class="header-nav__item">
+        <a href="/blog/" title="Docs">Blog</a>
+    </li>
+    <li class="header-nav__item">
+        <a href="https://get.mocklab.io/pricing" title="Docs">Pricing</a>
+    </li>
+    <li class="header-nav__item header-nav__item--last">
+        <a href="https://app.mocklab.io" title="Login" target="_blank">Login</a>
+    </li>
+
+    <li class="header-nav__cta">
+        <a href="https://app.mocklab.io/login?for=signup" title="Get started" target="_blank">Get Started</a>
+    </li>
+  </ul>
+
+</nav>
+
+    
+
+<div id="main" role="main">
+  
+
+
+<div class="sidebar sticky">
+  <nav class="nav__list">
+
+    <ul>
+      
+
+      
+      <li>
+        <a href="/docs/getting-started/">
+
+        Getting Started
+      </a>
+      
+      <li>
+        <a href="/docs/stubbing/">
+
+        Stubbing responses
+      </a>
+      
+      <li>
+        <a href="/docs/advanced-stubbing/">
+
+        Advanced Stubbing
+      </a>
+      
+      <li>
+        <a href="/docs/response-templating/" class="nav__list-item--selected">
+        
+
+        Response Templating
+      </a>
+      
+      <li>
+        <a href="/docs/automated-testing-with-java/">
+
+        Automated Testing with Java
+      </a>
+      
+      <li>
+        <a href="/docs/recording-stubs/">
+
+        Recording Stubs
+      </a>
+      
+      <li>
+        <a href="/docs/stateful-scenarios/">
+
+        Simulating State with Scenarios
+      </a>
+      
+      <li>
+        <a href="/docs/simulating-faults/">
+
+        Simulating Faults
+      </a>
+      
+      <li>
+        <a href="/docs/delays/">
+
+        Response Delays
+      </a>
+      
+      <li>
+        <a href="/docs/proxying/">
+
+        Proxying
+      </a>
+      
+      <li>
+        <a href="/docs/default-responses/">
+
+        How to: Serve a Default Response
+      </a>
+      
+      <li>
+        <a href="/docs/soap-stubbing/">
+
+        How to: Stub a SOAP response
+      </a>
+      
+      <li>
+        <a href="/docs/exploratory-testing-tutorial/">
+
+        Tutorial: Testing a Spring Boot App
+      </a>
+      
+      <li>
+        <a href="/docs/provisioning/">
+
+        API Reference: Provisioning
+      </a>
+      
+      <li>
+        <a href="/docs/mocking/">
+
+        API Reference: Mocking
+      </a>
+      
+      <li>
+        <a href="/docs/terms-and-conditions/">
+
+        MockLab Terms of Service
+      </a>
+      
+      <li>
+        <a href="/docs/privacy-policy/">
+
+        Privacy Policy
+      </a>
+      
+    </ul>
+  </nav>
+</div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Response Templating">
+    <meta itemprop="description" content="MockLab stub responses can be configured to return dynamically generated headers and body, using Handlebars templates. Thiscan be enabled by ticking the “Enable templating” box in the response section of the stub form:">
+    <meta itemprop="datePublished" content="July 10, 2018">
+    
+
+    <div class="page__inner-wrap">
+      <header>
+        <h1 class="page__title" itemprop="headline">Response Templating
+</h1>
+      </header>
+      <section class="page__content" itemprop="text">
+        <p>MockLab stub responses can be configured to return dynamically generated headers and body, using <a href="https://github.com/jknack/handlebars.java">Handlebars templates</a>. This
+can be enabled by ticking the “Enable templating” box in the response section of the stub form:</p>
+
+<p><img src="/images/screenshots/enable-response-templating-screenshot.png" title="Enable templating" style="height: 70px" /></p>
+
+<p>Ticking this box means that header values can be templated e.g.</p>
+
+<p><img src="/images/screenshots/header-template-screenshot.png" title="Header template" style="height: 70px" /></p>
+
+<p>And also the response body e.g.</p>
+
+<p><img src="/images/screenshots/body-template-screenshot.png" title="Body template" style="height: 130px" /></p>
+
+<p><a href="http://handlebarsjs.com/">See here</a> for a Handlebars syntax guide.</p>
+
+<p>Currently the model passed to the template is populated with the current HTTP request. This is described in detail in the next section.</p>
+
+<h2 id="the-request-model">The request model</h2>
+<p>The model of the request is supplied to the header and body templates. The following request attributes are available:</p>
+
+<p><code class="highlighter-rouge">request.url</code> - URL path and query</p>
+
+<p><code class="highlighter-rouge">request.path</code> - URL path</p>
+
+<p><code class="highlighter-rouge">request.path.[&lt;n&gt;]</code>- URL path segment (zero indexed) e.g. <code class="highlighter-rouge">request.path.[2]</code></p>
+
+<p><code class="highlighter-rouge">request.query.&lt;key&gt;</code>- First value of a query parameter e.g. <code class="highlighter-rouge">request.query.search</code></p>
+
+<p><code class="highlighter-rouge">request.query.&lt;key&gt;.[&lt;n&gt;]</code>- nth value of a query parameter (zero indexed) e.g. <code class="highlighter-rouge">request.query.search.[5]</code></p>
+
+<p><code class="highlighter-rouge">request.headers.&lt;key&gt;</code>- First value of a request header e.g. <code class="highlighter-rouge">request.headers.X-Request-Id</code></p>
+
+<p><code class="highlighter-rouge">request.headers.[&lt;key&gt;]</code>- Header with awkward characters e.g. <code class="highlighter-rouge">request.headers.[$?blah]</code></p>
+
+<p><code class="highlighter-rouge">request.headers.&lt;key&gt;.[&lt;n&gt;]</code>- nth value of a header (zero indexed) e.g. <code class="highlighter-rouge">request.headers.ManyThings.[1]</code></p>
+
+<p><code class="highlighter-rouge">request.cookies.&lt;key&gt;</code> - Value of a request cookie e.g. <code class="highlighter-rouge">request.cookies.JSESSIONID</code></p>
+
+<p><code class="highlighter-rouge">request.body</code> - Request body text (avoid for non-text bodies)</p>
+
+<h2 id="handlebars-helpers">Handlebars helpers</h2>
+<p>All of the standard helpers (template functions) provided by the <a href="https://github.com/jknack/handlebars.java">Java Handlebars implementation by jknack</a>
+plus all of the <a href="https://github.com/jknack/handlebars.java/blob/master/handlebars/src/main/java/com/github/jknack/handlebars/helper/StringHelpers.java">string helpers</a>
+are available e.g.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{capitalize</span><span class="w"> </span><span class="err">request.query.search</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="number-and-assignment-helpers">Number and assignment helpers</h2>
+<p>Variable assignment and number helpers are available:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{#assign</span><span class="w"> </span><span class="err">'myCapitalisedQuery'</span><span class="p">}</span><span class="err">}</span><span class="p">{</span><span class="err">{capitalize</span><span class="w"> </span><span class="err">request.query.search</span><span class="p">}</span><span class="err">}</span><span class="p">{</span><span class="err">{/assign</span><span class="p">}</span><span class="err">}</span><span class="w">
+
+</span><span class="p">{</span><span class="err">{isOdd</span><span class="w"> </span><span class="err">3</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{isOdd</span><span class="w"> </span><span class="err">3</span><span class="w"> </span><span class="err">'rightBox'</span><span class="p">}</span><span class="err">}</span><span class="w">
+
+</span><span class="p">{</span><span class="err">{isEven</span><span class="w"> </span><span class="err">2</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{isEven</span><span class="w"> </span><span class="err">4</span><span class="w"> </span><span class="err">'leftBox'</span><span class="p">}</span><span class="err">}</span><span class="w">
+
+</span><span class="p">{</span><span class="err">{stripes</span><span class="w"> </span><span class="err">3</span><span class="w"> </span><span class="err">'row-even'</span><span class="w"> </span><span class="err">'row-odd'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="xpath-helpers">XPath helpers</h2>
+<p>Addiionally some helpers are available for working with JSON and XML.</p>
+
+<p>When the incoming request contains XML, the <code class="highlighter-rouge">xPath</code> helper can be used to extract values or sub documents via an XPath 1.0 expression. For instance, given the XML</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;outer&gt;</span>
+    <span class="nt">&lt;inner&gt;</span>Stuff<span class="nt">&lt;/inner&gt;</span>
+<span class="nt">&lt;/outer&gt;</span>
+</code></pre>
+</div>
+
+<p>The following will render “Stuff” into the output:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{xPath</span><span class="w"> </span><span class="err">request.body</span><span class="w"> </span><span class="err">'/outer/inner/text()'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>And given the same XML the following will render <code class="highlighter-rouge">&lt;inner&gt;Stuff&lt;/inner&gt;</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{xPath</span><span class="w"> </span><span class="err">request.body</span><span class="w"> </span><span class="err">'/outer/inner'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>As a convenience the <code class="highlighter-rouge">soapXPath</code> helper also exists for extracting values from SOAP bodies e.g. for the SOAP document:</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">"http://www.w3.org/2003/05/soap-envelope/"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;soap:Body&gt;</span>
+        <span class="nt">&lt;m:a&gt;</span>
+            <span class="nt">&lt;m:test&gt;</span>success<span class="nt">&lt;/m:test&gt;</span>
+        <span class="nt">&lt;/m:a&gt;</span>
+    <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</code></pre>
+</div>
+
+<p>The following will render “success” in the output:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{soapXPath</span><span class="w"> </span><span class="err">request.body</span><span class="w"> </span><span class="err">'/a/test/text()'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="jsonpath-helper">JSONPath helper</h2>
+
+<p>It is similarly possible to extract JSON values or sub documents via JSONPath using the <code class="highlighter-rouge">jsonPath</code> helper. Given the JSON</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"outer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"inner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stuff"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The following will render “Stuff” into the output:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{jsonPath</span><span class="w"> </span><span class="err">request.body</span><span class="w"> </span><span class="err">'$.outer.inner'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>And for the same JSON the following will render <code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="nt">"inner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stuff"</span><span class="w"> </span><span class="p">}</span></code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{jsonPath</span><span class="w"> </span><span class="err">request.body</span><span class="w"> </span><span class="err">'$.outer'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="date-and-time-helpers">Date and time helpers</h2>
+<p>A helper is present to render the current date/time, with the ability to specify the format (<a href="https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html">via Java’s SimpleDateFormat</a>) and offset.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{now</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{now</span><span class="w"> </span><span class="err">offset='3</span><span class="w"> </span><span class="err">days'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{now</span><span class="w"> </span><span class="err">offset='-24</span><span class="w"> </span><span class="err">seconds'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{now</span><span class="w"> </span><span class="err">offset='1</span><span class="w"> </span><span class="err">years'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{now</span><span class="w"> </span><span class="err">offset='10</span><span class="w"> </span><span class="err">years'</span><span class="w"> </span><span class="err">format='yyyy-MM-dd'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Dates can be rendered in a specific timezone (the default is UTC):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{now</span><span class="w"> </span><span class="err">timezone='Australia/Sydney'</span><span class="w"> </span><span class="err">format='yyyy-MM-dd</span><span class="w"> </span><span class="err">HH:mm:ssZ'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Pass <code class="highlighter-rouge">epoch</code> as the format to render the date as unix epoch time.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{now</span><span class="w"> </span><span class="err">offset='2</span><span class="w"> </span><span class="err">years'</span><span class="w"> </span><span class="err">format='epoch'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Dates can be parsed from other model elements:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{date</span><span class="w"> </span><span class="err">(parseDate</span><span class="w"> </span><span class="err">request.headers.MyDate)</span><span class="w"> </span><span class="err">offset='-1</span><span class="w"> </span><span class="err">days'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="random-value-helper">Random value helper</h2>
+<p>Random strings of various kinds can be generated:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{randomValue</span><span class="w"> </span><span class="err">length=33</span><span class="w"> </span><span class="err">type='ALPHANUMERIC'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{randomValue</span><span class="w"> </span><span class="err">length=12</span><span class="w"> </span><span class="err">type='ALPHANUMERIC'</span><span class="w"> </span><span class="err">uppercase=true</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{randomValue</span><span class="w"> </span><span class="err">length=55</span><span class="w"> </span><span class="err">type='ALPHABETIC'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{randomValue</span><span class="w"> </span><span class="err">length=27</span><span class="w"> </span><span class="err">type='ALPHABETIC'</span><span class="w"> </span><span class="err">uppercase=true</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{randomValue</span><span class="w"> </span><span class="err">length=10</span><span class="w"> </span><span class="err">type='NUMERIC'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{randomValue</span><span class="w"> </span><span class="err">length=5</span><span class="w"> </span><span class="err">type='ALPHANUMERIC_AND_SYMBOLS'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{randomValue</span><span class="w"> </span><span class="err">type='UUID'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+
+        
+        <div id ="feedback">
+        <p id ="feedback_title">Was this article helpful?<br></p>
+        <p class ="emoji" id ="happy_emoji">😁</p>
+        <p class ="emoji" id ="neutral_emoji">😐</p>
+        <p class ="emoji" id ="sad_emoji">😔</p>
+      </div>
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+
+      </footer>
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+<nav class="page__footer-links">
+  <div class="page__footer-links-block">
+    <ul>
+      <li>&copy; 2018 MockLab</li>
+      <li><a href="mailto:info@mocklab.io">info@mocklab.io</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <h3>Help</h3>
+    <ul>
+      <li><a href="/docs/getting-started/">Docs</a></li>
+      <li><a href="/docs/getting-started/">Blog</a></li>
+      <li><a href="https://get.mocklab.io/pricing">Pricing</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <h3>Policies</h3>
+    <ul>
+      <li><a href="/docs/terms-and-conditions/">Terms and conditions</a></li>
+      <li><a href="/docs/privacy-policy/">Privacy policy</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <ul>
+
+    </ul>
+  </div>
+</nav>
+
+      </footer>
+    </div>
+
+    <script src="/assets/js/main.min.js"></script>
+
+
+
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-78148205-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+<script>
+    window.intercomSettings = {
+        app_id: "xjme6u4w"
+    };
+</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/xjme6u4w';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+
+
+  </body>
+</html>
+
