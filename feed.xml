@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-07-12T11:35:03+01:00</updated><id>/</id><title>MockLab</title><subtitle>MockLab is the service virtualisation tool for busy agile teams.</subtitle><author><name>Your Name</name></author><entry><title>Build a Paypal Sandbox for Load Testing in 10 Minutes</title><link href="/blog/build-a-paypal-sandbox-for-load-testing/" rel="alternate" type="text/html" title="Build a Paypal Sandbox for Load Testing in 10 Minutes" /><published>2018-07-10T00:00:00+01:00</published><updated>2018-07-10T00:00:00+01:00</updated><id>/blog/build-a-paypal-sandbox-for-load-testing</id><content type="html" xml:base="/blog/build-a-paypal-sandbox-for-load-testing/">&lt;div class=&quot;video&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-07-12T16:06:30+01:00</updated><id>/</id><title>MockLab</title><subtitle>MockLab is the service virtualisation tool for busy agile teams.</subtitle><author><name>Your Name</name></author><entry><title>Build a Paypal Sandbox for Load Testing in 10 Minutes</title><link href="/blog/build-a-paypal-sandbox-for-load-testing/" rel="alternate" type="text/html" title="Build a Paypal Sandbox for Load Testing in 10 Minutes" /><published>2018-07-10T00:00:00+01:00</published><updated>2018-07-10T00:00:00+01:00</updated><id>/blog/build-a-paypal-sandbox-for-load-testing</id><content type="html" xml:base="/blog/build-a-paypal-sandbox-for-load-testing/">&lt;div class=&quot;video&quot;&gt;
 &lt;script src=&quot;https://fast.wistia.com/embed/medias/tz7u9ot0sj.jsonp&quot; async=&quot;&quot;&gt;&lt;/script&gt;&lt;script src=&quot;https://fast.wistia.com/assets/external/E-v1.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;&lt;div class=&quot;wistia_responsive_padding&quot; style=&quot;padding:56.25% 0 0 0;position:relative;&quot;&gt;&lt;div class=&quot;wistia_responsive_wrapper&quot; style=&quot;height:100%;left:0;position:absolute;top:0;width:100%;&quot;&gt;&lt;div class=&quot;wistia_embed wistia_async_tz7u9ot0sj videoFoam=true&quot; style=&quot;height:100%;position:relative;width:100%&quot;&gt;&lt;div class=&quot;wistia_swatch&quot; style=&quot;height:100%;left:0;opacity:0;overflow:hidden;position:absolute;top:0;transition:opacity 200ms;width:100%;&quot;&gt;&lt;img src=&quot;https://fast.wistia.com/embed/medias/tz7u9ot0sj/swatch&quot; style=&quot;filter:blur(5px);height:100%;object-fit:contain;width:100%;&quot; alt=&quot;&quot; onload=&quot;this.parentNode.style.opacity=1;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
 
@@ -33,7 +33,7 @@ suitable for performance testing.&lt;/p&gt;
 
 &lt;p&gt;Once you’ve checked out the app, set the Paypal endpoint in &lt;code class=&quot;highlighter-rouge&quot;&gt;src/main/resources/application.properties&lt;/code&gt; to your mock API’s base URL:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/app-config.png&quot; alt=&quot;Base URL&quot; style=&quot;width: 70%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/app-config.png&quot; alt=&quot;App configuration&quot; style=&quot;width: 70%&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Then start the app:&lt;/p&gt;
 
@@ -57,17 +57,17 @@ gradlew bootRun
 
 &lt;p&gt;In MockLab, hit the Record button, set the target URL as Paypal’s sandbox then start recording:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/recorder.png&quot; alt=&quot;Base URL&quot; style=&quot;width: 70%; border: none&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/recorder.png&quot; alt=&quot;Stub recorder&quot; style=&quot;width: 70%; border: none&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Go to &lt;a href=&quot;http://localhost:9000/paypal&quot; target=&quot;_blank&quot;&gt;http://localhost:9000/paypal&lt;/a&gt;, enter an amount and complete a Payment:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/paypal-demo-app.png&quot; alt=&quot;Base URL&quot; style=&quot;width: 70%; border: none&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/paypal-demo-app.png&quot; alt=&quot;Paypal demo app&quot; style=&quot;width: 70%; border: none&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Return to MockLab and stop recording. You should now see two stubs have been appeared in the list, one for the prepare payment step and one for execute payment.&lt;/p&gt;
 
 &lt;p&gt;If you wish you can test these with the internal request maker or an HTTP client like Postman:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/test-request-1.png&quot; alt=&quot;Base URL&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/test-request-1.png&quot; alt=&quot;Test request in Postman&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;making-performance-ready&quot;&gt;Making performance ready&lt;/h2&gt;
 
@@ -88,11 +88,11 @@ more readable.&lt;/p&gt;
 &lt;p&gt;Next up, in the Advanced section you’ll notice there’s a body matcher for the exact JSON that was sent during recording. We don’t need this, since we want to respond
 to any create payment request, so delete this.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/request-body.png&quot; alt=&quot;Base URL&quot; style=&quot;width: 90%; border: none&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/request-body.png&quot; alt=&quot;Request body&quot; style=&quot;width: 90%; border: none&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We want to ensure we’re sending a unique payment ID in the response each time. To do this, we need to enable &lt;a href=&quot;/docs/response-templating/&quot;&gt;response templating&lt;/a&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/enable-response-templating-screenshot.png&quot; alt=&quot;Base URL&quot; style=&quot;width: 30%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/enable-response-templating-screenshot.png&quot; alt=&quot;Enable response templating&quot; style=&quot;width: 30%&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Then we need to generate a random ID for each response. We can do this by first assigning a variable by adding this line at the top of the response body:&lt;/p&gt;
 
@@ -114,7 +114,7 @@ to any create payment request, so delete this.&lt;/p&gt;
 
 &lt;p&gt;Putting it all together it should look something like this:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/create-payment-body.png&quot; alt=&quot;Base URL&quot; style=&quot;border: none&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/create-payment-body.png&quot; alt=&quot;Templated create payment body&quot; style=&quot;border: none&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;execute-payment&quot;&gt;Execute payment&lt;/h3&gt;
 
@@ -124,7 +124,7 @@ we want to extract it from the request URL.&lt;/p&gt;
 &lt;p&gt;You’ll notice the request URL for the execute step is also very specific - it will only match the exact payment ID passed. We can fix this by
 converting it to a regular expression (not that the URL match type has also changed to ‘Path Regex’):&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/url-regex.png&quot; alt=&quot;Base URL&quot; style=&quot;border: none&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/url-regex.png&quot; alt=&quot;URL regular expression&quot; style=&quot;border: none&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Next we’ll give the response body the same treatment as with the create payment stub, but extracting the ID from the URL:&lt;/p&gt;
 
@@ -139,16 +139,38 @@ converting it to a regular expression (not that the URL match type has also chan
 &lt;p&gt;Since stubbed responses tend to return faster than from real APIs, this can create misleading outcomes when performance testing. To remedy this,
 you can add some artificial delay to your stubs:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/random-delay.png&quot; alt=&quot;Base URL&quot; style=&quot;width: 70%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/random-delay.png&quot; alt=&quot;Random delay&quot; style=&quot;width: 70%&quot; /&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;final-test&quot;&gt;Final test&lt;/h2&gt;
+&lt;h2 id=&quot;validating-your-stubs&quot;&gt;Validating your stubs&lt;/h2&gt;
 
 &lt;p&gt;You may wish to quickly test your updated stubs before pressing them into service. Again, you can do this with a tool like Postman, or
 with MockLab’s own test request maker:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/test-requester.png&quot; alt=&quot;Base URL&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/test-requester.png&quot; alt=&quot;Test requester&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;And now your Paypal Sandbox is ready to go!&lt;/p&gt;
+&lt;h2 id=&quot;load-testing&quot;&gt;Load testing&lt;/h2&gt;
+
+&lt;p&gt;Now your mock API is ready for use. You can try it out by running the JMeter from the demo project and opening &lt;code class=&quot;highlighter-rouge&quot;&gt;paypal-demo.jmx&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can start JMeter like this:&lt;/p&gt;
+
+&lt;p&gt;[Linux/OSX]&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd mocklab-demo-app
+apache-jmeter-4.0/bin/jmeter.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;[Windows]&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd mocklab-demo-app
+apache-jmeter-4.0/bin/jmeter
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/paypal-article/jmeter.png&quot; alt=&quot;JMeter&quot; style=&quot;border:none&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then just hit play to start testing!&lt;/p&gt;
 
 &lt;div class=&quot;signup-cta&quot;&gt;
   &lt;p class=&quot;signup-cta__text&quot;&gt;

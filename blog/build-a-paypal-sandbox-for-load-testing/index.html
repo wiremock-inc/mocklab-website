@@ -276,7 +276,7 @@ suitable for performance testing.</p>
 
 <p>Once you’ve checked out the app, set the Paypal endpoint in <code class="highlighter-rouge">src/main/resources/application.properties</code> to your mock API’s base URL:</p>
 
-<p><img src="/images/screenshots/paypal-article/app-config.png" alt="Base URL" style="width: 70%" /></p>
+<p><img src="/images/screenshots/paypal-article/app-config.png" alt="App configuration" style="width: 70%" /></p>
 
 <p>Then start the app:</p>
 
@@ -300,17 +300,17 @@ gradlew bootRun
 
 <p>In MockLab, hit the Record button, set the target URL as Paypal’s sandbox then start recording:</p>
 
-<p><img src="/images/screenshots/paypal-article/recorder.png" alt="Base URL" style="width: 70%; border: none" /></p>
+<p><img src="/images/screenshots/paypal-article/recorder.png" alt="Stub recorder" style="width: 70%; border: none" /></p>
 
 <p>Go to <a href="http://localhost:9000/paypal" target="_blank">http://localhost:9000/paypal</a>, enter an amount and complete a Payment:</p>
 
-<p><img src="/images/screenshots/paypal-article/paypal-demo-app.png" alt="Base URL" style="width: 70%; border: none" /></p>
+<p><img src="/images/screenshots/paypal-article/paypal-demo-app.png" alt="Paypal demo app" style="width: 70%; border: none" /></p>
 
 <p>Return to MockLab and stop recording. You should now see two stubs have been appeared in the list, one for the prepare payment step and one for execute payment.</p>
 
 <p>If you wish you can test these with the internal request maker or an HTTP client like Postman:</p>
 
-<p><img src="/images/screenshots/paypal-article/test-request-1.png" alt="Base URL" /></p>
+<p><img src="/images/screenshots/paypal-article/test-request-1.png" alt="Test request in Postman" /></p>
 
 <h2 id="making-performance-ready">Making performance ready</h2>
 
@@ -331,11 +331,11 @@ more readable.</p>
 <p>Next up, in the Advanced section you’ll notice there’s a body matcher for the exact JSON that was sent during recording. We don’t need this, since we want to respond
 to any create payment request, so delete this.</p>
 
-<p><img src="/images/screenshots/paypal-article/request-body.png" alt="Base URL" style="width: 90%; border: none" /></p>
+<p><img src="/images/screenshots/paypal-article/request-body.png" alt="Request body" style="width: 90%; border: none" /></p>
 
 <p>We want to ensure we’re sending a unique payment ID in the response each time. To do this, we need to enable <a href="/docs/response-templating/">response templating</a>:</p>
 
-<p><img src="/images/screenshots/enable-response-templating-screenshot.png" alt="Base URL" style="width: 30%" /></p>
+<p><img src="/images/screenshots/enable-response-templating-screenshot.png" alt="Enable response templating" style="width: 30%" /></p>
 
 <p>Then we need to generate a random ID for each response. We can do this by first assigning a variable by adding this line at the top of the response body:</p>
 
@@ -357,7 +357,7 @@ to any create payment request, so delete this.</p>
 
 <p>Putting it all together it should look something like this:</p>
 
-<p><img src="/images/screenshots/paypal-article/create-payment-body.png" alt="Base URL" style="border: none" /></p>
+<p><img src="/images/screenshots/paypal-article/create-payment-body.png" alt="Templated create payment body" style="border: none" /></p>
 
 <h3 id="execute-payment">Execute payment</h3>
 
@@ -367,7 +367,7 @@ we want to extract it from the request URL.</p>
 <p>You’ll notice the request URL for the execute step is also very specific - it will only match the exact payment ID passed. We can fix this by
 converting it to a regular expression (not that the URL match type has also changed to ‘Path Regex’):</p>
 
-<p><img src="/images/screenshots/paypal-article/url-regex.png" alt="Base URL" style="border: none" /></p>
+<p><img src="/images/screenshots/paypal-article/url-regex.png" alt="URL regular expression" style="border: none" /></p>
 
 <p>Next we’ll give the response body the same treatment as with the create payment stub, but extracting the ID from the URL:</p>
 
@@ -382,16 +382,38 @@ converting it to a regular expression (not that the URL match type has also chan
 <p>Since stubbed responses tend to return faster than from real APIs, this can create misleading outcomes when performance testing. To remedy this,
 you can add some artificial delay to your stubs:</p>
 
-<p><img src="/images/screenshots/paypal-article/random-delay.png" alt="Base URL" style="width: 70%" /></p>
+<p><img src="/images/screenshots/paypal-article/random-delay.png" alt="Random delay" style="width: 70%" /></p>
 
-<h2 id="final-test">Final test</h2>
+<h2 id="validating-your-stubs">Validating your stubs</h2>
 
 <p>You may wish to quickly test your updated stubs before pressing them into service. Again, you can do this with a tool like Postman, or
 with MockLab’s own test request maker:</p>
 
-<p><img src="/images/screenshots/paypal-article/test-requester.png" alt="Base URL" /></p>
+<p><img src="/images/screenshots/paypal-article/test-requester.png" alt="Test requester" /></p>
 
-<p>And now your Paypal Sandbox is ready to go!</p>
+<h2 id="load-testing">Load testing</h2>
+
+<p>Now your mock API is ready for use. You can try it out by running the JMeter from the demo project and opening <code class="highlighter-rouge">paypal-demo.jmx</code>.</p>
+
+<p>You can start JMeter like this:</p>
+
+<p>[Linux/OSX]</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd mocklab-demo-app
+apache-jmeter-4.0/bin/jmeter.sh
+</code></pre>
+</div>
+
+<p>[Windows]</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd mocklab-demo-app
+apache-jmeter-4.0/bin/jmeter
+</code></pre>
+</div>
+
+<p><img src="/images/screenshots/paypal-article/jmeter.png" alt="JMeter" style="border:none" /></p>
+
+<p>Then just hit play to start testing!</p>
 
 <div class="signup-cta">
   <p class="signup-cta__text">
