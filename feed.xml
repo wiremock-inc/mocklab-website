@@ -1,4 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-07-12T16:06:30+01:00</updated><id>/</id><title>MockLab</title><subtitle>MockLab is the service virtualisation tool for busy agile teams.</subtitle><author><name>Your Name</name></author><entry><title>Build a Paypal Sandbox for Load Testing in 10 Minutes</title><link href="/blog/build-a-paypal-sandbox-for-load-testing/" rel="alternate" type="text/html" title="Build a Paypal Sandbox for Load Testing in 10 Minutes" /><published>2018-07-10T00:00:00+01:00</published><updated>2018-07-10T00:00:00+01:00</updated><id>/blog/build-a-paypal-sandbox-for-load-testing</id><content type="html" xml:base="/blog/build-a-paypal-sandbox-for-load-testing/">&lt;div class=&quot;video&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-08-04T12:08:08+01:00</updated><id>/</id><title>MockLab</title><subtitle>MockLab is the service virtualisation tool for busy agile teams.</subtitle><author><name>Your Name</name></author><entry><title>MockLab Now Supports Swagger and Swaggerhub</title><link href="/blog/turn-your-swagger-spec-into-a-mock-api/" rel="alternate" type="text/html" title="MockLab Now Supports Swagger and Swaggerhub" /><published>2018-08-03T00:00:00+01:00</published><updated>2018-08-03T00:00:00+01:00</updated><id>/blog/turn-your-swagger-spec-into-a-mock-api</id><content type="html" xml:base="/blog/turn-your-swagger-spec-into-a-mock-api/">&lt;p&gt;&lt;img src=&quot;/images/screenshots/swagger-logo2.png&quot; alt=&quot;Swagger logo&quot; style=&quot;border:none&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://swagger.io/&quot; target=&quot;_blank&quot;&gt;Swagger&lt;/a&gt; (or the OpenAPI Specification as it’s now known) has become the de-facto standard
+way to specify, document and test REST-like APIs.&lt;/p&gt;
+
+&lt;p&gt;Given Swagger’s broad adoption and language/stack compatibility, being able to generate a
+mock API from a Swagger specification offers a substantial productivity boost over coding or hand-crafting.
+In addition it provides a way to ensure your mock API stays true to the real thing as it evolves.&lt;/p&gt;
+
+&lt;p&gt;This is why we’ve launched a first beta of Swagger import in MockLab. This new feature provides a number of ways
+to generate and re-generate your mock API’s stubs from a Swagger specification.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-it-works&quot;&gt;How it works&lt;/h2&gt;
+
+&lt;p&gt;The simplest way to get started is to paste your API spec into MockLab’s web UI:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/stub-toolbar-with-import3.png&quot; alt=&quot;Stub toolbar&quot; style=&quot;border: none;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/import-stubs-dialog.png&quot; alt=&quot;Stub toolbar&quot; style=&quot;border-radius: 3px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you want to regularly push new specification versions via an automated process, you can do so by posting it
+to MockLab’s API. See &lt;a href=&quot;/docs/swagger/#automating-imports-via-the-api&quot;&gt;the documentation page&lt;/a&gt; for details.&lt;/p&gt;
+
+&lt;p&gt;On submission of a valid spec, MockLab will generate a collection of new stubs, for each combination of URL template, operation and content type.
+If the spec contains response examples, these will be used, but if not the generator will fall back on the JSON schema, emitting random values that
+conform to the schema constraints.&lt;/p&gt;
+
+&lt;h2 id=&quot;swaggerhub&quot;&gt;Swaggerhub&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/swaggerhub-hero.png&quot; alt=&quot;Swaggerhub hero&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://swaggerhub.com&quot;&gt;Swaggerhub&lt;/a&gt; is a hosted product from Smartbear that supports authoring, collaboration and documentation of APIs.&lt;/p&gt;
+
+&lt;p&gt;A cool feature of Swaggerhub is its ability to call a webhook when a spec is saved or published. It’s extremely simple to set up MockLab as
+a receiver - just create a new webhook in the Integrations menu (&lt;img src=&quot;/images/screenshots/swaggerhub-integrations-icon.png&quot; alt=&quot;Swaggerhub integrations icon&quot; style=&quot;border:none; width: 52px;&quot; /&gt;) with a payload URL of &lt;code class=&quot;highlighter-rouge&quot;&gt;http://my-swagger-api.mocklab.io/__admin/imports/swaggerhub&lt;/code&gt; (substituting &lt;code class=&quot;highlighter-rouge&quot;&gt;my-swagger-api&lt;/code&gt; with your API’s domain name):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/swaggerhub-webhook-dialog.png&quot; alt=&quot;Swaggerhub webhook dialog&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you’ve added this, try saving your API then heading back to MockLab and refreshing your stubs.&lt;/p&gt;
+
+&lt;p&gt;As I mentioned at the start, this is a first beta release, and we intend to evolve and improve Swagger support based on the feedback from real use. If you love, hate or simply think this feature could be improved please drop us a message in the chat widget or
+&lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#105;&amp;#110;&amp;#102;&amp;#111;&amp;#064;&amp;#109;&amp;#111;&amp;#099;&amp;#107;&amp;#108;&amp;#097;&amp;#098;&amp;#046;&amp;#105;&amp;#111;&quot;&gt;by email&lt;/a&gt; and let us know!&lt;/p&gt;
+
+&lt;div class=&quot;signup-cta&quot;&gt;
+  &lt;p class=&quot;signup-cta__text&quot;&gt;
+    New to MockLab? No problem, you can sign up for a free 14 day trial using GitHub, Google or your email address. No credit card required.
+  &lt;/p&gt;
+
+  &lt;a href=&quot;https://app.mocklab.io/login?for=signup&amp;amp;utm_source=www.mocklab.io&amp;amp;utm_medium=blog&amp;amp;utm_campaign=swagger-post-cta&quot; title=&quot;Sign up&quot; target=&quot;_blank&quot;&gt;Sign up&lt;/a&gt;
+&lt;/div&gt;</content><author><name>Tom Akehurst</name></author><summary></summary></entry><entry><title>Build a Paypal Sandbox for Load Testing in 10 Minutes</title><link href="/blog/build-a-paypal-sandbox-for-load-testing/" rel="alternate" type="text/html" title="Build a Paypal Sandbox for Load Testing in 10 Minutes" /><published>2018-07-10T00:00:00+01:00</published><updated>2018-07-10T00:00:00+01:00</updated><id>/blog/build-a-paypal-sandbox-for-load-testing</id><content type="html" xml:base="/blog/build-a-paypal-sandbox-for-load-testing/">&lt;div class=&quot;video&quot;&gt;
 &lt;script src=&quot;https://fast.wistia.com/embed/medias/tz7u9ot0sj.jsonp&quot; async=&quot;&quot;&gt;&lt;/script&gt;&lt;script src=&quot;https://fast.wistia.com/assets/external/E-v1.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;&lt;div class=&quot;wistia_responsive_padding&quot; style=&quot;padding:56.25% 0 0 0;position:relative;&quot;&gt;&lt;div class=&quot;wistia_responsive_wrapper&quot; style=&quot;height:100%;left:0;position:absolute;top:0;width:100%;&quot;&gt;&lt;div class=&quot;wistia_embed wistia_async_tz7u9ot0sj videoFoam=true&quot; style=&quot;height:100%;position:relative;width:100%&quot;&gt;&lt;div class=&quot;wistia_swatch&quot; style=&quot;height:100%;left:0;opacity:0;overflow:hidden;position:absolute;top:0;transition:opacity 200ms;width:100%;&quot;&gt;&lt;img src=&quot;https://fast.wistia.com/embed/medias/tz7u9ot0sj/swatch&quot; style=&quot;filter:blur(5px);height:100%;object-fit:contain;width:100%;&quot; alt=&quot;&quot; onload=&quot;this.parentNode.style.opacity=1;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
 

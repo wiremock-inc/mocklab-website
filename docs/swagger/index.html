@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Recording Stubs | MockLab</title>
+<title>Swagger Import | MockLab</title>
 
 
 
@@ -36,16 +36,16 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="Creating new stubs by recording traffic to another API">
+<meta name="description" content="Generate your mock API automatically from a Swagger definition">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Recording Stubs">
+<meta property="og:title" content="Swagger Import">
 
 
 
 
-  <meta property="og:description" content="Creating new stubs by recording traffic to another API">
+  <meta property="og:description" content="Generate your mock API automatically from a Swagger definition">
 
 
 
@@ -66,10 +66,10 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2018-08-04T12:08:08+01:00">
   
-    <link rel="next" href="/docs/response-templating/" title="Response Templating">
+    <link rel="next" href="/docs/terms-and-conditions/" title="MockLab Terms of Service">
   
   
-    <link rel="prev" href="/docs/proxying/" title="Proxying">
+    <link rel="prev" href="/docs/stubbing/" title="Stubbing responses">
   
 
 
@@ -202,8 +202,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
       </a>
       
       <li>
-        <a href="/docs/recording-stubs/" class="nav__list-item--selected">
-        
+        <a href="/docs/recording-stubs/">
 
         Recording Stubs
       </a>
@@ -233,7 +232,8 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
       </a>
       
       <li>
-        <a href="/docs/swagger/">
+        <a href="/docs/swagger/" class="nav__list-item--selected">
+        
 
         Swagger Import
       </a>
@@ -286,46 +286,82 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Recording Stubs">
-    <meta itemprop="description" content="If the API you’re mocking already exists you can speed up the process of stubbing responses using MockLab’s record feature.This essentially involves telling MockLab to act as a proxy to the target API then directing some HTTP requests to MockLab representing the resources you’d like to stub.">
+    <meta itemprop="headline" content="Swagger Import">
+    <meta itemprop="description" content="Swagger / OpenAPI Specification is undoubtedly the most widely used description language for REST and REST-like APIs.MockLab supports automatic generation of mock APIs from imported Swagger descriptions.">
     <meta itemprop="datePublished" content="August 04, 2018">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Recording Stubs
+        <h1 class="page__title" itemprop="headline">Swagger Import
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>If the API you’re mocking already exists you can speed up the process of stubbing responses using MockLab’s record feature.
-This essentially involves telling MockLab to act as a proxy to the target API then directing some HTTP requests to MockLab 
-representing the resources you’d like to stub.</p>
+        <p>Swagger / OpenAPI Specification is undoubtedly the most widely used description language for REST and REST-like APIs.
+MockLab supports automatic generation of mock APIs from imported Swagger descriptions.</p>
 
-<h2 id="a-simple-recording-example">A simple recording example</h2>
+<p>The following sections describe the various approaches available.</p>
 
-<p>Once you have logged into MockLab and created a mock API, navigate to the Stubs page.</p>
+<h2 id="importing-manually-via-the-ui">Importing manually via the UI</h2>
 
-<p>Then hit the <img src="/images/screenshots/record-button-screenshot.png" title="Record" style="height: 42px; border: none" /> button,
-enter <code class="highlighter-rouge">http://ip-api.com</code> as the target URL and hit <img src="/images/screenshots/start-button-screenshot.png" title="Start" style="height: 46px; border: none" />.</p>
+<p>Click the Import button on the stubs toolbar (<img src="/images/screenshots/import-button.png" alt="Import Button" style="height: 40px; border: none;" />)
+to open the import dialog box:</p>
 
-<p><img src="/images/screenshots/record-dialog-screenshot-3.png" title="Record dialog" style="width: 80%" /></p>
+<p><img src="/images/screenshots/import-stubs-dialog.png" alt="Stub toolbar" style="border-radius: 3px;" /></p>
 
-<p>Now make a request to your mock API (substituting <code class="highlighter-rouge">my-mock-api</code> for your own sub domain name):</p>
+<p>Then paste your YAML or JSON Swagger definition into the text editor, pick your duplicate policy and hit Import.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -v http://my-mock-api.mocklab.io/json
+<p>Officially the import feature supports version 3.x of Swagger/OAS, although in practice it will
+import most version 2.x definitions without issue.</p>
+
+<h2 id="automating-imports-via-the-api">Automating imports via the API</h2>
+
+<p>You can automate the import process by posting the Swagger definition to your mock API’s admin API.</p>
+
+<p>For instance, assuming you’ve created a mock API with a domain name of <code class="highlighter-rouge">my-swagger-api</code>. You can import
+a new definition by making the following call:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>POST http://my-swagger-api.mocklab.io/__admin/imports/open-api-spec
+
+{
+  "spec": "&lt;your JSON or YAML Swagger definition&gt;",
+  "duplicatePolicy": "ALWAYS_OVERWRITE"
+}
 </code></pre>
 </div>
 
-<p>This request will be proxied through MockLab, so that a <code class="highlighter-rouge">GET</code> request will be made to <code class="highlighter-rouge">http://ip-api.com/json</code> and the result captured.</p>
+<p>The possible values for <code class="highlighter-rouge">duplicatePolicy</code> are <code class="highlighter-rouge">ALWAYS_OVERWRITE</code> and <code class="highlighter-rouge">ALWAYS_CREATE_NEW</code>.</p>
 
-<p>Now hit <img src="/images/screenshots/stop-button-screenshot.png" title="Stop" style="height: 46px; border: none" />, and you should see that an extra stub has been added to the list.</p>
+<h2 id="duplicate-policy">Duplicate policy</h2>
 
-<h2 id="request-matching-rules-when-recording">Request matching rules when recording</h2>
+<p>If you’re working with a Swagger definition that’s changing on a regular basis, you’ll probably want
+to re-import it repeatedly.</p>
 
-<p>When a request with no body is received during recording, the recorder will create a stub matched on HTTP method and URL only.</p>
+<p>This means it’s necessary to decide what to do when a stub is newly generated for an url/operation/content type combination
+for which a stub already exists from a previous import.</p>
 
-<p>When a request with a body is received a body pattern is also included. If the request body is a valid JSON document,
-then the <code class="highlighter-rouge">equalToJson</code> operator will be used. If XML, the <code class="highlighter-rouge">equalToXml</code> operator will be used. Otherwise the operator will be <code class="highlighter-rouge">equalTo</code> i.e. simple string equality.</p>
+<p>Most of the time, for the sake of keeping the mock API correct you’ll want to overwrite the previous stub, so this is the default behaviour.</p>
+
+<p>However, you also have the option of having a new stub created each time. This means if you’ve edited a stub generated from a previous
+import e.g. to add some specific test data, you won’t lose this and have the opportunity to incorporate it into the newer stub.</p>
+
+<h2 id="integrating-with-swaggerhub">Integrating with Swaggerhub</h2>
+
+<p>Swaggerhub (Smartbear’s hosted Swagger authoring and collaboration tool), supports integration of external tools via webhooks.</p>
+
+<p>MockLab can be configured as a receiver so that stubs are imported on each save or publish of your Swaggerhub project.</p>
+
+<p>To do this, create a new webhook in the Integrations menu (<img src="/images/screenshots/swaggerhub-integrations-icon.png" alt="Swaggerhub integrations icon" style="border:none; width: 52px;" />) with a payload URL of <code class="highlighter-rouge">http://my-swagger-api.mocklab.io/__admin/imports/swaggerhub</code> (substituting <code class="highlighter-rouge">my-swagger-api</code> with your API’s domain name):</p>
+
+<p><img src="/images/screenshots/swaggerhub-webhook-dialog.png" alt="Swaggerhub webhook dialog" /></p>
+
+<p>Once you’ve added this, try saving your API then heading back to MockLab and refreshing your stubs.</p>
+
+<blockquote>
+  <p><strong>note</strong></p>
+
+  <p>At present Swaggerhub import will be executed with a duplicate policy of ALWAYS_OVERWRITE.</p>
+</blockquote>
 
         
         <div id ="feedback">
