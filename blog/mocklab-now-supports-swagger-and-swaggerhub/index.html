@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Simulating State with Scenarios | MockLab</title>
+<title>MockLab Now Supports Swagger and Swaggerhub | MockLab</title>
 
 
 
@@ -36,20 +36,20 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="Return different responses based on a state machine">
+<meta name="description" content="MockLab now supports import of Swagger documents and integration with Swaggerhub">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Simulating State with Scenarios">
+<meta property="og:title" content="MockLab Now Supports Swagger and Swaggerhub">
 
 
 
 
-  <meta property="og:description" content="Return different responses based on a state machine">
+  <meta property="og:description" content="MockLab now supports import of Swagger documents and integration with Swaggerhub">
 
 
 
-  <meta property="keywords" content="">
+  <meta property="keywords" content="MockLab,API Mocking,Open API Specification,Swagger,Swaggerhub">
 
 
 
@@ -64,12 +64,10 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2018-08-04T12:13:06+01:00">
-  
-    <link rel="next" href="/docs/stubbing/" title="Stubbing responses">
+  <meta property="article:published_time" content="2018-08-03T00:00:00+01:00">
   
   
-    <link rel="prev" href="/docs/soap-stubbing/" title="How to: Stub a SOAP response">
+    <link rel="prev" href="/blog/build-a-paypal-sandbox-for-load-testing/" title="Build a Paypal Sandbox for Load Testing in 10 Minutes">
   
 
 
@@ -160,225 +158,152 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
     
 
+
+
+
+
 <div id="main" role="main">
   
 
 
-<div class="sidebar sticky">
-  <nav class="nav__list">
-
-    <ul>
-      
-
-      
-      <li>
-        <a href="/docs/getting-started/">
-
-        Getting Started
-      </a>
-      
-      <li>
-        <a href="/docs/stubbing/">
-
-        Stubbing responses
-      </a>
-      
-      <li>
-        <a href="/docs/advanced-stubbing/">
-
-        Advanced Stubbing
-      </a>
-      
-      <li>
-        <a href="/docs/response-templating/">
-
-        Response Templating
-      </a>
-      
-      <li>
-        <a href="/docs/automated-testing-with-java/">
-
-        Automated Testing with Java
-      </a>
-      
-      <li>
-        <a href="/docs/recording-stubs/">
-
-        Recording Stubs
-      </a>
-      
-      <li>
-        <a href="/docs/stateful-scenarios/" class="nav__list-item--selected">
-        
-
-        Simulating State with Scenarios
-      </a>
-      
-      <li>
-        <a href="/docs/simulating-faults/">
-
-        Simulating Faults
-      </a>
-      
-      <li>
-        <a href="/docs/delays/">
-
-        Response Delays
-      </a>
-      
-      <li>
-        <a href="/docs/proxying/">
-
-        Proxying
-      </a>
-      
-      <li>
-        <a href="/docs/swagger/">
-
-        Swagger Import
-      </a>
-      
-      <li>
-        <a href="/docs/default-responses/">
-
-        How to: Serve a Default Response
-      </a>
-      
-      <li>
-        <a href="/docs/soap-stubbing/">
-
-        How to: Stub a SOAP response
-      </a>
-      
-      <li>
-        <a href="/docs/exploratory-testing-tutorial/">
-
-        Tutorial: Testing a Spring Boot App
-      </a>
-      
-      <li>
-        <a href="/docs/provisioning/">
-
-        API Reference: Provisioning
-      </a>
-      
-      <li>
-        <a href="/docs/mocking/">
-
-        API Reference: Mocking
-      </a>
-      
-      <li>
-        <a href="/docs/terms-and-conditions/">
-
-        MockLab Terms of Service
-      </a>
-      
-      <li>
-        <a href="/docs/privacy-policy/">
-
-        Privacy Policy
-      </a>
-      
-    </ul>
-  </nav>
-</div>
-
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Simulating State with Scenarios">
-    <meta itemprop="description" content="Some testing activities require that different responses be served for a sequence of identical requests. For instanceif you are testing a to-do list application such as this one you may wish to startwith no to-do list items, post a new item, then see the item appear in the list.">
-    <meta itemprop="datePublished" content="August 04, 2018">
+    <meta itemprop="headline" content="MockLab Now Supports Swagger and Swaggerhub">
+    <meta itemprop="description" content="">
+    <meta itemprop="datePublished" content="August 03, 2018">
     
 
     <div class="page__inner-wrap">
-      <header>
-        <h1 class="page__title" itemprop="headline">Simulating State with Scenarios
+      <div class="page__return-nav-link">
+        <a href="/blog/" title="Back to articles">Back to articles</a>
+      </div>
+
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">MockLab Now Supports Swagger and Swaggerhub
 </h1>
-      </header>
+          
+
+          <p class="page__date">
+              <img class="author-pic" src="/images/authors/tom_akehurst.png"/> Tom Akehurst
+
+              
+                on <time datetime="2018-08-03T00:00:00+01:00">August 03, 2018</time>
+              
+          </p>
+
+          <div class="page__meta">
+            
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <span itemprop="keywords">
+    
+      
+      
+      <!-- <a href="/categories/#api-mocking" class="page__taxonomy-item" rel="tag">API Mocking</a><span class="sep">, </span> -->
+      <span class="page__taxonomy-item">API Mocking<span class="sep">, </span></span>
+    
+      
+      
+      <!-- <a href="/categories/#mocklab" class="page__taxonomy-item" rel="tag">MockLab</a><span class="sep">, </span> -->
+      <span class="page__taxonomy-item">MockLab<span class="sep">, </span></span>
+    
+      
+      
+      <!-- <a href="/categories/#open-api-specification" class="page__taxonomy-item" rel="tag">Open API Specification</a><span class="sep">, </span> -->
+      <span class="page__taxonomy-item">Open API Specification<span class="sep">, </span></span>
+    
+      
+      
+      <!-- <a href="/categories/#swagger" class="page__taxonomy-item" rel="tag">Swagger</a><span class="sep">, </span> -->
+      <span class="page__taxonomy-item">Swagger<span class="sep">, </span></span>
+    
+      
+      
+      <!-- <a href="/categories/#swaggerhub" class="page__taxonomy-item" rel="tag">Swaggerhub</a> -->
+      <span class="page__taxonomy-item">Swaggerhub</span>
+    
+    </span>
+  </p>
+
+
+
+          </div>
+
+        </header>
+      
+
       <section class="page__content" itemprop="text">
-        <p>Some testing activities require that different responses be served for a sequence of identical requests. For instance
-if you are testing a to-do list application <a href="/docs/exploratory-testing-tutorial/">such as this one</a> you may wish to start
-with no to-do list items, post a new item, then see the item appear in the list.</p>
+        <p><img src="/images/screenshots/swagger-logo2.png" alt="Swagger logo" style="border:none" /></p>
 
-<p>Assuming there is a “list to-do items” API call used to fetch the list, this must be called twice during the above test,
-returning no items on the first invocation, and the newly added item on the second. Since both of these requests will be
-identical (same URL, method, request headers), something additional is required for MockLab to differentiate the first and
-second cases.</p>
+<p><a href="https://swagger.io/" target="_blank">Swagger</a> (or the OpenAPI Specification as it’s now known) has become the de-facto standard
+way to specify, document and test REST-like APIs.</p>
 
-<p>MockLab’s Scenarios solve this problem by providing finite state machines that can be used as additional stub matching conditions.
-They allow more than one definition of an otherwise identical stub with different responses based on the current state of the machine.</p>
+<p>Given Swagger’s broad adoption and language/stack compatibility, being able to generate a
+mock API from a Swagger specification offers a substantial productivity boost over coding or hand-crafting.
+In addition it provides a way to ensure your mock API stays true to the real thing as it evolves.</p>
 
-<h2 id="example">Example</h2>
+<p>This is why we’ve launched a first beta of Swagger import in MockLab. This new feature provides a number of ways
+to generate and re-generate your mock API’s stubs from a Swagger specification.</p>
 
-<p>To implement the above case, you would declare that the stub returning the empty list is only matched when the scenario state is “Started”,
-while the stub returning the list with one item is only matched when the scenario state is “First item added”.</p>
+<h2 id="how-it-works">How it works</h2>
 
-<p>Start by creating the empty list stub, which is matched only when the scenario named “To do list” is in the “Started” state:</p>
+<p>The simplest way to get started is to paste your API spec into MockLab’s web UI:</p>
 
-<p><img title="Empty to-do list stub" src="/images/screenshots/scenarios-empty-list-stub.png" /></p>
+<p><img src="/images/screenshots/stub-toolbar-with-import3.png" alt="Stub toolbar" style="border: none;" /></p>
 
-<p>Then create a stub to handle posting of the first list item. When triggered this stub will move the scenario state to “First item added”:</p>
+<p><img src="/images/screenshots/import-stubs-dialog.png" alt="Stub toolbar" style="border-radius: 3px;" /></p>
 
-<p><img title="To-do list POST stub" src="/images/screenshots/scenarios-post-item-stub.png" /></p>
+<p>If you want to regularly push new specification versions via an automated process, you can do so by posting it
+to MockLab’s API. See <a href="/docs/swagger/#automating-imports-via-the-api">the documentation page</a> for details.</p>
 
-<p>Finally, create a stub to return the list containing one item, which is matched only then the scenario is in the “First item added” state:</p>
+<p>On submission of a valid spec, MockLab will generate a collection of new stubs, for each combination of URL template, operation and content type.
+If the spec contains response examples, these will be used, but if not the generator will fall back on the JSON schema, emitting random values that
+conform to the schema constraints.</p>
 
-<p><img title="Single item to-to list stub" src="/images/screenshots/scenario-single-item-stub.png" /></p>
+<h2 id="swaggerhub">Swaggerhub</h2>
 
-<h2 id="testing">Testing</h2>
+<p><img src="/images/screenshots/swaggerhub-hero.png" alt="Swaggerhub hero" /></p>
 
-<p>First, make a <code class="highlighter-rouge">GET</code> request to fetch the list, which should be empty. You should be able to do this any number of times
-without the result changing:</p>
+<p><a href="https://swaggerhub.com">Swaggerhub</a> is a hosted product from Smartbear that supports authoring, collaboration and documentation of APIs.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": []
-}
-</code></pre>
+<p>A cool feature of Swaggerhub is its ability to call a webhook when a spec is saved or published. It’s extremely simple to set up MockLab as
+a receiver - just create a new webhook in the Integrations menu (<img src="/images/screenshots/swaggerhub-integrations-icon.png" alt="Swaggerhub integrations icon" style="border:none; width: 52px;" />) with a payload URL of <code class="highlighter-rouge">http://my-swagger-api.mocklab.io/__admin/imports/swaggerhub</code> (substituting <code class="highlighter-rouge">my-swagger-api</code> with your API’s domain name):</p>
+
+<p><img src="/images/screenshots/swaggerhub-webhook-dialog.png" alt="Swaggerhub webhook dialog" /></p>
+
+<p>Once you’ve added this, try saving your API then heading back to MockLab and refreshing your stubs.</p>
+
+<p>As I mentioned at the start, this is a first beta release, and we intend to evolve and improve Swagger support based on the feedback from real use. If you love, hate or simply think this feature could be improved please drop us a message in the chat widget or
+<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#105;&#110;&#102;&#111;&#064;&#109;&#111;&#099;&#107;&#108;&#097;&#098;&#046;&#105;&#111;">by email</a> and let us know!</p>
+
+<div class="signup-cta">
+  <p class="signup-cta__text">
+    New to MockLab? No problem, you can sign up for a free 14 day trial using GitHub, Google or your email address. No credit card required.
+  </p>
+
+  <a href="https://app.mocklab.io/login?for=signup&amp;utm_source=www.mocklab.io&amp;utm_medium=blog&amp;utm_campaign=swagger-post-cta" title="Sign up" target="_blank">Sign up</a>
 </div>
-
-<p>Now <code class="highlighter-rouge">POST</code> a new item (it actually doesn’t matter what the request body contains, since we didn’t specify a body matcher in the stub):</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items -X POST
-</code></pre>
-</div>
-
-<p>This should now have moved the scenario state to “First item added”. Getting the list of items again should now return one item:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": [
-    {
-      "id": "1",
-      "description": "Read all about Scenarios"
-    }
-  ]
-}
-</code></pre>
-</div>
-
-<h2 id="scenario-reset">Scenario reset</h2>
-
-<p>All scenarios can be reset to their
-“Started” state by clicking <img src="/images/screenshots/scenario-reset-button.png" title="Scenario reset button" style="border: none; height: 50px;" />.</p>
 
         
-        <div id ="feedback">
-        <p id ="feedback_title">Was this article helpful?<br></p>
-        <p class ="emoji" id ="happy_emoji">😁</p>
-        <p class ="emoji" id ="neutral_emoji">😐</p>
-        <p class ="emoji" id ="sad_emoji">😔</p>
-      </div>
       </section>
 
       <footer class="page__meta">
         
-        
-
-
-
-
       </footer>
 
       
