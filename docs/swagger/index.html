@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2018-08-07T15:31:28+01:00">
+  <meta property="article:published_time" content="2018-09-06T11:30:52+01:00">
   
     <link rel="next" href="/docs/terms-and-conditions/" title="MockLab Terms of Service">
   
@@ -250,6 +250,12 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
       </a>
       
       <li>
+        <a href="/docs/security/">
+
+        Security
+      </a>
+      
+      <li>
         <a href="/docs/default-responses/">
 
         How to: Serve a Default Response
@@ -299,7 +305,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Swagger Import">
     <meta itemprop="description" content="Swagger / OpenAPI Specification is undoubtedly the most widely used description language for REST and REST-like APIs.MockLab supports automatic generation of mock APIs from imported Swagger descriptions.">
-    <meta itemprop="datePublished" content="August 07, 2018">
+    <meta itemprop="datePublished" content="September 06, 2018">
     
 
     <div class="page__inner-wrap">
@@ -362,7 +368,11 @@ import e.g. to add some specific test data, you won’t lose this and have the o
 
 <p>MockLab can be configured as a receiver so that stubs are imported on each save or publish of your Swaggerhub project.</p>
 
-<p>To do this, create a new webhook in the Integrations menu (<img src="/images/screenshots/swaggerhub-integrations-icon.png" alt="Swaggerhub integrations icon" style="border:none; width: 52px;" />) with a payload URL of <code class="highlighter-rouge">http://my-swagger-api.mocklab.io/__admin/imports/swaggerhub</code> (substituting <code class="highlighter-rouge">my-swagger-api</code> with your API’s domain name):</p>
+<p>To do this, create a new webhook in the Integrations menu (<img src="/images/screenshots/swaggerhub-integrations-icon.png" alt="Swaggerhub integrations icon" style="border:none; width: 52px;" />) with a payload URL (which you can also copy from the bottom of the import dialog in the Stubs page) like</p>
+
+<p><code class="highlighter-rouge">http://my-swagger-api.mocklab.io/__admin/imports/swaggerhub?apiToken=l1389usdkfh13</code>,</p>
+
+<p>substituting your own domain name and API token:</p>
 
 <p><img src="/images/screenshots/swaggerhub-webhook-dialog.png" alt="Swaggerhub webhook dialog" /></p>
 
