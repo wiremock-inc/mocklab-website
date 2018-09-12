@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2018-09-06T11:30:52+01:00">
+  <meta property="article:published_time" content="2018-09-12T14:04:46+01:00">
   
     <link rel="next" href="/docs/default-responses/" title="How to: Serve a Default Response">
   
@@ -305,7 +305,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Automated Testing with Java">
     <meta itemprop="description" content="Everything that can be done with MockLab’s web UI can also be done via its APIs. This can be useful when automatingtesting, as it allows stubs to be configured and torn down on-demans by individual test cases rather than it beingnecessary to configure an entire test suite’s stubs manually up-front. Working this way can make your tests a lot morereadable as it makes their preconditions expicit.">
-    <meta itemprop="datePublished" content="September 06, 2018">
+    <meta itemprop="datePublished" content="September 12, 2018">
     
 
     <div class="page__inner-wrap">
@@ -331,8 +331,8 @@ Picking the standalone version generally avoids these problems but at the cost o
 
 <p>If you’re using Gradle you can add WireMock to your build file’s dependencies as follows:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>testCompile 'com.github.tomakehurst:wiremock:2.8.0' // thin JAR
-testCompile 'com.github.tomakehurst:wiremock-standalone:2.8.0' // standalone JAR
+<div class="highlighter-rouge"><pre class="highlight"><code>testCompile 'com.github.tomakehurst:wiremock:2.18.0' // thin JAR
+testCompile 'com.github.tomakehurst:wiremock-standalone:2.18.0' // standalone JAR
 </code></pre>
 </div>
 
@@ -342,7 +342,7 @@ testCompile 'com.github.tomakehurst:wiremock-standalone:2.8.0' // standalone JAR
 <span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>com.github.tomakehurst<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>wiremock<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>2.8.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;version&gt;</span>2.18.0<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 
@@ -350,7 +350,7 @@ testCompile 'com.github.tomakehurst:wiremock-standalone:2.8.0' // standalone JAR
 <span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>com.github.tomakehurst<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>wiremock-standalone<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>2.8.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;version&gt;</span>2.18.0<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre>
@@ -361,7 +361,21 @@ testCompile 'com.github.tomakehurst:wiremock-standalone:2.8.0' // standalone JAR
 <p>After you’ve created a mock API in the MockLab UI, setting up a WireMock client to it is a one-line task (you can copy-paste this from
 your mock API’s Settings page):</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">WireMock</span> <span class="n">paymentGatewayMock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WireMock</span><span class="o">(</span><span class="s">"https"</span><span class="o">,</span> <span class="s">"payments-example.mocklab.io"</span><span class="o">,</span> <span class="mi">443</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">// If admin API security disabled</span>
+<span class="n">WireMock</span> <span class="n">paymentGatewayMock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WireMock</span><span class="o">(</span><span class="s">"https"</span><span class="o">,</span> <span class="s">"payments-example.mocklab.io"</span><span class="o">,</span> <span class="mi">443</span><span class="o">);</span>
+
+<span class="c1">// If admin API security enabled</span>
+<span class="n">WireMock</span> <span class="n">wm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WireMockBuilder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">scheme</span><span class="o">(</span><span class="s">"https"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">host</span><span class="o">(</span><span class="s">"payments-example.mocklab.io"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">port</span><span class="o">(</span><span class="mi">443</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">authenticator</span><span class="o">(</span><span class="k">new</span> <span class="n">ClientAuthenticator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">HttpHeader</span><span class="o">&gt;</span> <span class="n">generateAuthHeaders</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">Collections</span><span class="o">.</span><span class="na">singletonList</span><span class="o">(</span><span class="k">new</span> <span class="n">HttpHeader</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">,</span> <span class="s">"Token lksdr91283rsdjkfh981"</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">})</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
 </code></pre>
 </div>
 
