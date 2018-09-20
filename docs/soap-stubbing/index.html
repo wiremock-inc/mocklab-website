@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2018-09-12T14:07:15+01:00">
+  <meta property="article:published_time" content="2018-09-20T11:47:47+01:00">
   
     <link rel="next" href="/docs/stateful-scenarios/" title="Simulating State with Scenarios">
   
@@ -305,7 +305,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="How to: Stub a SOAP response">
     <meta itemprop="description" content="Stubbing a SOAP response is similar in most respects to stubbing a REST response. The main difference is that the HTTP methodand URL alone are not enough to differentiate requests, since SOAP relies on XML in the request body to indicate the action to betaken and parameters/data.">
-    <meta itemprop="datePublished" content="September 12, 2018">
+    <meta itemprop="datePublished" content="September 20, 2018">
     
 
     <div class="page__inner-wrap">
@@ -353,35 +353,19 @@ taken and parameters/data.</p>
 &gt; SOAPAction: "http://example.company/todo/AddToDoItem"
 &gt; Content-Length: 355
 &gt; Content-Type: application/x-www-form-urlencoded
-&gt; 
+&gt;
 * upload completely sent off: 355 out of 355 bytes
 &lt; HTTP/1.1 200 OK
 &lt; Transfer-Encoding: chunked
-&lt; 
+&lt;
 &lt;?xml version="1.0"?&gt;
 &lt;soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope" soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding"&gt;
 
    &lt;soap-env:Body xmlns:m="http://example.company/todo" &gt;
       &lt;m:AddToDoResult&gt;Item "Have a wash" successfully added&lt;/m:AddToDoResult&gt;
    &lt;/soap-env:Body&gt;
-   
+
 &lt;/soap-env:Envelope&gt;
-</code></pre>
-</div>
-
-<p>Whereas if you make a request to a URL with no stub to match you will see the default <code class="highlighter-rouge">403</code> response.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl -v http://example.mocklab.io/examples/12222222
-
-&gt; GET /examples/12222222 HTTP/1.1
-&gt; Host: example.mocklab.io
-&gt; User-Agent: curl/7.54.0
-&gt; Accept: */*
-&gt; 
-&lt; HTTP/1.1 403 Forbidden
-&lt; Transfer-Encoding: chunked
-&lt; 
-Sorry, you can't do that
 </code></pre>
 </div>
 
@@ -403,7 +387,6 @@ on more than one occasion.</p>
   <p>Note the XPath expression <code class="highlighter-rouge">//*[local-name() = 'ToDoItem' and text() = 'Have a wash']</code> uses <code class="highlighter-rouge">local-name()</code> in order to avoid having to
   declare the <code class="highlighter-rouge">m</code> namespace.</p>
 </blockquote>
-
 
         
         <div id ="feedback">
