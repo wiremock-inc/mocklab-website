@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Proxying | MockLab</title>
+<title>How to: Import and export your mock API | MockLab</title>
 
 
 
@@ -36,16 +36,16 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="Proxying requests to other systems">
+<meta name="description" content="Mock API import/export and backup">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Proxying">
+<meta property="og:title" content="How to: Import and export your mock API">
 
 
 
 
-  <meta property="og:description" content="Proxying requests to other systems">
+  <meta property="og:description" content="Mock API import/export and backup">
 
 
 
@@ -68,10 +68,10 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2019-04-14T22:42:06+01:00">
   
-    <link rel="next" href="/docs/recording-stubs/" title="Recording Stubs">
+    <link rel="next" href="/docs/mocking/" title="API Reference: Mocking">
   
   
-    <link rel="prev" href="/docs/provisioning/" title="API Reference: Provisioning">
+    <link rel="prev" href="/docs/getting-started/" title="Getting Started">
   
 
 
@@ -237,8 +237,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
       </a>
       
       <li>
-        <a href="/docs/proxying/" class="nav__list-item--selected">
-        
+        <a href="/docs/proxying/">
 
         Proxying
       </a>
@@ -268,7 +267,8 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
       </a>
       
       <li>
-        <a href="/docs/import-and-export/">
+        <a href="/docs/import-and-export/" class="nav__list-item--selected">
+        
 
         How to: Import and export your mock API
       </a>
@@ -309,64 +309,57 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Proxying">
-    <meta itemprop="description" content="When working with an existing API it can be useful to pass some requests through to it for testing, whileserving stubbed responses for others.For instance, if an API is not yet fully implemented then testing progress can still be madefor the calling application by stubbing the parts not yet completed.">
+    <meta itemprop="headline" content="How to: Import and export your mock API">
+    <meta itemprop="description" content="A mock API’s stubs can be exported in bulk via the admin API. This can be useful for backingup your API to source control, or cloning the contents of one API into another.">
     <meta itemprop="datePublished" content="April 14, 2019">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Proxying
+        <h1 class="page__title" itemprop="headline">How to: Import and export your mock API
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>When working with an existing API it can be useful to pass some requests through to it for testing, while
-serving stubbed responses for others.</p>
+        <p>A mock API’s stubs can be exported in bulk via the admin API. This can be useful for backing
+up your API to source control, or cloning the contents of one API into another.</p>
 
-<p>For instance, if an API is not yet fully implemented then testing progress can still be made
-for the calling application by stubbing the parts not yet completed.</p>
+<p>To export (or backup) an API’s stubs, simply execute a <code class="highlighter-rouge">GET</code> request to the stub mappings admin URL e.g.:</p>
 
-<p>Additionally, proxying all but a selection of requests enables testing of edge and failure cases that would be hard to
-replicate predictably in the target API.</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -v --output my-backup-file.json <span class="se">\</span>
+  -H <span class="s1">'Authorization:Token my-api-token'</span> <span class="se">\</span>
+  https://my-api.mocklab.io/__admin/mappings
+</code></pre>
+</div>
 
-<h2 id="usage">Usage</h2>
+<p>To import (or restore) a collection of stubs, execute a <code class="highlighter-rouge">POST</code> request to the stub import URL e.g.:</p>
 
-<p>Proxying is configured per-stub. When a stub is configured to serve a proxy response, all of the normal request matching rules
-apply, but instead of returning a canned response, the request is forwarded to the target.</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -v -d @my-backup-file.json <span class="se">\</span>
+  -H <span class="s1">'Authorization:Token my-api-token'</span> <span class="se">\</span>
+  https://my-target-api.mocklab.io/__admin/mappings/import
+</code></pre>
+</div>
 
-<p>Proxying is enabled by selecting the Proxy tab in the stub’s Response section and completing (at a minimum) the base URL field.</p>
+<h2 id="changing-import-behaviour">Changing import behaviour</h2>
 
-<p>Additional request headers can optionally be specified. These will be added to the proxy request if not already present,
-or will override the existing value if present.</p>
+<p>By default, if the target API contains existing stubs with IDs matching those in the import, those stubs will be overwritten.
+Other existing stubs will be ignored.</p>
 
-<p><img src="/images/screenshots/plain-proxy-response.png" title="Proxy response" /></p>
+<p>If you wish to ignore existing stubs rather than overwriting add the following to the export JSON:</p>
 
-<p>The relative part of a request’s URL will be appended onto the base URL, so given a proxy base URL of <code class="highlighter-rouge">http://my-site.com/base</code>, a
- request made to <code class="highlighter-rouge">http://my-mock-api.mocklab.io/things/1</code> would result in a proxy request to <code class="highlighter-rouge">http://my-site.com/base/things/1</code>.</p>
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="s2">"importOptions"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nt">"duplicatePolicy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IGNORE"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
 
-<h2 id="templating-the-base-url">Templating the base URL</h2>
+<p>If you wish to completely replace the contents of an API on import, including deleting any existing
+stubs that are not present in the import, then add the following to the export JSON:</p>
 
-<p>When the Enable templating check box is ticked, the base URL can be a handlebars template, meaning that properties from the
-incoming request can be used to determine the URL. See <a href="/docs/response-templating/">Response Templating</a> for details of the
-model and syntax used.</p>
-
-<p><img src="/images/screenshots/templated-proxy-response.png" title="Proxy response with templating" /></p>
-
-<h2 id="the-proxyintercept-pattern">The proxy/intercept pattern</h2>
-
-<p>It is often desirable to proxy requests by default while stubbing a few specific cases. This can be achieved using a variation
-of the <a href="/docs/default-responses/">Default Responses</a> approach.</p>
-
-<p>In summary, the proxy stub is created to be the default, with broad request matching criteria and a low priority value. Then
- individual stubs are created at higher priorities with specific request URLs, bodies or anything else distinguishing.</p>
-
-<p>Examples of things these specific stubs can be used for are:</p>
-
-<ul>
-  <li>Return an HTTP 503 response</li>
-  <li>Return response data in a format not expected by your app’s client</li>
-  <li>Close the connection prematurely without sending a response (see <a href="/docs/simulating-faults/">Simulating Faults</a>)</li>
-</ul>
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="s2">"importOptions"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nt">"deleteAllNotInImport"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
 
         
         <div id ="feedback">

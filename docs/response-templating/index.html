@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2018-09-20T11:47:47+01:00">
+  <meta property="article:published_time" content="2019-04-14T22:42:06+01:00">
   
     <link rel="next" href="/docs/security/" title="Security">
   
@@ -268,6 +268,12 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
       </a>
       
       <li>
+        <a href="/docs/import-and-export/">
+
+        How to: Import and export your mock API
+      </a>
+      
+      <li>
         <a href="/docs/exploratory-testing-tutorial/">
 
         Tutorial: Testing a Spring Boot App
@@ -305,7 +311,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Response Templating">
     <meta itemprop="description" content="MockLab stub responses can be configured to return dynamically generated headers and body, using Handlebars templates. Thiscan be enabled by ticking the “Enable templating” box in the response section of the stub form:">
-    <meta itemprop="datePublished" content="September 20, 2018">
+    <meta itemprop="datePublished" content="April 14, 2019">
     
 
     <div class="page__inner-wrap">
@@ -336,13 +342,23 @@ can be enabled by ticking the “Enable templating” box in the response sectio
 
 <p><code class="highlighter-rouge">request.url</code> - URL path and query</p>
 
-<p><code class="highlighter-rouge">request.path</code> - URL path</p>
+<p><code class="highlighter-rouge">request.requestLine.path</code> - URL path</p>
 
-<p><code class="highlighter-rouge">request.path.[&lt;n&gt;]</code>- URL path segment (zero indexed) e.g. <code class="highlighter-rouge">request.path.[2]</code></p>
+<p><code class="highlighter-rouge">request.requestLine.pathSegments.[&lt;n&gt;]</code>- URL path segment (zero indexed) e.g. <code class="highlighter-rouge">request.pathSegments.[2]</code></p>
 
-<p><code class="highlighter-rouge">request.query.&lt;key&gt;</code>- First value of a query parameter e.g. <code class="highlighter-rouge">request.query.search</code></p>
+<p><code class="highlighter-rouge">request.requestLine.query.&lt;key&gt;</code>- First value of a query parameter e.g. <code class="highlighter-rouge">request.query.search</code></p>
 
-<p><code class="highlighter-rouge">request.query.&lt;key&gt;.[&lt;n&gt;]</code>- nth value of a query parameter (zero indexed) e.g. <code class="highlighter-rouge">request.query.search.[5]</code></p>
+<p><code class="highlighter-rouge">request.requestLine.query.&lt;key&gt;.[&lt;n&gt;]</code>- nth value of a query parameter (zero indexed) e.g. <code class="highlighter-rouge">request.query.search.[5]</code></p>
+
+<p><code class="highlighter-rouge">request.requestLine.method</code>- request method e.g. <code class="highlighter-rouge">POST</code></p>
+
+<p><code class="highlighter-rouge">request.requestLine.host</code>- hostname part of the URL e.g. <code class="highlighter-rouge">my.example.com</code></p>
+
+<p><code class="highlighter-rouge">request.requestLine.port</code>- port number e.g. <code class="highlighter-rouge">8080</code></p>
+
+<p><code class="highlighter-rouge">request.requestLine.scheme</code>- protocol part of the URL e.g. <code class="highlighter-rouge">https</code></p>
+
+<p><code class="highlighter-rouge">request.requestLine.baseUrl</code>- URL up to the start of the path e.g. <code class="highlighter-rouge">https://my.example.com:8080</code></p>
 
 <p><code class="highlighter-rouge">request.headers.&lt;key&gt;</code>- First value of a request header e.g. <code class="highlighter-rouge">request.headers.X-Request-Id</code></p>
 
@@ -350,13 +366,40 @@ can be enabled by ticking the “Enable templating” box in the response sectio
 
 <p><code class="highlighter-rouge">request.headers.&lt;key&gt;.[&lt;n&gt;]</code>- nth value of a header (zero indexed) e.g. <code class="highlighter-rouge">request.headers.ManyThings.[1]</code></p>
 
-<p><code class="highlighter-rouge">request.cookies.&lt;key&gt;</code> - Value of a request cookie e.g. <code class="highlighter-rouge">request.cookies.JSESSIONID</code></p>
+<p><code class="highlighter-rouge">request.cookies.&lt;key&gt;</code> - First value of a request cookie e.g. <code class="highlighter-rouge">request.cookies.JSESSIONID</code></p>
+
+<p><code class="highlighter-rouge">request.cookies.&lt;key&gt;.[&lt;n&gt;]</code> - nth value of a request cookie e.g. <code class="highlighter-rouge">request.cookies.JSESSIONID.[2]</code></p>
 
 <p><code class="highlighter-rouge">request.body</code> - Request body text (avoid for non-text bodies)</p>
+
+<h3 id="values-that-can-be-one-or-many">Values that can be one or many</h3>
+
+<p>A number of HTTP elements (query parameters, form fields, headers) can be single or multiple valued. The template request model and built-in helpers attempt to make
+this easy to work with by wrapping these in a “list or single” type that returns the first (and often only) value when no index is specified, but also support index access.</p>
+
+<p>For instance, given a request URL like <code class="highlighter-rouge">/multi-query?things=1&amp;things=2&amp;things=3</code> I can extract the query data in the following ways:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{request.query.things</span><span class="p">}</span><span class="err">}</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Will</span><span class="w"> </span><span class="err">return</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">{</span><span class="err">{request.query.things.0</span><span class="p">}</span><span class="err">}</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Will</span><span class="w"> </span><span class="err">return</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">{</span><span class="err">{request.query.things.first</span><span class="p">}</span><span class="err">}</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Will</span><span class="w"> </span><span class="err">return</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">{</span><span class="err">{request.query.things.1</span><span class="p">}</span><span class="err">}</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Will</span><span class="w"> </span><span class="err">return</span><span class="w"> </span><span class="mi">2</span><span class="w">
+</span><span class="p">{</span><span class="err">{request.query.things.[-1]</span><span class="p">}</span><span class="err">}</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Will</span><span class="w"> </span><span class="err">return</span><span class="w"> </span><span class="mi">2</span><span class="w">
+</span><span class="p">{</span><span class="err">{request.query.things.last</span><span class="p">}</span><span class="err">}</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Will</span><span class="w"> </span><span class="err">return</span><span class="w"> </span><span class="mi">3</span><span class="w">
+</span></code></pre>
+</div>
+
+<blockquote>
+  <p><strong>Note</strong></p>
+
+  <p>When using the <code class="highlighter-rouge">eq</code> helper with one-or-many values, it is necessary to use the indexed form, even if only one value is present.
+The reason for this is that the non-indexed form returns the wrapper type and not a String, and will therefore fail any comparison
+with another String value.</p>
+</blockquote>
 
 <h2 id="handlebars-helpers">Handlebars helpers</h2>
 <p>All of the standard helpers (template functions) provided by the <a href="https://github.com/jknack/handlebars.java">Java Handlebars implementation by jknack</a>
 plus all of the <a href="https://github.com/jknack/handlebars.java/blob/master/handlebars/src/main/java/com/github/jknack/handlebars/helper/StringHelpers.java">string helpers</a>
+and the <a href="https://github.com/jknack/handlebars.java/blob/master/handlebars/src/main/java/com/github/jknack/handlebars/helper/ConditionalHelpers.java">conditional helpers</a>
 are available e.g.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{capitalize</span><span class="w"> </span><span class="err">request.query.search</span><span class="p">}</span><span class="err">}</span><span class="w">
@@ -420,7 +463,6 @@ are available e.g.</p>
 </div>
 
 <h2 id="jsonpath-helper">JSONPath helper</h2>
-
 <p>It is similarly possible to extract JSON values or sub documents via JSONPath using the <code class="highlighter-rouge">jsonPath</code> helper. Given the JSON</p>
 
 <div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
@@ -460,9 +502,11 @@ are available e.g.</p>
 </span></code></pre>
 </div>
 
-<p>Pass <code class="highlighter-rouge">epoch</code> as the format to render the date as unix epoch time.</p>
+<p>Pass <code class="highlighter-rouge">epoch</code> as the format to render the date as UNIX epoch time (in milliseconds), or <code class="highlighter-rouge">unix</code> as the format to render
+the UNIX timestamp in seconds.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{now</span><span class="w"> </span><span class="err">offset='2</span><span class="w"> </span><span class="err">years'</span><span class="w"> </span><span class="err">format='epoch'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{now</span><span class="w"> </span><span class="err">offset='2</span><span class="w"> </span><span class="err">years'</span><span class="w"> </span><span class="err">format='unix'</span><span class="p">}</span><span class="err">}</span><span class="w">
 </span></code></pre>
 </div>
 
@@ -482,6 +526,92 @@ are available e.g.</p>
 </span><span class="p">{</span><span class="err">{randomValue</span><span class="w"> </span><span class="err">length=10</span><span class="w"> </span><span class="err">type='NUMERIC'</span><span class="p">}</span><span class="err">}</span><span class="w">
 </span><span class="p">{</span><span class="err">{randomValue</span><span class="w"> </span><span class="err">length=5</span><span class="w"> </span><span class="err">type='ALPHANUMERIC_AND_SYMBOLS'</span><span class="p">}</span><span class="err">}</span><span class="w">
 </span><span class="p">{</span><span class="err">{randomValue</span><span class="w"> </span><span class="err">type='UUID'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="string-trim-helper">String trim helper</h2>
+<p>Use the <code class="highlighter-rouge">trim</code> helper to remove whitespace from the start and end of the input:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{trim</span><span class="w"> </span><span class="err">request.headers.X-Padded-Header</span><span class="p">}</span><span class="err">}</span><span class="w">
+
+</span><span class="p">{</span><span class="err">{#trim</span><span class="p">}</span><span class="err">}</span><span class="w">
+
+    </span><span class="err">Some</span><span class="w"> </span><span class="err">stuff</span><span class="w"> </span><span class="err">with</span><span class="w"> </span><span class="err">whitespace</span><span class="w">
+
+</span><span class="p">{</span><span class="err">{/trim</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="base64-helper">Base64 helper</h2>
+<p>The <code class="highlighter-rouge">base64</code> helper can be used to base64 encode and decode values:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{base64</span><span class="w"> </span><span class="err">request.headers.X-Plain-Header</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{base64</span><span class="w"> </span><span class="err">request.headers.X-Encoded-Header</span><span class="w"> </span><span class="err">decode=true</span><span class="p">}</span><span class="err">}</span><span class="w">
+
+</span><span class="p">{</span><span class="err">{#base64</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="err">Content</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">encode</span><span class="w">     
+</span><span class="p">{</span><span class="err">{/base64</span><span class="p">}</span><span class="err">}</span><span class="w">
+
+</span><span class="p">{</span><span class="err">{#base64</span><span class="w"> </span><span class="err">decode=true</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="err">Q</span><span class="mi">29</span><span class="err">udGVudCB</span><span class="mi">0</span><span class="err">byBkZWNvZGUK</span><span class="w">     
+</span><span class="p">{</span><span class="err">{/base64</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="url-encoding-helper">URL encoding helper</h2>
+<p>The <code class="highlighter-rouge">urlEncode</code> helper can be used to URL encode and decode values:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{urlEncode</span><span class="w"> </span><span class="err">request.headers.X-Plain-Header</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{urlEncode</span><span class="w"> </span><span class="err">request.headers.X-Encoded-Header</span><span class="w"> </span><span class="err">decode=true</span><span class="p">}</span><span class="err">}</span><span class="w">
+
+</span><span class="p">{</span><span class="err">{#urlEncode</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="err">Content</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">encode</span><span class="w">     
+</span><span class="p">{</span><span class="err">{/urlEncode</span><span class="p">}</span><span class="err">}</span><span class="w">
+
+</span><span class="p">{</span><span class="err">{#urlEncode</span><span class="w"> </span><span class="err">decode=true</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="err">Content%</span><span class="mi">20</span><span class="err">to%</span><span class="mi">20</span><span class="err">decode</span><span class="w">     
+</span><span class="p">{</span><span class="err">{/urlEncode</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="form-helper">Form helper</h2>
+<p>The <code class="highlighter-rouge">formData</code> helper parses its input as an HTTP form, returning an object containing the individual fields as attributes.
+The helper takes the input string and variable name as its required parameters, with an optional <code class="highlighter-rouge">urlDecode</code> parameter
+indicating that values should be URL decoded. The folowing example will parse the request body as a form, then output a single field <code class="highlighter-rouge">formField3</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{formData</span><span class="w"> </span><span class="err">request.body</span><span class="w"> </span><span class="err">'form'</span><span class="w"> </span><span class="err">urlDecode=true</span><span class="p">}</span><span class="err">}}</span><span class="p">{</span><span class="err">{{form.formField3</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>If the form submitted has multiple values for a given field, these can be accessed by index:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{formData</span><span class="w"> </span><span class="err">request.body</span><span class="w"> </span><span class="err">'form'</span><span class="w"> </span><span class="err">urlDecode=true</span><span class="p">}</span><span class="err">}}</span><span class="p">{</span><span class="err">{{form.multiValueField.1</span><span class="p">}</span><span class="err">},</span><span class="w"> </span><span class="p">{</span><span class="err">{{form.multiValueField.2</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{formData</span><span class="w"> </span><span class="err">request.body</span><span class="w"> </span><span class="err">'form'</span><span class="w"> </span><span class="err">urlDecode=true</span><span class="p">}</span><span class="err">}}</span><span class="p">{</span><span class="err">{{form.multiValueField.first</span><span class="p">}</span><span class="err">},</span><span class="w"> </span><span class="p">{</span><span class="err">{{form.multiValueField.last</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="regular-expression-extract-helper">Regular expression extract helper</h2>
+<p>The <code class="highlighter-rouge">regexExtract</code> helper supports extraction of values matching a regular expresson from a string.</p>
+
+<p>A single value can be extracted like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{regexExtract</span><span class="w"> </span><span class="err">request.body</span><span class="w"> </span><span class="err">'[A-Z]+'</span><span class="p">}</span><span class="err">}"</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Regex groups can be used to extract multiple parts into an object for later use (the last parameter is a variable name to which the object will be assigned):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{regexExtract</span><span class="w"> </span><span class="err">request.body</span><span class="w"> </span><span class="err">'([a-z]+)-([A-Z]+)-([0-9]+)'</span><span class="w"> </span><span class="err">'parts'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{parts.0</span><span class="p">}</span><span class="err">},</span><span class="p">{</span><span class="err">{parts.1</span><span class="p">}</span><span class="err">},</span><span class="p">{</span><span class="err">{parts.2</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="size-helper">Size helper</h2>
+
+<p>The <code class="highlighter-rouge">size</code> helper returns the size of a string, list or map:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{size</span><span class="w"> </span><span class="err">'abcde'</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span><span class="p">{</span><span class="err">{size</span><span class="w"> </span><span class="err">request.query.things</span><span class="p">}</span><span class="err">}</span><span class="w">
 </span></code></pre>
 </div>
 
@@ -525,7 +655,7 @@ are available e.g.</p>
 <nav class="page__footer-links">
   <div class="page__footer-links-block">
     <ul>
-      <li>&copy; 2018 MockLab</li>
+      <li>&copy; 2019 MockLab</li>
       <li><a href="mailto:info@mocklab.io">info@mocklab.io</a></li>
     </ul>
   </div>

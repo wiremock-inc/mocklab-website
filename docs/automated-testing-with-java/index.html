@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2018-09-20T11:47:47+01:00">
+  <meta property="article:published_time" content="2019-04-14T22:42:06+01:00">
   
     <link rel="next" href="/docs/default-responses/" title="How to: Serve a Default Response">
   
@@ -268,6 +268,12 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
       </a>
       
       <li>
+        <a href="/docs/import-and-export/">
+
+        How to: Import and export your mock API
+      </a>
+      
+      <li>
         <a href="/docs/exploratory-testing-tutorial/">
 
         Tutorial: Testing a Spring Boot App
@@ -305,7 +311,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Automated Testing with Java">
     <meta itemprop="description" content="Everything that can be done with MockLab’s web UI can also be done via its APIs. This can be useful when automatingtesting, as it allows stubs to be configured and torn down on-demans by individual test cases rather than it beingnecessary to configure an entire test suite’s stubs manually up-front. Working this way can make your tests a lot morereadable as it makes their preconditions expicit.">
-    <meta itemprop="datePublished" content="September 20, 2018">
+    <meta itemprop="datePublished" content="April 14, 2019">
     
 
     <div class="page__inner-wrap">
@@ -331,8 +337,8 @@ Picking the standalone version generally avoids these problems but at the cost o
 
 <p>If you’re using Gradle you can add WireMock to your build file’s dependencies as follows:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>testCompile 'com.github.tomakehurst:wiremock:2.18.0' // thin JAR
-testCompile 'com.github.tomakehurst:wiremock-standalone:2.18.0' // standalone JAR
+<div class="highlighter-rouge"><pre class="highlight"><code>testCompile 'com.github.tomakehurst:wiremock-jre8:2.23.2' // thin JAR
+testCompile 'com.github.tomakehurst:wiremock-jre8-standalone:2.23.2' // standalone JAR
 </code></pre>
 </div>
 
@@ -341,16 +347,16 @@ testCompile 'com.github.tomakehurst:wiremock-standalone:2.18.0' // standalone JA
 <div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- Thin JAR --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>com.github.tomakehurst<span class="nt">&lt;/groupId&gt;</span>
-  <span class="nt">&lt;artifactId&gt;</span>wiremock<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>2.18.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>wiremock-jre8<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>2.23.2<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 
 <span class="c">&lt;!-- Standalone JAR --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>com.github.tomakehurst<span class="nt">&lt;/groupId&gt;</span>
-  <span class="nt">&lt;artifactId&gt;</span>wiremock-standalone<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>2.18.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>wiremock-jre8-standalone<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>2.23.2<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre>
@@ -369,12 +375,7 @@ your mock API’s Settings page):</p>
     <span class="o">.</span><span class="na">scheme</span><span class="o">(</span><span class="s">"https"</span><span class="o">)</span>
     <span class="o">.</span><span class="na">host</span><span class="o">(</span><span class="s">"payments-example.mocklab.io"</span><span class="o">)</span>
     <span class="o">.</span><span class="na">port</span><span class="o">(</span><span class="mi">443</span><span class="o">)</span>
-    <span class="o">.</span><span class="na">authenticator</span><span class="o">(</span><span class="k">new</span> <span class="n">ClientAuthenticator</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">HttpHeader</span><span class="o">&gt;</span> <span class="n">generateAuthHeaders</span><span class="o">()</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">Collections</span><span class="o">.</span><span class="na">singletonList</span><span class="o">(</span><span class="k">new</span> <span class="n">HttpHeader</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">,</span> <span class="s">"Token lksdr91283rsdjkfh981"</span><span class="o">));</span>
-        <span class="o">}</span>
-    <span class="o">})</span>
+    <span class="o">.</span><span class="na">authenticator</span><span class="o">(</span><span class="k">new</span> <span class="n">ClientTokenAuthenticator</span><span class="o">(</span><span class="s">"lksdr91283rsdjkfh981"</span><span class="o">))</span>
     <span class="o">.</span><span class="na">build</span><span class="o">();</span>
 </code></pre>
 </div>
@@ -388,6 +389,23 @@ your mock API’s Settings page):</p>
 <p>And make assertions about received requests:</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">paymentGatewayMock</span><span class="o">.</span><span class="na">verifyThat</span><span class="o">(</span><span class="n">postRequestedFor</span><span class="o">(</span><span class="n">urlPathEqualTo</span><span class="o">(</span><span class="s">"/send-payment"</span><span class="o">)));</span>
+</code></pre>
+</div>
+
+<h2 id="programmatic-stub-creation">Programmatic stub creation</h2>
+
+<p>The same approach can be taken if you want to create stubs in your API programmatically.
+This can be useful when you require a large number of stubs and don’t want to create
+them all by hand.</p>
+
+<p>The example in the previous section creates an ephemeral stub i.e. one that isn’t
+stored persistently and will be deleted when the API is reset. To ensure that stubs
+created programmatically are saved, simply call <code class="highlighter-rouge">persistent()</code> during creation:</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">myMockApi</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="n">urlPathEqualTo</span><span class="o">(</span><span class="s">"/persist-this"</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">persistent</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">willReturn</span><span class="o">(</span><span class="n">ok</span><span class="o">(</span><span class="s">"Some body content"</span><span class="o">))</span>
+<span class="o">);</span>
 </code></pre>
 </div>
 
@@ -434,7 +452,7 @@ your mock API’s Settings page):</p>
 <nav class="page__footer-links">
   <div class="page__footer-links-block">
     <ul>
-      <li>&copy; 2018 MockLab</li>
+      <li>&copy; 2019 MockLab</li>
       <li><a href="mailto:info@mocklab.io">info@mocklab.io</a></li>
     </ul>
   </div>
