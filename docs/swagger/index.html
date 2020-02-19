@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-02-03T12:42:07+00:00">
+  <meta property="article:published_time" content="2020-02-19T11:52:54+00:00">
   
     <link rel="next" href="/docs/terms-and-conditions/" title="MockLab Terms of Service">
   
@@ -311,7 +311,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Swagger Import">
     <meta itemprop="description" content="Swagger / OpenAPI Specification is undoubtedly the most widely used description language for REST and REST-like APIs.MockLab supports automatic generation of mock APIs from imported Swagger descriptions.">
-    <meta itemprop="datePublished" content="February 03, 2020">
+    <meta itemprop="datePublished" content="February 19, 2020">
     
 
     <div class="page__inner-wrap">
@@ -367,6 +367,131 @@ for which a stub already exists from a previous import.</p>
 
 <p>However, you also have the option of having a new stub created each time. This means if you’ve edited a stub generated from a previous
 import e.g. to add some specific test data, you won’t lose this and have the opportunity to incorporate it into the newer stub.</p>
+
+<h2 id="customising-the-import">Customising the import</h2>
+
+<h3 id="specifying-url-path-and-query-parameters">Specifying URL path and query parameters</h3>
+
+<p>When MockLab converts a response example to a stub, by default it will generate random values for URL path and query parameters.
+However, if a response uses the multiple example format, you can specify the exact parameter values you wish to be required
+by the stub.</p>
+
+<p>For instance, given the following Open API path element:</p>
+
+<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">/people/{id}</span><span class="pi">:</span>
+    <span class="s">description</span><span class="pi">:</span> <span class="s">People by ID</span>
+    <span class="s">parameters</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">name</span><span class="pi">:</span> <span class="s">id</span>
+        <span class="s">in</span><span class="pi">:</span> <span class="s">path</span>
+        <span class="s">required</span><span class="pi">:</span> <span class="s">true</span>
+        <span class="s">schema</span><span class="pi">:</span>
+          <span class="s">type</span><span class="pi">:</span> <span class="s">string</span>
+
+    <span class="s">get</span><span class="pi">:</span>
+      <span class="s">description</span><span class="pi">:</span> <span class="s">Get a person</span>
+      <span class="s">parameters</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s">name</span><span class="pi">:</span> <span class="s">fields</span>
+          <span class="s">in</span><span class="pi">:</span> <span class="s">query</span>
+          <span class="s">required</span><span class="pi">:</span> <span class="s">true</span>
+          <span class="s">schema</span><span class="pi">:</span>
+            <span class="s">type</span><span class="pi">:</span> <span class="s">string</span>
+            <span class="s">enum</span><span class="pi">:</span>
+              <span class="pi">-</span> <span class="s">full</span>
+              <span class="pi">-</span> <span class="s">summary</span>
+
+      <span class="s">responses</span><span class="pi">:</span>
+        <span class="s1">'</span><span class="s">200'</span><span class="pi">:</span>
+          <span class="s">description</span><span class="pi">:</span> <span class="s">People search returned successfully</span>
+          <span class="s">content</span><span class="pi">:</span>
+            <span class="s">application/json</span><span class="pi">:</span>
+              <span class="s">examples</span><span class="pi">:</span>
+                <span class="s">one</span><span class="pi">:</span>
+                  <span class="s">summary</span><span class="pi">:</span> <span class="s">First example</span>
+                  <span class="s">x-parameter-values</span><span class="pi">:</span>
+                    <span class="s">id</span><span class="pi">:</span> <span class="s">abc123</span>
+                    <span class="s">fields</span><span class="pi">:</span> <span class="s">summary</span>
+                  <span class="s">value</span><span class="pi">:</span> <span class="pi">|</span>
+                    <span class="no">{ "name": "John" }</span>
+
+                <span class="s">two</span><span class="pi">:</span>
+                  <span class="s">summary</span><span class="pi">:</span> <span class="s">Second example</span>
+                  <span class="s">x-parameter-values</span><span class="pi">:</span>
+                    <span class="s">id</span><span class="pi">:</span> <span class="s">cba321</span>
+                    <span class="s">fields</span><span class="pi">:</span> <span class="s">full</span>
+                  <span class="s">value</span><span class="pi">:</span> <span class="pi">|</span>
+                    <span class="no">{ "name": "Jeff", id: "cba123" }</span>
+</code></pre>
+</div>
+
+<p>Two stubs will be created from the above example.
+One will have a URL path equal to <code class="highlighter-rouge">/people/abc123</code> and a requred query parameter of <code class="highlighter-rouge">fields=summary</code>.
+The other will have a URL path equal to <code class="highlighter-rouge">/people/cba321</code> and a requred query parameter of <code class="highlighter-rouge">fields=full</code>.</p>
+
+<p>Any values not specified in this manner will be automatically generated based on the parameter’s schema.</p>
+
+<h3 id="controlling-data-generation-from-schemas">Controlling data generation from schemas</h3>
+
+<p>When importing a response with a schema but no examples, MockLab will randomly generate an example
+that conforms to the schema.</p>
+
+<p>For each schema attribute an attempt will be made to determine the data type, using the
+<code class="highlighter-rouge">format</code> if present, but if not making a guess based on the field name. For instance,
+a <code class="highlighter-rouge">string</code> attribute named <code class="highlighter-rouge">date_of_birth</code> will result in the generation of an ISO8601 local
+date within the past 99 years e.g. <code class="highlighter-rouge">1971-08-02</code>.</p>
+
+<p>However, you can override this behaviour and specify which data generation strategy should be used.
+MockLab uses <a href="https://github.com/DiUS/java-faker">Faker</a> to generate example data, and
+you can specify the specific faker to use by adding an <code class="highlighter-rouge">x-faker</code> attribute to your schema element e.g.</p>
+
+<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">schema</span><span class="pi">:</span>
+  <span class="s">type</span><span class="pi">:</span> <span class="s">string</span>
+  <span class="s">x-faker</span><span class="pi">:</span> <span class="s">name.first_name</span>
+</code></pre>
+</div>
+
+<p>This can be used both in parameter declarations and response body schemas.</p>
+
+<p>All of the fakers <a href="https://github.com/DiUS/java-faker/tree/master/src/main/resources/en">listed here</a>
+can be used, plus there are some additional rules supplied by MockLab. The following lists all of the most
+commonly used, plus all supplied by MockLab:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">name.name</code></li>
+  <li><code class="highlighter-rouge">name.first_name</code></li>
+  <li><code class="highlighter-rouge">name.last_name</code></li>
+  <li><code class="highlighter-rouge">name.name_with_middle</code></li>
+  <li><code class="highlighter-rouge">name.title</code></li>
+  <li><code class="highlighter-rouge">name.prefix</code></li>
+  <li><code class="highlighter-rouge">name.suffix</code></li>
+  <li><code class="highlighter-rouge">name.username</code></li>
+  <li><code class="highlighter-rouge">id.alphanumeric_id</code></li>
+  <li><code class="highlighter-rouge">id.uuid</code></li>
+  <li><code class="highlighter-rouge">date_and_time.birthday</code></li>
+  <li><code class="highlighter-rouge">date_and_time.past_date_time</code></li>
+  <li><code class="highlighter-rouge">date_and_time.future_date_time</code></li>
+  <li><code class="highlighter-rouge">uri.url</code></li>
+  <li><code class="highlighter-rouge">lorem.word</code></li>
+  <li><code class="highlighter-rouge">lorem.sentence</code></li>
+  <li><code class="highlighter-rouge">lorem.paragraph</code></li>
+  <li><code class="highlighter-rouge">currency.code</code></li>
+  <li><code class="highlighter-rouge">address.street_address</code></li>
+  <li><code class="highlighter-rouge">address.secondary_address</code></li>
+  <li><code class="highlighter-rouge">address.city_name</code></li>
+  <li><code class="highlighter-rouge">address.state</code></li>
+  <li><code class="highlighter-rouge">address.postcode</code></li>
+  <li><code class="highlighter-rouge">country.name</code></li>
+  <li><code class="highlighter-rouge">country.code2</code></li>
+  <li><code class="highlighter-rouge">country.code3</code></li>
+  <li><code class="highlighter-rouge">phone_number.phone_number</code></li>
+  <li><code class="highlighter-rouge">avatar.image</code></li>
+</ul>
+
+<blockquote>
+  <p><strong>note</strong></p>
+
+  <p>Only required query parameters will be included in the stubs’ request criteria. Non-required query parameters
+will excluded, meaning that any or no value will be accepted.</p>
+</blockquote>
 
 <h2 id="integrating-with-swaggerhub">Integrating with Swaggerhub</h2>
 

@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-02-03T12:42:07+00:00">
+  <meta property="article:published_time" content="2020-02-19T11:52:54+00:00">
   
     <link rel="next" href="/docs/automated-testing-with-java/" title="Automated Testing with Java">
   
@@ -308,8 +308,8 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Advanced Stubbing">
-    <meta itemprop="description" content="Advanced request matchingIn some cases matching on the URL alone is not specific enough. For instance you may want to simulate creation of a newto-do item in a RESTful API by stubbing POST to /api/to-do. In order to test both success and failure cases it will benecessary to return different responses depending on the post body (since the URL would always be the same).">
-    <meta itemprop="datePublished" content="February 03, 2020">
+    <meta itemprop="description" content="In some cases matching on the URL alone is not specific enough. For instance you may want to simulate creation of a newto-do item in a RESTful API by stubbing POST to /api/to-do. In order to test both success and failure cases it will benecessary to return different responses depending on the post body (since the URL would always be the same).">
+    <meta itemprop="datePublished" content="February 19, 2020">
     
 
     <div class="page__inner-wrap">
@@ -318,8 +318,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <h2 id="advanced-request-matching">Advanced request matching</h2>
-<p>In some cases matching on the URL alone is not specific enough. For instance you may want to simulate creation of a new
+        <p>In some cases matching on the URL alone is not specific enough. For instance you may want to simulate creation of a new
 to-do item in a RESTful API by stubbing <code class="highlighter-rouge">POST</code> to <code class="highlighter-rouge">/api/to-do</code>. In order to test both success and failure cases it will be
 necessary to return different responses depending on the post body (since the URL would always be the same).</p>
 
@@ -334,11 +333,11 @@ select the match type from the drop-down, then write (or paste) the expected val
 
 <p>The remainder of this article describes each stubbing parameter in detail:</p>
 
-<h3 id="request-method">Request method</h3>
+<h2 id="request-method-matching">Request method matching</h2>
 <p>The HTTP method that required for this stub to match. This defaults to <code class="highlighter-rouge">ANY</code>, meaning that a request with any method
 will match.</p>
 
-<h3 id="request-priority">Request priority</h3>
+<h2 id="request-priority-matching">Request priority matching</h2>
 <p>Requests of a higher priority (i.e. lower number) will be matched first, in cases where more than one stub mapping in the
 list would match a given request.</p>
 
@@ -346,7 +345,7 @@ list would match a given request.</p>
 broadly matching stub defining some default behaviour e.g. a 404 page, and then create a set of higher priority, more specific
 stubs for testing individual cases. See <a href="/docs/default-responses/">Serving Default Responses</a> for more details.</p>
 
-<h3 id="url-match-type">URL match type</h3>
+<h2 id="url-matching">URL matching</h2>
 <p>Determines how the URL will be matched. The options are:</p>
 
 <ul>
@@ -359,7 +358,7 @@ stubs for testing individual cases. See <a href="/docs/default-responses/">Servi
 
 <p><img src="/images/screenshots/url-match-type-screenshot.png" title="URL match types" style="height: 150px" /></p>
 
-<h3 id="request-parameter-clauses">Request parameter clauses</h3>
+<h2 id="advanced-request-parameter-matching">Advanced request parameter matching</h2>
 <p>In addition to the URL and body, requests can be matched on:</p>
 
 <ul>
@@ -377,19 +376,90 @@ stubs for testing individual cases. See <a href="/docs/default-responses/">Servi
 <p>When multiple match clauses are added a request must match all of them for the response to be served (they are combined
 with logical AND).</p>
 
-<h2 id="response-parameters">Response parameters</h2>
+<h2 id="matching-json-request-bodies">Matching JSON request bodies</h2>
 
-<h3 id="response-status">Response status</h3>
+<p>Two specific match types exist for JSON formatted request bodies: equality (<code class="highlighter-rouge">equalToJson</code>) and JSONPath (<code class="highlighter-rouge">matchesJsonPath</code>).</p>
+
+<h3 id="equality">Equality</h3>
+
+<p><code class="highlighter-rouge">equalToJson</code> performs a semantic comparison between the incoming JSON and the expected value, meaning that
+it will return a match even when, for instance, the two documents have different amounts of whitespace.</p>
+
+<p>You can also specify that array order an additional elements in the request JSON be ignored.</p>
+
+<p><img src="/images/screenshots/equal-to-json.png" alt="JSON equality" /></p>
+
+<h3 id="placeholders">Placeholders</h3>
+
+<p>JSON equality matching is implemented by <a href="https://github.com/lukas-krecan/JsonUnit">JsonUnit</a>, and
+therefore supports placeholder syntax, allowing looser specification of fields within the document.</p>
+
+<p>For instance, consider a request body like this, where <code class="highlighter-rouge">transaction_id</code> is unique to
+each request:</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"details-updated"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"transaction_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc-123-def"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Requiring an exact match on this document would ensure no match could ever be made, since
+the same transaction ID would never be repeated.</p>
+
+<p>This can be solved using a placeholder:</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"details-updated"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"transaction_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${json-unit.ignore}"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>If you want to constrain the value to a specific type or pattern the following placeholders are also valid:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">${json-unit.regex}[A-Z]+</code> (any Java-style regular expression can be used)</li>
+  <li><code class="highlighter-rouge">${json-unit.any-string}</code></li>
+  <li><code class="highlighter-rouge">${json-unit.any-boolean}</code></li>
+  <li><code class="highlighter-rouge">${json-unit.any-number}</code></li>
+</ul>
+
+<h3 id="jsonpath">JSONPath</h3>
+
+<p><code class="highlighter-rouge">matchesJsonPath</code> allows request bodies to be matched according to a <a href="https://github.com/json-path/JsonPath">JSONPath</a> expression. The
+JSONPath expression is used to select one or more values from the request body, then the result is matched against sub-matcher (<code class="highlighter-rouge">equal to</code>, <code class="highlighter-rouge">contains</code> etc.).
+It is also possible to simply assert that the expression returns something, by selecting <code class="highlighter-rouge">is present</code> from the list.</p>
+
+<p><img src="/images/screenshots/matches-json-path.png" alt="JSONPath matching" /></p>
+
+<p>The expression in the above screenshot (<code class="highlighter-rouge">$.event</code> <code class="highlighter-rouge">equal to</code> <code class="highlighter-rouge">description-updated</code>) would match a request body of</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description-updated"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>but not</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"document-created"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="setting-the-response-status">Setting the response status</h2>
 <p>The HTTP status code to be sent with the response.</p>
 
-<h3 id="response-headers">Response headers</h3>
+<h2 id="sending-response-headers">Sending response headers</h2>
 <p>Headers can be set on the response:</p>
 
 <p><img src="/images/screenshots/response-headers-screenshot.png" alt="Response headers" /></p>
 
-<h3 id="response-body">Response body</h3>
-<p>A response body can optionally be specified.</p>
-
+<h2 id="response-body">Response body</h2>
+<p>A response body can optionally be specified. If <a href="/docs/response-templating/">response templating</a>
+is enabled, certain parts can be dynamically generated using request attributes and random data.</p>
 
         
         <div id ="feedback">
