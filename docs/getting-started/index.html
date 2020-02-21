@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-02-19T11:52:54+00:00">
+  <meta property="article:published_time" content="2020-02-21T18:19:00+00:00">
   
     <link rel="next" href="/docs/import-and-export/" title="How to: Import and export your mock API">
   
@@ -310,8 +310,8 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Getting Started">
-    <meta itemprop="description" content="Welcome to MockLab!">
-    <meta itemprop="datePublished" content="February 19, 2020">
+    <meta itemprop="description" content="This article is intended to help new users of MockLab get their first mock API up and running.">
+    <meta itemprop="datePublished" content="February 21, 2020">
     
 
     <div class="page__inner-wrap">
@@ -320,30 +320,87 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>Welcome to MockLab!</p>
+        <p>This article is intended to help new users of MockLab get their first mock API up and running.</p>
 
-<p>To get your first mock API up and running you’ll need to start by <a target="_new" href="https://app.mocklab.io/login">logging in using your GitHub account</a>.</p>
+<p>MockLab provides a number of ways to set up a mock API:</p>
 
-<p>Once you’re in you can create a new mock API by clicking <img style="margin-bottom: 0.8rem; vertical-align: middle; border: none; height: 45px" src="/images/screenshots/new-mock-api-button.png" title="New mock API" /></p>
+<ul>
+  <li>Manually via the <strong>web UI</strong></li>
+  <li><strong>Swagger</strong> or <strong>OpenAPI</strong> specification import</li>
+  <li><strong>Record</strong> traffic to and from another API</li>
+  <li><strong>Import</strong> an existing project from <strong>WireMock</strong></li>
+  <li><strong>Automate</strong> via the REST API or WireMock</li>
+</ul>
 
-<p><img src="/images/screenshots/new-mock-api-form.png" title="New mock API form" /></p>
+<h2 id="creating-an-account">Creating an account</h2>
 
-<p>A unique hostname under mocklab.io will always be created when you save your new API but you can optionally specify a custom hostname to be created in addition.
-This must be unique within the context of mocklab.io.</p>
+<p>Before you can proceed you’ll need a MockLab login, so if you’ve not signed up already then <a href="https://app.mocklab.io/login?for=signup" target="_blank">you can do so here</a>.</p>
 
-<p>Once you’ve hit Save, you’re ready to <a href="/docs/stubbing/">create your first API stub</a>.</p>
+<h2 id="manual-mock-api-configuration">Manual mock API configuration</h2>
 
-<p>For a more in-depth look at how MockLab can be used, see <a href="/docs/exploratory-testing-tutorial/">the exploratory testing tutorial</a>.</p>
+<p>Creating stubs manually in the web UI is often the simplest way forward if:</p>
 
-<h2 id="automated-setup-and-testing">Automated setup and testing</h2>
+<ul>
+  <li>The API you’re mocking is quite simple (or you only need a small part of it)</li>
+  <li>You’re working from a specification document and you want to copy/paste examples into a running simulation</li>
+  <li>You just want to quickly explore what MockLab can do</li>
+</ul>
 
-<p>Every feature in MockLab is accessible via a REST API.</p>
+<p>After signup an example mock API will be created for you, showcasing different MockLab features. You can edit this or add your own stubs to experiment with MockLab’s capabilities.</p>
+
+<p>If you’d like to start afresh and choose your own domain name, you can create a new mock API by clicking <img style="margin-bottom: 0.8rem; vertical-align: middle; border: none; height: 45px" src="/images/screenshots/new-mock-api-button.png" title="New mock API" /></p>
+
+<p>More details on stub creation can be found in the <a href="/docs/stubbing/">Stubbing</a> and <a href="/docs/advanced-stubbing/">Advanced stubbing</a> articles.</p>
+
+<p>For a more in-depth look at how MockLab can be used with a manual approch, see <a href="/docs/exploratory-testing-tutorial/">the exploratory testing tutorial</a>.</p>
+
+<h2 id="swagger-and-openapi-import">Swagger and OpenAPI import</h2>
+
+<p>If you already have a Swagger or OpenAPI specification, you can import it and MockLab will auto-generate a set of stubs.</p>
+
+<p>Swaggerhub users can integrate with MockLab via a webhook, so that the mock API
+will be updated each time a change is saved.</p>
+
+<p>See <a href="/docs/swagger/">Swagger Import</a> for more details.</p>
+
+<h2 id="record-and-playback">Record and playback</h2>
+
+<p>If you want to create a mock of an existing API which is accessible over the internet,
+you can configure MockLab to proxy (forward) traffic to it and record requests as stubs.</p>
+
+<p>See <a href="/docs/recording-stubs/">Recording Stubs</a> for details.</p>
+
+<h2 id="importing-from-wiremock">Importing from WireMock</h2>
+
+<p>MockLab uses WireMock as its underlying engine, so mock APIs created within WireMock
+can be directly imported into MockLab (and vice versa).</p>
+
+<p>This can be useful when you need to record APIs that are only accessible inside your
+organisation or from a private network, or if you have existing projects utilising
+WireMock that you’d like to host in the cloud.</p>
+
+<p>See the article on <a href="/docs/import-and-export/">import and export</a> for details on how to do this.</p>
+
+<h2 id="scripting-and-automation">Scripting and automation</h2>
+
+<p>Sometimes automation is the best approach to maintaining the configuration of your mock APIs.
+Some reasons for this include:</p>
+
+<ul>
+  <li>You need to create hundreds or even thousands of stubs, so manual editing is impractical.</li>
+  <li>You’re mocking a fast-changing API, and generating stubs programmatically makes it easier to stay in sync.</li>
+  <li>Your team manages all configuration as code which can be kept in source control.</li>
+</ul>
+
+<p>MockLab enables this approach by making all features available via its REST APIs.</p>
 
 <p>The <a href="/docs/provisioning/">provisioning API</a> supports the creation, querying and deletion of mock APIs.</p>
 
-<p>The <a href="/docs/mocking/">mocking API</a> supports configuration of an individual mock API, including stub management, request verification, proxying, fault injection and more.
-It is 100% compatible with <a href="http://wiremock.org/docs/api/">WireMock’s API</a> and can therefore be used with any WireMock client library.
-See <a href="/docs/automated-testing-with-java">the article on automated testing with Java</a> for more details.</p>
+<p>The <a href="/docs/mocking/">mocking API</a> supports configuration of an individual mock API, including stub create/update/delete, request log querying and verification and more.
+It is 100% compatible with <a href="http://wiremock.org/docs/api/">WireMock’s API</a> and can therefore be used with any WireMock client library.</p>
+
+<p>See <a href="/docs/automated-testing-with-java">the article on automated testing with Java</a>
+to see how the Java WireMock library can be used to work with a mock API programmatically.</p>
 
         
         <div id ="feedback">
