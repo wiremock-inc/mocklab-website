@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Stubbing responses | MockLab</title>
+<title>Stubbing | MockLab</title>
 
 
 
@@ -40,7 +40,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Stubbing responses">
+<meta property="og:title" content="Stubbing">
 
 
 
@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-02-21T18:19:00+00:00">
+  <meta property="article:published_time" content="2020-02-25T10:34:00+00:00">
   
     <link rel="next" href="/docs/swagger/" title="Swagger Import">
   
@@ -192,7 +192,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
         <a href="/docs/stubbing/" class="nav__list-item--selected">
         
 
-        Stubbing responses
+        Stubbing
       </a>
       
       <li>
@@ -309,14 +309,14 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Stubbing responses">
+    <meta itemprop="headline" content="Stubbing">
     <meta itemprop="description" content="MockLab at its core, like WireMock which underpins it is an HTTP stubbing tool. This means thatit can be configured to return specific canned responses depending on the request.">
-    <meta itemprop="datePublished" content="February 21, 2020">
+    <meta itemprop="datePublished" content="February 25, 2020">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Stubbing responses
+        <h1 class="page__title" itemprop="headline">Stubbing
 </h1>
       </header>
       <section class="page__content" itemprop="text">
@@ -326,23 +326,22 @@ it can be configured to return specific canned responses depending on the reques
 <p>This can be a simple as just matching the URL, right up to a combination of URL, header and body matches using regexes,
 JSONPath, XPath and others.</p>
 
-<h2 id="creating-a-basic-stub-mapping">Creating a basic stub mapping</h2>
-<p>Select the desired mock API then navigate to the Stubs page and hit the <img style="margin-bottom: 0.8rem; vertical-align: middle; border: none; height: 45px" src="/images/screenshots/new-stub-button.png" title="New stub" /> button. Change the URL field from the
+<h2 id="creating-a-basic-stub">Creating a basic stub</h2>
+<p>Select the mock API you’d like to work in, then navigate to the Stubs page and hit the <img style="margin-bottom: 0.8rem; vertical-align: middle; border: none; height: 45px" src="/images/screenshots/new-stub-button.png" title="New stub" /> button. Change the URL field from the
 default value to whatever you’d like to match on e.g. <code class="highlighter-rouge">/hello-world</code>.</p>
 
-<p><img src="/images/screenshots/new-stub-request-screenshot-2.png" title="Request" style="width: 80%" /></p>
+<p><img src="/images/screenshots/basic-new-stub.png" title="New Stub Request" /></p>
 
 <p>In the Response section, set HTTP status, headers and body text. Typically it is a good idea to send a
 <code class="highlighter-rouge">Content-Type</code> header in HTTP responses, so add one by clicking <img style="margin-bottom: 0.8rem; vertical-align: middle; border: none; height: 45px" src="/images/screenshots/new-header-button.png" title="New header" /> and setting <code class="highlighter-rouge">Content-Type</code> to <code class="highlighter-rouge">application/json</code>.</p>
 
-<p><img src="/images/screenshots/new-stub-response.png" alt="Basic response" /></p>
+<p><img src="/images/screenshots/basic-response.png" alt="Basic response" /></p>
 
 <p>Hit Save, then you’re ready to test your stub. Point your browser to <code class="highlighter-rouge">http://&lt;your-subdomain&gt;.mocklab.io/hello-world</code>.
 You should see the body text <code class="highlighter-rouge">Hello World!!!</code> that you entered into the body text box. You can find out what your
 subdomain is on the Settings page for the mock API.</p>
 
 <p><img src="/images/screenshots/mock-api-browser-screenshot.png" alt="Mock response served" /></p>
-
 
         
         <div id ="feedback">
