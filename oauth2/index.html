@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Blog | MockLab</title>
+<title>Mock your OAuth2 login for easier performance and integration testing | MockLab</title>
 
 
 
@@ -36,16 +36,16 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="News and technical articles from MockLab">
+<meta name="description" content="This is a ready-to-use OAuth mock. Performance and integration test your Google OAuth or any other OAuth2 implementation with minimal setup.">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Blog">
+<meta property="og:title" content="Mock your OAuth2 login for easier performance and integration testing">
 
 
 
 
-  <meta property="og:description" content="News and technical articles from MockLab">
+  <meta property="og:description" content="This is a ready-to-use OAuth mock. Performance and integration test your Google OAuth or any other OAuth2 implementation with minimal setup.">
 
 
 
@@ -158,86 +158,45 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 </nav>
 
-    
+    <div id="main">
+  <div id="content">
+    <h1 class="page__title" style="text-align:center;">Mock your OAuth2 login for easier performance and integration testing</h1>
 
+    <div style="display:flex;margin-bottom:2em;margin-top:2em;justify-content:center">
+      <img src="/images/oauth-2-logo.png" alt="OAuth2" style="border:none;margin-right:10px;height:90px;width:92px"/>
+      <img src="/images/openid-icon-100x100.png" alt="OpenID Connect" style="border:none;margin-left:10px;height:90px"/>
+    </div>
 
+    <p>
+      If you're building web apps or microservices there's a good chance you support sign-ins from a cloud provider like <strong>Google</strong>, or
+      an identity product like <strong>Auth0</strong> or <strong>Okta</strong>.
+    </p>
 
-<div id="main" role="main">
-  
+    <p>
+      You've probably also experienced the testing headaches that can come
+      with relying on a third party for login services, such as:
 
+      <ul>
+        <li>Lack of <strong>test environments</strong> or developer sandboxes.</li>
+        <li><strong>Performance testing</strong> not possible or not permitted - rate limiting, DDoS protection and lawyers letters!</li>
+        <li>Creating large numbers of <strong>user accounts</strong>.</li>
+        <li>Difficulty testing <strong>failure modes</strong>.</li>
+      </ul>
+    </p>
 
+    <p>
+      The MockLab OAuth2 mock provides a <strong>drop-in replacement</strong> for
+      compatible login services including Google OAuth, Auth0 and many others. There's no signup
+      required and it accepts any email address and password (real or not) so there's <strong>no need to create test accounts</strong>.
+    </p>
 
-  <div class="archive">
-    
+    <div id="ctas" style="display:flex;flex-direction:column;">
+      <a class="btn btn--large" style="margin:auto;width:300px;" href="/docs/oauth2-mock/" title="OAuth2 mock article">Learn how use with your app</a>
 
-
-  
-
-
-
-<div class="list__item">
-  
-    <a href="/blog/mocklab-now-supports-swagger-and-swaggerhub/">
-  
-
-    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-      
-
-      <h2 class="archive__item-title" itemprop="headline">MockLab Now Supports Swagger and Swaggerhub
-</h2>
-
-      
-      <p class="archive__item-excerpt" itemprop="description">MockLab now supports import of Swagger documents and integration with Swaggerhub.
-</p>
-
-      <p class="page__date">
-          <img class="author-pic" src="/images/authors/tom_akehurst.png"/> Tom Akehurst
-
-          
-            on <time datetime="2018-08-03T00:00:00+01:00">August 03, 2018</time>
-          
+      <p style="text-align:center;">
+        Or try <a href="https://mocklab-demo.herokuapp.com/login" title="Demo" target="_blank">the demo</a>.
       </p>
-    </article>
-  </a>
-</div>
-
-
-  
-
-
-
-<div class="list__item">
-  
-    <a href="/blog/build-a-paypal-sandbox-for-load-testing/">
-  
-
-    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-      
-
-      <h2 class="archive__item-title" itemprop="headline">Build a Paypal Sandbox for Load Testing in 10 Minutes
-</h2>
-
-      
-      <p class="archive__item-excerpt" itemprop="description">Build a mock of the Paypal API to allow end to end load testing of your e-commerce app.
-</p>
-
-      <p class="page__date">
-          <img class="author-pic" src="/images/authors/tom_akehurst.png"/> Tom Akehurst
-
-          
-            on <time datetime="2018-07-10T00:00:00+01:00">July 10, 2018</time>
-          
-      </p>
-    </article>
-  </a>
-</div>
-
-
-
-
-
-
-
+    </div>
 
   </div>
 </div>

@@ -36,7 +36,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="Using the OAuth2 / OpenID Connect Mock Template">
+<meta name="description" content="Using the OAuth2 / OpenID Connect Mock">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
@@ -45,7 +45,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-  <meta property="og:description" content="Using the OAuth2 / OpenID Connect Mock Template">
+  <meta property="og:description" content="Using the OAuth2 / OpenID Connect Mock">
 
 
 
@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-03-03T16:43:18+00:00">
+  <meta property="article:published_time" content="2020-03-06T12:17:42+00:00">
   
     <link rel="next" href="/docs/privacy-policy/" title="Privacy Policy">
   
@@ -317,7 +317,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="The OAuth2 / OpenID Connect Mock">
     <meta itemprop="description" content="    ">
-    <meta itemprop="datePublished" content="March 03, 2020">
+    <meta itemprop="datePublished" content="March 06, 2020">
     
 
     <div class="page__inner-wrap">
@@ -333,24 +333,20 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 <p>This is a simulation of an <strong>OAuth2</strong> / <strong>OpenID Connect</strong> login service that you can use as a <strong>drop-in replacement</strong> for the real thing during testing. It’s free to use, and completely stateless so can accommodate virtually any number of concurrent clients (at least until the server runs out of breath!).</p>
 
-<h2 id="why-simulate-your-login-service">Why simulate your login service?</h2>
-
-<p>Here are a few common reasons:</p>
-
-<ul>
-  <li>Load testing without racking up huge bills with your real login service.</li>
-  <li>Simulating faults and errors so that you can do negative testing.</li>
-  <li>Testing your app when your real login service isn’t available yet.</li>
-</ul>
+<p>Currently the <code class="highlighter-rouge">authorization_code</code> (server-side web) OAuth2 flow is supported.</p>
 
 <h2 id="using-with-your-app">Using with your app</h2>
-<p>In your application’s configuration set the following:</p>
+<p>Start by finding the OAuth2 configuration in your app’s server-side component. Where this is located
+varies from app to app - sometimes it can be found in a configuration file, other times it is set
+directly in code. If you’re using an SDK from your login service, you may need to override the defaults this provides.</p>
+
+<p>Set the following values:</p>
 
 <ul>
-  <li>The authorization URI to <code class="highlighter-rouge">https://oauth.mocklab.io/oauth/authorize</code></li>
-  <li>The token URI to <code class="highlighter-rouge">https://oauth.mocklab.io/oauth/token</code></li>
-  <li>The user info URI to <code class="highlighter-rouge">https://oauth.mocklab.io/userinfo</code></li>
-  <li>The JWKS URI to <code class="highlighter-rouge">https://oauth.mocklab.io/.well-known/jwks.json</code></li>
+  <li>Authorization URI: <code class="highlighter-rouge">https://oauth.mocklab.io/oauth/authorize</code></li>
+  <li>Token URI: <code class="highlighter-rouge">https://oauth.mocklab.io/oauth/token</code></li>
+  <li>User info URI: <code class="highlighter-rouge">https://oauth.mocklab.io/userinfo</code></li>
+  <li>JWKS URI: <code class="highlighter-rouge">https://oauth.mocklab.io/.well-known/jwks.json</code></li>
 </ul>
 
 <p>You can <a href="https://github.com/mocklab/mocklab-demo-app/blob/master/src/main/resources/application.yml#L8" target="_blank">see here</a> how this is done in a Spring Boot application.</p>
@@ -418,6 +414,13 @@ via <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#105;&#110;&#102;&#111;&#064;
       <li><a href="/docs/getting-started/">Docs</a></li>
       <li><a href="/docs/getting-started/">Blog</a></li>
       <li><a href="https://get.mocklab.io/pricing">Pricing</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <h3>Solutions</h3>
+    <ul>
+      <li><a href="/oauth2/">OAuth2</a></li>
     </ul>
   </div>
 
