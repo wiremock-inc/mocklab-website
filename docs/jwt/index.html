@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>How to: Import and export your mock API | MockLab</title>
+<title>JSON Web Tokens | MockLab</title>
 
 
 
@@ -36,16 +36,16 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="Mock API import/export and backup">
+<meta name="description" content="Working with JSON Web Tokens (JWTs)">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="How to: Import and export your mock API">
+<meta property="og:title" content="JSON Web Tokens">
 
 
 
 
-  <meta property="og:description" content="Mock API import/export and backup">
+  <meta property="og:description" content="Working with JSON Web Tokens (JWTs)">
 
 
 
@@ -68,10 +68,10 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2020-03-17T17:39:08+00:00">
   
-    <link rel="next" href="/docs/jwt/" title="JSON Web Tokens">
+    <link rel="next" href="/docs/mocking/" title="API Reference: Mocking">
   
   
-    <link rel="prev" href="/docs/getting-started/" title="Getting Started">
+    <link rel="prev" href="/docs/import-and-export/" title="How to: Import and export your mock API">
   
 
 
@@ -267,14 +267,14 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
       </a>
       
       <li>
-        <a href="/docs/import-and-export/" class="nav__list-item--selected">
-        
+        <a href="/docs/import-and-export/">
 
         How to: Import and export your mock API
       </a>
       
       <li>
-        <a href="/docs/jwt/">
+        <a href="/docs/jwt/" class="nav__list-item--selected">
+        
 
         JSON Web Tokens
       </a>
@@ -321,69 +321,153 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="How to: Import and export your mock API">
-    <meta itemprop="description" content="A mock API’s stubs can be exported in bulk via the admin API. This can be useful for backingup your API to source control, or cloning the contents of one API into another.">
+    <meta itemprop="headline" content="JSON Web Tokens">
+    <meta itemprop="description" content="Many modern APIs, in particular those concerned with authentication and authorization,generate JSON Web Tokens (JWTs) for their clients to use.">
     <meta itemprop="datePublished" content="March 17, 2020">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">How to: Import and export your mock API
+        <h1 class="page__title" itemprop="headline">JSON Web Tokens
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>A mock API’s stubs can be exported in bulk via the admin API. This can be useful for backing
-up your API to source control, or cloning the contents of one API into another.</p>
+        <p>Many modern APIs, in particular those concerned with authentication and authorization,
+generate <a href="https://jwt.io/" target="_blank">JSON Web Tokens (JWTs)</a> for their clients to use.</p>
 
-<p>To export (or backup) an API’s stubs, simply execute a <code class="highlighter-rouge">GET</code> request to the stub mappings admin URL e.g.:</p>
+<p>JWTs must be cryptographically signed in order to be valid, which means they cannot
+be simply be generated using ordinary templating primitives. Signing can be via
+one of a number of algorithms, but by far the two most common are <code class="highlighter-rouge">HS256</code> (shared secret)
+and <code class="highlighter-rouge">RS256</code> (public/private key).</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -v --output my-backup-file.json <span class="se">\</span>
-  -H <span class="s1">'Authorization:Token my-api-token'</span> <span class="se">\</span>
-  https://my-api.mocklab.io/__admin/mappings
+<p>In order to enable creation of valid JWTs MockLab provides a pair of template helpers
+specifically for this purpose: <code class="highlighter-rouge">jwt</code> and <code class="highlighter-rouge">jwks</code>.</p>
+
+<p>Both <code class="highlighter-rouge">HS256</code> and <code class="highlighter-rouge">RS256</code> signed tokens are supported.</p>
+
+<p>If you’d like to see these features in action, take a look at the <a href="/docs/oauth2-mock/">OAuth2 mock</a>
+hosted by MockLab, which is also available to use as an template when creating your own mock API.</p>
+
+<h2 id="generating-a-token">Generating a token</h2>
+
+<p>You can generate a token in a stub response by enabling templating
+and simply adding the following to the respobse body:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{{jwt</span><span class="w"> </span><span class="err">maxAge='12</span><span class="w"> </span><span class="err">days'</span><span class="p">}</span><span class="err">}}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>This will select defaults
+for all the required values, set a 100 year expiry term and sign the token using <code class="highlighter-rouge">HS256</code> (shared secret).</p>
+
+<h3 id="expiry-date">Expiry date</h3>
+
+<p>You can customise expiry term either by setting the <code class="highlighter-rouge">maxAge</code> parameter e.g.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{{jwt</span><span class="w"> </span><span class="err">maxAge='12</span><span class="w"> </span><span class="err">days'</span><span class="p">}</span><span class="err">}}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>or by setting an absolute expiry date e.g.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{{jwt</span><span class="w"> </span><span class="err">exp=(parseDate</span><span class="w"> </span><span class="err">'2040-02-23T21:22:23Z')</span><span class="p">}</span><span class="err">}}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>You can similarly set the <code class="highlighter-rouge">nbf</code> (not before) date:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{{jwt</span><span class="w"> </span><span class="err">nbf=(parseDate</span><span class="w"> </span><span class="err">'2018-02-23T21:22:23Z')</span><span class="p">}</span><span class="err">}}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h3 id="standard-claims">Standard claims</h3>
+
+<p>Standard claims can be set as follows.</p>
+
+<p>Issuer:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{{jwt</span><span class="w"> </span><span class="err">iss='https://jwt-example.mocklab.io/'</span><span class="p">}</span><span class="err">}}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Audience:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{{jwt</span><span class="w"> </span><span class="err">aud='https://jwt-target.mocklab.io/'</span><span class="p">}</span><span class="err">}}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Subject:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{{jwt</span><span class="w"> </span><span class="err">sub='jonsmith'</span><span class="p">}</span><span class="err">}}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h3 id="custom-claims">Custom claims</h3>
+
+<p>You can also set any custom claim you wish via named parameters e.g.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{{jwt</span><span class="w">
+    </span><span class="err">isAdmin=true</span><span class="w">
+    </span><span class="err">quota=23</span><span class="w">
+    </span><span class="err">score=0.96</span><span class="w">
+    </span><span class="err">email='jonsmith@example.mocklab.io'</span><span class="w">
+    </span><span class="err">signupDate=(parseDate</span><span class="w"> </span><span class="err">'2017-01-02T03:04:05Z')</span><span class="w">
+</span><span class="p">}</span><span class="err">}}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h3 id="signing-with-rs256">Signing with RS256</h3>
+
+<p>By setting the <code class="highlighter-rouge">alg</code> parameter, the token can be signed using the public/private key
+algorithm:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{{jwt</span><span class="w"> </span><span class="err">alg='RS256'</span><span class="p">}</span><span class="err">}}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="retrieving-keys">Retrieving keys</h2>
+
+<p>For clients to be able to validate JWTs, they need to be able to retrieve either
+the shared secret or the public key, depending on the signing algorithm.</p>
+
+<h3 id="getting-all-keys-for-your-mock-api">Getting all keys for your mock API</h3>
+
+<p>The keys used to sign tokens for a particular mock API can be retrieved via the
+settings admin API resource. To fetch these via curl, you can do the following:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -H 'Authorization:Token &lt;your MockLab API token&gt;' https://your-mock-api.mocklab.io/__admin/settings
 </code></pre>
 </div>
 
-<p>To import (or restore) a collection of stubs, execute a <code class="highlighter-rouge">POST</code> request to the stub import URL e.g.:</p>
+<p>This will return a JSON document like this, from which you can retrieve the any of the
+keys:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -v -d @my-backup-file.json <span class="se">\</span>
-  -H <span class="s1">'Authorization:Token my-api-token'</span> <span class="se">\</span>
-  https://my-target-api.mocklab.io/__admin/mappings/import
-</code></pre>
-</div>
-
-<h2 id="changing-import-behaviour">Changing import behaviour</h2>
-
-<p>By default, if the target API contains existing stubs with IDs matching those in the import, those stubs will be overwritten.
-Other existing stubs will be ignored.</p>
-
-<p>If you wish to ignore existing stubs rather than overwriting add the following to the export JSON:</p>
-
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="s2">"importOptions"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nt">"duplicatePolicy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IGNORE"</span><span class="w">
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"extended"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"jwt"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"hs256Secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"rs256PublicKeyId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"rs256PublicKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PUBLIC KEY-----\n...\n-----END RSA PUBLIC KEY-----\n"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"rs256PrivateKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----\n"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 </div>
 
-<p>If you wish to completely replace the contents of an API on import, including deleting any existing
-stubs that are not present in the import, then add the following to the export JSON:</p>
+<h3 id="the-json-web-key-set-jwks">The JSON Web Key Set (JWKS)</h3>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="s2">"importOptions"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nt">"deleteAllNotInImport"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<p>When using <code class="highlighter-rouge">RS256</code> (public/private key) signing, it is common for clients to fetch
+the public key for verification via a JSON Web Key Set (JWKS) endpoint. You serve
+a JWKS from your mock API simply by adding a stub containing the following response
+body (with templating enabled):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{{jwks</span><span class="p">}</span><span class="err">}}</span><span class="w">
 </span></code></pre>
 </div>
 
-<h2 id="exporting-from-a-wiremock-instance">Exporting from a WireMock instance</h2>
-
-<p>WireMock has the same API as MockLab so exporting works very similarly. The main
-difference is that there’s no need to supply a security token, so you can simply
-make a request like this (substituting the correct port number):</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -v --output my-backup-file.json http://localhost:8080/__admin/mappings
-</code></pre>
-</div>
-
-<p>The produced file can then be imported into MockLab exactly as described above.</p>
 
         
         <div id ="feedback">
