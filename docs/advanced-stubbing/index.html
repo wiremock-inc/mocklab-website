@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-03-17T17:39:08+00:00">
+  <meta property="article:published_time" content="2020-03-27T10:42:21+00:00">
   
     <link rel="next" href="/docs/automated-testing-with-java/" title="Automated Testing with Java">
   
@@ -321,7 +321,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Advanced Stubbing">
     <meta itemprop="description" content="In some cases matching on the URL alone is not specific enough. For instance you may want to simulate creation of a newto-do item in a RESTful API by stubbing POST to /api/to-do. In order to test both success and failure cases it will benecessary to return different responses depending on the post body (since the URL would always be the same).">
-    <meta itemprop="datePublished" content="March 17, 2020">
+    <meta itemprop="datePublished" content="March 27, 2020">
     
 
     <div class="page__inner-wrap">
@@ -401,7 +401,7 @@ it will return a match even when, for instance, the two documents have different
 
 <p><img src="/images/screenshots/equal-to-json.png" alt="JSON equality" /></p>
 
-<h3 id="placeholders">Placeholders</h3>
+<h3 id="json-placeholders">JSON Placeholders</h3>
 
 <p>JSON equality matching is implemented by <a href="https://github.com/lukas-krecan/JsonUnit">JsonUnit</a>, and
 therefore supports placeholder syntax, allowing looser specification of fields within the document.</p>
@@ -459,6 +459,48 @@ It is also possible to simply assert that the expression returns something, by s
   </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"document-created"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+</div>
+
+<h2 id="matching-xml-request-bodies">Matching XML request bodies</h2>
+
+<p>As with JSON matching, there are two match types available for working with XML: <code class="highlighter-rouge">equalToXml</code> and <code class="highlighter-rouge">matchesXPath</code>.</p>
+
+<h3 id="equality-1">Equality</h3>
+
+<p><code class="highlighter-rouge">equalToXml</code> performs a semantic comparison between the incoming and expected XML documents, meaning that it will return a match regardless of whitespace, comments and node order.</p>
+
+<h3 id="xml-placeholders">XML placeholders</h3>
+
+<p>When using <code class="highlighter-rouge">equalToXml</code> it is possible to ignore the value of specific elements using <a href="https://github.com/xmlunit/user-guide/wiki/Placeholders" target="_blank">XMLUnit</a>’s placeholder syntax. For instance if you
+expected to receive an XML request body containing a transaction ID that changed on every request you could ignore that value like this:</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;transaction&gt;</span>
+  <span class="nt">&lt;id&gt;</span>${xmlunit.ignore}<span class="nt">&lt;/id&gt;</span>
+  <span class="nt">&lt;value&gt;</span>1234<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/transaction&gt;</span>
+</code></pre>
+</div>
+
+<p>To use XML placeholders you must enable them by ticking the box:</p>
+
+<p><img src="/images/screenshots/enable-xml-placeholders.png" title="Enable XML placeholders" style="width:300px" /></p>
+
+<h3 id="xpath">XPath</h3>
+
+<p><code class="highlighter-rouge">matchesXPath</code> allows XML request bodies to be matched according to an <a href="https://www.w3schools.com/xml/xpath_syntax.asp" target="_blank">XPath</a> expression.</p>
+
+<p>For instance, an XML request body like</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;stuff&gt;</span>
+  <span class="nt">&lt;id&gt;</span>abc123<span class="nt">&lt;/id&gt;</span>
+<span class="nt">&lt;/stuff&gt;</span>
+</code></pre>
+</div>
+
+<p>could be matched using the XPath expression</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//stuff[id='abc123']
+</code></pre>
 </div>
 
 <h2 id="setting-the-response-status">Setting the response status</h2>
