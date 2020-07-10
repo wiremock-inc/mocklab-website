@@ -287,7 +287,7 @@ suitable for performance testing.</p>
 
 <p>We’ve developed a simple demo app for this tutorial. If you’d like to download and run this you can find it at <a href="https://github.com/mocklab/mocklab-demo-app" target="_blank">https://github.com/mocklab/mocklab-demo-app</a></p>
 
-<p>Once you’ve checked out the app, set the Paypal endpoint in <code class="highlighter-rouge">src/main/resources/application.properties</code> to your mock API’s base URL:</p>
+<p>Once you’ve checked out the app, set the Paypal endpoint in <code class="language-plaintext highlighter-rouge">src/main/resources/application.properties</code> to your mock API’s base URL:</p>
 
 <p><img src="/images/screenshots/paypal-article/app-config.png" alt="App configuration" style="width: 70%" /></p>
 
@@ -295,19 +295,17 @@ suitable for performance testing.</p>
 
 <p>[Linux/OSX]</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">export </span><span class="nv">PAYPAL_CLIENT_ID</span><span class="o">=</span>&lt;your client ID&gt;
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">PAYPAL_CLIENT_ID</span><span class="o">=</span>&lt;your client ID&gt;
 <span class="nb">export </span><span class="nv">PAYPAL_CLIENT_SECRET</span><span class="o">=</span>&lt;your client secret&gt;
  ./gradlew bootRun
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>[Windows]</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>set PAYPAL_CLIENT_ID=&lt;your client ID&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set PAYPAL_CLIENT_ID=&lt;your client ID&gt;
 set PAYPAL_CLIENT_SECRET=&lt;your client secret&gt;
 gradlew bootRun
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="recording-initial-stubs">Recording initial stubs</h2>
 
@@ -338,7 +336,7 @@ in a unique field by your app.</p>
 
 <h3 id="create-payment">Create payment</h3>
 
-<p>Open the create payment stub first (the one with URL <code class="highlighter-rouge">/v1/payments/payment</code>). The generated name is a bit ugly so you may wish to change this to something
+<p>Open the create payment stub first (the one with URL <code class="language-plaintext highlighter-rouge">/v1/payments/payment</code>). The generated name is a bit ugly so you may wish to change this to something
 more readable.</p>
 
 <p>Next up, in the Advanced section you’ll notice there’s a body matcher for the exact JSON that was sent during recording. We don’t need this, since we want to respond
@@ -352,21 +350,18 @@ to any create payment request, so delete this.</p>
 
 <p>Then we need to generate a random ID for each response. We can do this by first assigning a variable by adding this line at the top of the response body:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{#assign</span><span class="w"> </span><span class="err">'paymentId'</span><span class="p">}</span><span class="err">}PAY-</span><span class="p">{</span><span class="err">{randomValue</span><span class="w"> </span><span class="err">length=24</span><span class="w"> </span><span class="err">type='ALPHANUMERIC'</span><span class="w"> </span><span class="err">uppercase=true</span><span class="p">}</span><span class="err">}</span><span class="p">{</span><span class="err">{/assign</span><span class="p">}</span><span class="err">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{{#assign 'paymentId'}}PAY-{{randomValue length=24 type='ALPHANUMERIC' uppercase=true}}{{/assign}}
+</code></pre></div></div>
 
 <p>and replacing instances of the payment ID with the variable we set e.g.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"id": "{{paymentId}}"
-</code></pre>
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"id": "{{paymentId}}"
+</code></pre></div></div>
 
-<p>We also may wish to set the <code class="highlighter-rouge">create_time</code> field to the current time, rather than it being fixed at the one captured at record time:</p>
+<p>We also may wish to set the <code class="language-plaintext highlighter-rouge">create_time</code> field to the current time, rather than it being fixed at the one captured at record time:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"create_time": "{{now}}"
-</code></pre>
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"create_time": "{{now}}"
+</code></pre></div></div>
 
 <p>Putting it all together it should look something like this:</p>
 
@@ -384,11 +379,10 @@ converting it to a regular expression (not that the URL match type has also chan
 
 <p>Next we’ll give the response body the same treatment as with the create payment stub, but extracting the ID from the URL:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">{#assign</span><span class="w"> </span><span class="err">'paymentId'</span><span class="p">}</span><span class="err">}</span><span class="p">{</span><span class="err">{request.path.[3]</span><span class="p">}</span><span class="err">}</span><span class="p">{</span><span class="err">{/assign</span><span class="p">}</span><span class="err">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{{#assign 'paymentId'}}{{request.path.[3]}}{{/assign}}
+</code></pre></div></div>
 
-<p>(Ensure you change substitute the <code class="highlighter-rouge">paymentId</code> variables <code class="highlighter-rouge">now</code> variables where appropriate as before)</p>
+<p>(Ensure you change substitute the <code class="language-plaintext highlighter-rouge">paymentId</code> variables <code class="language-plaintext highlighter-rouge">now</code> variables where appropriate as before)</p>
 
 <h2 id="adding-delays-for-extra-realism">Adding delays for extra realism</h2>
 
@@ -406,23 +400,21 @@ with MockLab’s own test request maker:</p>
 
 <h2 id="load-testing">Load testing</h2>
 
-<p>Now your mock API is ready for use. You can try it out by running the JMeter from the demo project and opening <code class="highlighter-rouge">paypal-demo.jmx</code>.</p>
+<p>Now your mock API is ready for use. You can try it out by running the JMeter from the demo project and opening <code class="language-plaintext highlighter-rouge">paypal-demo.jmx</code>.</p>
 
 <p>You can start JMeter like this:</p>
 
 <p>[Linux/OSX]</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cd mocklab-demo-app
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd mocklab-demo-app
 apache-jmeter-4.0/bin/jmeter.sh
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>[Windows]</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cd mocklab-demo-app
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd mocklab-demo-app
 apache-jmeter-4.0/bin/jmeter
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><img src="/images/screenshots/paypal-article/jmeter.png" alt="JMeter" style="border:none" /></p>
 

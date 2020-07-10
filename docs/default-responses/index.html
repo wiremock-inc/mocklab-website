@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>How to: Serve a Default Response | MockLab</title>
+<title>Serving a Default Response | MockLab</title>
 
 
 
@@ -40,7 +40,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="How to: Serve a Default Response">
+<meta property="og:title" content="Serving a Default Response">
 
 
 
@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-03-27T10:42:21+00:00">
+  <meta property="article:published_time" content="2020-07-10T12:08:12+01:00">
   
     <link rel="next" href="/docs/delays/" title="Response Delays">
   
@@ -174,226 +174,336 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 <div id="main" role="main">
   
 
-
 <div class="sidebar sticky">
   <nav class="nav__list">
-
-    <ul>
+    <ul class="doc-categories">
       
+        <li class="doc-category">
+          <span class="doc-category__title">Setup & configuration</span>
+          <ul class="doc-category__links">
+            
+              
+              
+              <li>
+                <a href="/docs/getting-started/">
 
+                Getting Started
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/security/">
+
+                Security
+                </a>
+              </li>
+            
+          </ul>
+        </li>
       
-      <li>
-        <a href="/docs/getting-started/">
+        <li class="doc-category">
+          <span class="doc-category__title">Stubbing</span>
+          <ul class="doc-category__links">
+            
+              
+              
+              <li>
+                <a href="/docs/stubbing/">
 
-        Getting Started
-      </a>
+                Stubbing Basics
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/advanced-stubbing/">
+
+                Advanced Stubbing
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/delays/">
+
+                Response Delays
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/simulating-faults/">
+
+                Simulating Faults
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/stateful-scenarios/">
+
+                Simulating State with Scenarios
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/proxying/">
+
+                Proxying
+                </a>
+              </li>
+            
+          </ul>
+        </li>
       
-      <li>
-        <a href="/docs/stubbing/">
+        <li class="doc-category">
+          <span class="doc-category__title">Response templating</span>
+          <ul class="doc-category__links">
+            
+              
+              
+              <li>
+                <a href="/docs/response-templating/">
 
-        Stubbing
-      </a>
+                Response Templating
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/jwt/">
+
+                JSON Web Tokens
+                </a>
+              </li>
+            
+          </ul>
+        </li>
       
-      <li>
-        <a href="/docs/advanced-stubbing/">
+        <li class="doc-category">
+          <span class="doc-category__title">Import & export</span>
+          <ul class="doc-category__links">
+            
+              
+              
+              <li>
+                <a href="/docs/swagger/">
 
-        Advanced Stubbing
-      </a>
+                Swagger Import
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/import-and-export/">
+
+                How to: Import and export your mock API
+                </a>
+              </li>
+            
+          </ul>
+        </li>
       
-      <li>
-        <a href="/docs/response-templating/">
+        <li class="doc-category">
+          <span class="doc-category__title">Record & playback</span>
+          <ul class="doc-category__links">
+            
+              
+              
+              <li>
+                <a href="/docs/recording-stubs/">
 
-        Response Templating
-      </a>
+                Recording Stubs
+                </a>
+              </li>
+            
+          </ul>
+        </li>
       
-      <li>
-        <a href="/docs/automated-testing-with-java/">
+        <li class="doc-category">
+          <span class="doc-category__title">Policies</span>
+          <ul class="doc-category__links">
+            
+              
+              
+              <li>
+                <a href="/docs/terms-and-conditions/">
 
-        Automated Testing with Java
-      </a>
+                MockLab Terms of Service
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/privacy-policy/">
+
+                Privacy Policy
+                </a>
+              </li>
+            
+          </ul>
+        </li>
       
-      <li>
-        <a href="/docs/recording-stubs/">
+        <li class="doc-category">
+          <span class="doc-category__title">Tutorials</span>
+          <ul class="doc-category__links">
+            
+              
+              
+              <li>
+                <a href="/docs/soap-stubbing/">
 
-        Recording Stubs
-      </a>
+                Stubbing a SOAP response
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/exploratory-testing-tutorial/">
+
+                Exploratory Testing a Spring Boot App
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/automated-testing-with-java/">
+
+                Automated Testing with Java
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/default-responses/" class="nav__list-item--selected">
+                
+
+                Serving a Default Response
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/oauth2-mock/">
+
+                The OAuth2 / OpenID Connect Mock
+                </a>
+              </li>
+            
+          </ul>
+        </li>
       
-      <li>
-        <a href="/docs/stateful-scenarios/">
+        <li class="doc-category">
+          <span class="doc-category__title">API references</span>
+          <ul class="doc-category__links">
+            
+              
+              
+              <li>
+                <a href="/docs/mocking/">
 
-        Simulating State with Scenarios
-      </a>
-      
-      <li>
-        <a href="/docs/simulating-faults/">
+                API Reference: Mocking
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/provisioning/">
 
-        Simulating Faults
-      </a>
-      
-      <li>
-        <a href="/docs/delays/">
-
-        Response Delays
-      </a>
-      
-      <li>
-        <a href="/docs/proxying/">
-
-        Proxying
-      </a>
-      
-      <li>
-        <a href="/docs/swagger/">
-
-        Swagger Import
-      </a>
-      
-      <li>
-        <a href="/docs/security/">
-
-        Security
-      </a>
-      
-      <li>
-        <a href="/docs/default-responses/" class="nav__list-item--selected">
-        
-
-        How to: Serve a Default Response
-      </a>
-      
-      <li>
-        <a href="/docs/soap-stubbing/">
-
-        How to: Stub a SOAP response
-      </a>
-      
-      <li>
-        <a href="/docs/import-and-export/">
-
-        How to: Import and export your mock API
-      </a>
-      
-      <li>
-        <a href="/docs/jwt/">
-
-        JSON Web Tokens
-      </a>
-      
-      <li>
-        <a href="/docs/exploratory-testing-tutorial/">
-
-        Tutorial: Testing a Spring Boot App
-      </a>
-      
-      <li>
-        <a href="/docs/oauth2-mock/">
-
-        The OAuth2 / OpenID Connect Mock
-      </a>
-      
-      <li>
-        <a href="/docs/provisioning/">
-
-        API Reference: Provisioning
-      </a>
-      
-      <li>
-        <a href="/docs/mocking/">
-
-        API Reference: Mocking
-      </a>
-      
-      <li>
-        <a href="/docs/terms-and-conditions/">
-
-        MockLab Terms of Service
-      </a>
-      
-      <li>
-        <a href="/docs/privacy-policy/">
-
-        Privacy Policy
-      </a>
+                API Reference: Provisioning
+                </a>
+              </li>
+            
+          </ul>
+        </li>
       
     </ul>
+
   </nav>
 </div>
 
 
-  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="How to: Serve a Default Response">
+  <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Serving a Default Response">
     <meta itemprop="description" content="By default MockLab will serve a generic 404 page if an incoming HTTP request is not matched to any stub mapping.Often this is not a problem, but in some instances it is desirable to serve your own response.">
-    <meta itemprop="datePublished" content="March 27, 2020">
+    <meta itemprop="datePublished" content="July 10, 2020">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">How to: Serve a Default Response
+        <h1 class="page__title" itemprop="headline">Serving a Default Response
 </h1>
       </header>
       <section class="page__content" itemprop="text">
         <p>By default MockLab will serve a generic 404 page if an incoming HTTP request is not matched to any stub mapping.
 Often this is not a problem, but in some instances it is desirable to serve your own response.</p>
 
-<p>This can be achieved using the Priority parameter when creating stubs. By creating a stub which has loose (non-specific) 
+<p>This can be achieved using the Priority parameter when creating stubs. By creating a stub which has loose (non-specific)
 matching criteria and a low priority setting, requests will “fall through” to this if they’re not matched to a more specific stub.</p>
 
 <h2 id="example">Example</h2>
 
-<p>Suppose you want to serve a <code class="highlighter-rouge">403 Unauthorized</code> response with a meaningful response body when a request is not matched rather than the default 404. Additionally you
-want to serve 200 response when a <code class="highlighter-rouge">GET</code> request is made to <code class="highlighter-rouge">/examples/12</code>.</p>
+<p>Suppose you want to serve a <code class="language-plaintext highlighter-rouge">403 Unauthorized</code> response with a meaningful response body when a request is not matched rather than the default 404. Additionally you
+want to serve 200 response when a <code class="language-plaintext highlighter-rouge">GET</code> request is made to <code class="language-plaintext highlighter-rouge">/examples/12</code>.</p>
 
-<p>Start by creating a stub with <code class="highlighter-rouge">ANY</code> as the method. Open the Advanced section and change the URL match type to <code class="highlighter-rouge">Any URL</code>.
+<p>Start by creating a stub with <code class="language-plaintext highlighter-rouge">ANY</code> as the method. Open the Advanced section and change the URL match type to <code class="language-plaintext highlighter-rouge">Any URL</code>.
 Also in the Advanced section set the Priority to 10 (the lowest).</p>
 
 <p><img src="/images/screenshots/default-response-example-request.png" title="Default request" /></p>
 
-<p>In the Response section, set the Status to <code class="highlighter-rouge">403</code> and the body content to <code class="highlighter-rouge">"Sorry, you can't do that"</code>.</p>
+<p>In the Response section, set the Status to <code class="language-plaintext highlighter-rouge">403</code> and the body content to <code class="language-plaintext highlighter-rouge">"Sorry, you can't do that"</code>.</p>
 
 <p><img src="/images/screenshots/default-response-example-response.png" title="Default response" /></p>
 
-<p>Create a second stub with the method set to <code class="highlighter-rouge">GET</code>, the URL to <code class="highlighter-rouge">/examples/12</code> and the response body to <code class="highlighter-rouge">"Example 12 body"</code> (keeping the Status as <code class="highlighter-rouge">200</code>).</p>
+<p>Create a second stub with the method set to <code class="language-plaintext highlighter-rouge">GET</code>, the URL to <code class="language-plaintext highlighter-rouge">/examples/12</code> and the response body to <code class="language-plaintext highlighter-rouge">"Example 12 body"</code> (keeping the Status as <code class="language-plaintext highlighter-rouge">200</code>).</p>
 
-<p>Now if you make a request that matches the specific stub you will see a response with a <code class="highlighter-rouge">200</code> status and the success message:</p>
+<p>Now if you make a request that matches the specific stub you will see a response with a <code class="language-plaintext highlighter-rouge">200</code> status and the success message:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl -v http://example.mocklab.io/examples/12
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -v http://example.mocklab.io/examples/12
 
 &gt; GET /examples/12 HTTP/1.1
 &gt; Host: example.mocklab.io
 &gt; User-Agent: curl/7.54.0
 &gt; Accept: */*
-&gt; 
+&gt;
 &lt; HTTP/1.1 200 OK
 &lt; Transfer-Encoding: chunked
-&lt; 
+&lt;
 Example 12 body
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<p>Whereas if you make a request to a URL with no stub to match you will see the default <code class="highlighter-rouge">403</code> response.</p>
+<p>Whereas if you make a request to a URL with no stub to match you will see the default <code class="language-plaintext highlighter-rouge">403</code> response.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl -v http://example.mocklab.io/examples/12222222
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -v http://example.mocklab.io/examples/12222222
 
 &gt; GET /examples/12222222 HTTP/1.1
 &gt; Host: example.mocklab.io
 &gt; User-Agent: curl/7.54.0
 &gt; Accept: */*
-&gt; 
+&gt;
 &lt; HTTP/1.1 403 Forbidden
 &lt; Transfer-Encoding: chunked
-&lt; 
+&lt;
 Sorry, you can't do that
-</code></pre>
-</div>
-
+</code></pre></div></div>
 
         
-        <div id ="feedback">
-        <p id ="feedback_title">Was this article helpful?<br></p>
-        <p class ="emoji" id ="happy_emoji">😁</p>
-        <p class ="emoji" id ="neutral_emoji">😐</p>
-        <p class ="emoji" id ="sad_emoji">😔</p>
-      </div>
       </section>
 
       <footer class="page__meta">
