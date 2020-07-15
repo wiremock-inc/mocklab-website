@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Simulating State with Scenarios | MockLab</title>
+<title>Response Templating - JSON Web Tokens (JWT) | MockLab</title>
 
 
 
@@ -36,16 +36,16 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="Return different responses based on a state machine">
+<meta name="description" content="Working with JSON Web Tokens (JWTs)">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Simulating State with Scenarios">
+<meta property="og:title" content="Response Templating - JSON Web Tokens (JWT)">
 
 
 
 
-  <meta property="og:description" content="Return different responses based on a state machine">
+  <meta property="og:description" content="Working with JSON Web Tokens (JWTs)">
 
 
 
@@ -68,10 +68,10 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2020-07-15T17:09:38+01:00">
   
-    <link rel="next" href="/docs/stubbing/" title="Stubbing Basics">
+    <link rel="next" href="/docs/response-templating/misc-helpers/" title="Response Templating - Miscellaneous Helpers">
   
   
-    <link rel="prev" href="/docs/soap-stubbing/" title="Stubbing a SOAP response">
+    <link rel="prev" href="/docs/response-templating/json/" title="Response Templating - Working with JSON">
   
 
 
@@ -252,8 +252,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/stateful-scenarios/" class="nav__list-item--selected">
-                
+                <a href="/docs/stateful-scenarios/">
 
                 
                 Simulating State with Scenarios
@@ -360,7 +359,8 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/response-templating/jwt/">
+                <a href="/docs/response-templating/jwt/" class="nav__list-item--selected">
+                
 
                 
                 JSON Web Tokens (JWT)
@@ -542,79 +542,141 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Simulating State with Scenarios">
-    <meta itemprop="description" content="Some testing activities require that different responses be served for a sequence of identical requests. For instanceif you are testing a to-do list application such as this one you may wish to startwith no to-do list items, post a new item, then see the item appear in the list.">
+    <meta itemprop="headline" content="Response Templating - JSON Web Tokens (JWT)">
+    <meta itemprop="description" content="Many modern APIs, in particular those concerned with authentication and authorization,generate JSON Web Tokens (JWTs) for their clients to use.">
     <meta itemprop="datePublished" content="July 15, 2020">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Simulating State with Scenarios
+        <h1 class="page__title" itemprop="headline">Response Templating - JSON Web Tokens (JWT)
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>Some testing activities require that different responses be served for a sequence of identical requests. For instance
-if you are testing a to-do list application <a href="/docs/exploratory-testing-tutorial/">such as this one</a> you may wish to start
-with no to-do list items, post a new item, then see the item appear in the list.</p>
+        <p>Many modern APIs, in particular those concerned with authentication and authorization,
+generate <a href="https://jwt.io/" target="_blank">JSON Web Tokens (JWTs)</a> for their clients to use.</p>
 
-<p>Assuming there is a “list to-do items” API call used to fetch the list, this must be called twice during the above test,
-returning no items on the first invocation, and the newly added item on the second. Since both of these requests will be
-identical (same URL, method, request headers), something additional is required for MockLab to differentiate the first and
-second cases.</p>
+<p>JWTs must be cryptographically signed in order to be valid, which means they cannot
+be simply be generated using ordinary templating primitives. Signing can be via
+one of a number of algorithms, but by far the two most common are <code class="language-plaintext highlighter-rouge">HS256</code> (shared secret)
+and <code class="language-plaintext highlighter-rouge">RS256</code> (public/private key).</p>
 
-<p>MockLab’s Scenarios solve this problem by providing finite state machines that can be used as additional stub matching conditions.
-They allow more than one definition of an otherwise identical stub with different responses based on the current state of the machine.</p>
+<p>In order to enable creation of valid JWTs MockLab provides a pair of template helpers
+specifically for this purpose: <code class="language-plaintext highlighter-rouge">jwt</code> and <code class="language-plaintext highlighter-rouge">jwks</code>.</p>
 
-<h2 id="example">Example</h2>
+<p>Both <code class="language-plaintext highlighter-rouge">HS256</code> and <code class="language-plaintext highlighter-rouge">RS256</code> signed tokens are supported.</p>
 
-<p>To implement the above case, you would declare that the stub returning the empty list is only matched when the scenario state is “Started”,
-while the stub returning the list with one item is only matched when the scenario state is “First item added”.</p>
+<p>If you’d like to see these features in action, take a look at the <a href="/docs/oauth2-mock/">OAuth2 mock</a>
+hosted by MockLab, which is also available to use as an template when creating your own mock API.</p>
 
-<p>Start by creating the empty list stub, which is matched only when the scenario named “To do list” is in the “Started” state:</p>
+<h2 id="generating-a-token">Generating a token</h2>
 
-<p><img title="Empty to-do list stub" src="/images/screenshots/scenarios-empty-list-stub.png" /></p>
+<p>You can generate a token in a stub response by enabling templating
+and simply adding the following to the respobse body:</p>
 
-<p>Then create a stub to handle posting of the first list item. When triggered this stub will move the scenario state to “First item added”:</p>
-
-<p><img title="To-do list POST stub" src="/images/screenshots/scenarios-post-item-stub.png" /></p>
-
-<p>Finally, create a stub to return the list containing one item, which is matched only then the scenario is in the “First item added” state:</p>
-
-<p><img title="Single item to-to list stub" src="/images/screenshots/scenario-single-item-stub.png" /></p>
-
-<h2 id="testing">Testing</h2>
-
-<p>First, make a <code class="language-plaintext highlighter-rouge">GET</code> request to fetch the list, which should be empty. You should be able to do this any number of times
-without the result changing:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": []
-}
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">maxAge</span><span class="o">=</span><span class="s1">'12 days'</span><span class="k">}}}</span>
 </code></pre></div></div>
 
-<p>Now <code class="language-plaintext highlighter-rouge">POST</code> a new item (it actually doesn’t matter what the request body contains, since we didn’t specify a body matcher in the stub):</p>
+<p>This will select defaults
+for all the required values, set a 100 year expiry term and sign the token using <code class="language-plaintext highlighter-rouge">HS256</code> (shared secret).</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items -X POST
+<h3 id="expiry-date">Expiry date</h3>
+
+<p>You can customise expiry term either by setting the <code class="language-plaintext highlighter-rouge">maxAge</code> parameter e.g.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">maxAge</span><span class="o">=</span><span class="s1">'12 days'</span><span class="k">}}}</span>
 </code></pre></div></div>
 
-<p>This should now have moved the scenario state to “First item added”. Getting the list of items again should now return one item:</p>
+<p>or by setting an absolute expiry date e.g.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": [
-    {
-      "id": "1",
-      "description": "Read all about Scenarios"
-    }
-  ]
-}
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">exp</span><span class="o">=</span><span class="p">(</span><span class="nv">parseDate</span> <span class="s1">'2040-02-23T21:22:23Z'</span><span class="p">)</span><span class="k">}}}</span>
 </code></pre></div></div>
 
-<h2 id="scenario-reset">Scenario reset</h2>
+<p>You can similarly set the <code class="language-plaintext highlighter-rouge">nbf</code> (not before) date:</p>
 
-<p>All scenarios can be reset to their
-“Started” state by clicking <img src="/images/screenshots/scenario-reset-button.png" title="Scenario reset button" style="border: none; height: 50px;" />.</p>
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">nbf</span><span class="o">=</span><span class="p">(</span><span class="nv">parseDate</span> <span class="s1">'2018-02-23T21:22:23Z'</span><span class="p">)</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<h3 id="standard-claims">Standard claims</h3>
+
+<p>Standard claims can be set as follows.</p>
+
+<p>Issuer:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">iss</span><span class="o">=</span><span class="s1">'https://jwt-example.mocklab.io/'</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<p>Audience:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">aud</span><span class="o">=</span><span class="s1">'https://jwt-target.mocklab.io/'</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<p>Subject:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">sub</span><span class="o">=</span><span class="s1">'jonsmith'</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<h3 id="custom-claims">Custom claims</h3>
+
+<p>You can also set any custom claim you wish via named parameters e.g.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span>
+    <span class="nv">isAdmin</span><span class="o">=</span><span class="kc">true</span>
+    <span class="nv">quota</span><span class="o">=</span><span class="nv">23</span>
+    <span class="nv">score</span><span class="o">=</span><span class="nv">0</span><span class="p">.</span><span class="nv">96</span>
+    <span class="nv">email</span><span class="o">=</span><span class="s1">'jonsmith@example.mocklab.io'</span>
+    <span class="nv">signupDate</span><span class="o">=</span><span class="p">(</span><span class="nv">parseDate</span> <span class="s1">'2017-01-02T03:04:05Z'</span><span class="p">)</span>
+<span class="k">}}}</span>
+</code></pre></div></div>
+
+<h3 id="signing-with-rs256">Signing with RS256</h3>
+
+<p>By setting the <code class="language-plaintext highlighter-rouge">alg</code> parameter, the token can be signed using the public/private key
+algorithm:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">alg</span><span class="o">=</span><span class="s1">'RS256'</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<h2 id="retrieving-keys">Retrieving keys</h2>
+
+<p>For clients to be able to validate JWTs, they need to be able to retrieve either
+the shared secret or the public key, depending on the signing algorithm.</p>
+
+<h3 id="getting-all-keys-for-your-mock-api">Getting all keys for your mock API</h3>
+
+<p>The keys used to sign tokens for a particular mock API can be retrieved via the
+settings admin API resource. To fetch these via curl, you can do the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -H 'Authorization:Token &lt;your MockLab API token&gt;' https://your-mock-api.mocklab.io/__admin/settings
+</code></pre></div></div>
+
+<p>This will return a JSON document like this, from which you can retrieve the any of the
+keys:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"extended"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"jwt"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"hs256Secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"rs256PublicKeyId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"rs256PublicKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PUBLIC KEY-----</span><span class="se">\n</span><span class="s2">...</span><span class="se">\n</span><span class="s2">-----END RSA PUBLIC KEY-----</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"rs256PrivateKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----</span><span class="se">\n</span><span class="s2">...</span><span class="se">\n</span><span class="s2">-----END RSA PRIVATE KEY-----</span><span class="se">\n</span><span class="s2">"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="the-json-web-key-set-jwks">The JSON Web Key Set (JWKS)</h3>
+
+<p>When using <code class="language-plaintext highlighter-rouge">RS256</code> (public/private key) signing, it is common for clients to fetch
+the public key for verification via a JSON Web Key Set (JWKS) endpoint. You serve
+a JWKS from your mock API simply by adding a stub containing the following response
+body (with templating enabled):</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwks</span><span class="k">}}}</span>
+</code></pre></div></div>
+
 
         
       </section>

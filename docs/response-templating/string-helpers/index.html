@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Simulating State with Scenarios | MockLab</title>
+<title>Response Templating - String Helpers | MockLab</title>
 
 
 
@@ -36,16 +36,16 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="Return different responses based on a state machine">
+<meta name="description" content="Working with strings">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Simulating State with Scenarios">
+<meta property="og:title" content="Response Templating - String Helpers">
 
 
 
 
-  <meta property="og:description" content="Return different responses based on a state machine">
+  <meta property="og:description" content="Working with strings">
 
 
 
@@ -68,10 +68,10 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2020-07-15T17:09:38+01:00">
   
-    <link rel="next" href="/docs/stubbing/" title="Stubbing Basics">
+    <link rel="next" href="/docs/response-templating/xml/" title="Response Templating - Working with XML">
   
   
-    <link rel="prev" href="/docs/soap-stubbing/" title="Stubbing a SOAP response">
+    <link rel="prev" href="/docs/response-templating/string-encodings/" title="Response Templating - String Encodings">
   
 
 
@@ -252,8 +252,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/stateful-scenarios/" class="nav__list-item--selected">
-                
+                <a href="/docs/stateful-scenarios/">
 
                 
                 Simulating State with Scenarios
@@ -300,7 +299,8 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/response-templating/string-helpers/">
+                <a href="/docs/response-templating/string-helpers/" class="nav__list-item--selected">
+                
 
                 
                 String Helpers
@@ -542,79 +542,201 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Simulating State with Scenarios">
-    <meta itemprop="description" content="Some testing activities require that different responses be served for a sequence of identical requests. For instanceif you are testing a to-do list application such as this one you may wish to startwith no to-do list items, post a new item, then see the item appear in the list.">
+    <meta itemprop="headline" content="Response Templating - String Helpers">
+    <meta itemprop="description" content="MockLab provides a set of string manipulation helpers.">
     <meta itemprop="datePublished" content="July 15, 2020">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Simulating State with Scenarios
+        <h1 class="page__title" itemprop="headline">Response Templating - String Helpers
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>Some testing activities require that different responses be served for a sequence of identical requests. For instance
-if you are testing a to-do list application <a href="/docs/exploratory-testing-tutorial/">such as this one</a> you may wish to start
-with no to-do list items, post a new item, then see the item appear in the list.</p>
+        <p>MockLab provides a set of string manipulation helpers.</p>
 
-<p>Assuming there is a “list to-do items” API call used to fetch the list, this must be called twice during the above test,
-returning no items on the first invocation, and the newly added item on the second. Since both of these requests will be
-identical (same URL, method, request headers), something additional is required for MockLab to differentiate the first and
-second cases.</p>
+<h2 id="regular-expression-extract">Regular expression extract</h2>
 
-<p>MockLab’s Scenarios solve this problem by providing finite state machines that can be used as additional stub matching conditions.
-They allow more than one definition of an otherwise identical stub with different responses based on the current state of the machine.</p>
+<p>The <code class="language-plaintext highlighter-rouge">regexExtract</code> helper supports extraction of values matching a regular expresson from a string.</p>
 
-<h2 id="example">Example</h2>
+<p>A single value can be extracted like this:</p>
 
-<p>To implement the above case, you would declare that the stub returning the empty list is only matched when the scenario state is “Started”,
-while the stub returning the list with one item is only matched when the scenario state is “First item added”.</p>
-
-<p>Start by creating the empty list stub, which is matched only when the scenario named “To do list” is in the “Started” state:</p>
-
-<p><img title="Empty to-do list stub" src="/images/screenshots/scenarios-empty-list-stub.png" /></p>
-
-<p>Then create a stub to handle posting of the first list item. When triggered this stub will move the scenario state to “First item added”:</p>
-
-<p><img title="To-do list POST stub" src="/images/screenshots/scenarios-post-item-stub.png" /></p>
-
-<p>Finally, create a stub to return the list containing one item, which is matched only then the scenario is in the “First item added” state:</p>
-
-<p><img title="Single item to-to list stub" src="/images/screenshots/scenario-single-item-stub.png" /></p>
-
-<h2 id="testing">Testing</h2>
-
-<p>First, make a <code class="language-plaintext highlighter-rouge">GET</code> request to fetch the list, which should be empty. You should be able to do this any number of times
-without the result changing:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": []
-}
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">regexExtract</span> <span class="nv">request</span><span class="p">.</span><span class="nv">body</span> <span class="s1">'[A-Z]+'</span><span class="k">}}</span>"
 </code></pre></div></div>
 
-<p>Now <code class="language-plaintext highlighter-rouge">POST</code> a new item (it actually doesn’t matter what the request body contains, since we didn’t specify a body matcher in the stub):</p>
+<p>Regex groups can be used to extract multiple parts into an object for later use (the last parameter is a variable name to which the object will be assigned):</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items -X POST
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">regexExtract</span> <span class="nv">request</span><span class="p">.</span><span class="nv">body</span> <span class="s1">'([a-z]+)-([A-Z]+)-([0-9]+)'</span> <span class="s1">'parts'</span><span class="k">}}</span>
+<span class="k">{{</span><span class="nv">parts</span><span class="p">.</span><span class="nv">0</span><span class="k">}}</span>,<span class="k">{{</span><span class="nv">parts</span><span class="p">.</span><span class="nv">1</span><span class="k">}}</span>,<span class="k">{{</span><span class="nv">parts</span><span class="p">.</span><span class="nv">2</span><span class="k">}}</span>
 </code></pre></div></div>
 
-<p>This should now have moved the scenario state to “First item added”. Getting the list of items again should now return one item:</p>
+<h2 id="string-transformation-helpers">String transformation helpers</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": [
-    {
-      "id": "1",
-      "description": "Read all about Scenarios"
-    }
-  ]
-}
+<h3 id="trim">Trim</h3>
+<p>Use the <code class="language-plaintext highlighter-rouge">trim</code> helper to remove whitespace from the start and end of the input:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">trim</span> <span class="nv">request</span><span class="p">.</span><span class="nv">headers</span><span class="p">.</span><span class="nv">X-Padded-Header</span><span class="k">}}</span> // Inline
+
+<span class="k">{{#</span><span class="nn">trim</span><span class="k">}}</span>                                // Block
+
+    Some stuff with whitespace
+
+<span class="k">{{/</span><span class="nn">trim</span><span class="k">}}</span>
 </code></pre></div></div>
 
-<h2 id="scenario-reset">Scenario reset</h2>
+<h3 id="abbreviate">Abbreviate</h3>
+<p><code class="language-plaintext highlighter-rouge">abbreviate</code> truncates a string if it is longer than the specified number of characters.
+Truncated strings will end with a translatable ellipsis sequence (“…”).</p>
 
-<p>All scenarios can be reset to their
-“Started” state by clicking <img src="/images/screenshots/scenario-reset-button.png" title="Scenario reset button" style="border: none; height: 50px;" />.</p>
+<p>For instance the following template:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">abbreviate</span> <span class="s1">'Mocking APIs helps you develop faster'</span> <span class="nv">21</span> <span class="k">}}</span> // Mocking APIs helps...
+</code></pre></div></div>
+
+<h3 id="capitalisation">Capitalisation</h3>
+<p><code class="language-plaintext highlighter-rouge">capitalize</code> will make the first letter of each word in the passed string a capital e.g.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">capitalize</span> <span class="s1">'mock my stuff'</span><span class="k">}}</span> // Mock My Stuff
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">capitalizeFirst</code> will capitalise the first character of the value passed e.g.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">capitalizeFirst</span> <span class="s1">'mock my stuff'</span><span class="k">}}</span> // Mock my stuff
+</code></pre></div></div>
+
+<h3 id="center">Center</h3>
+<p><code class="language-plaintext highlighter-rouge">center</code> centers the value in a field of a given width e.g.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">center</span> <span class="s1">'hello'</span> <span class="nv">size</span><span class="o">=</span><span class="nv">21</span><span class="k">}}</span>
+</code></pre></div></div>
+
+<p>will output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        hello        
+</code></pre></div></div>
+
+<p>You can also specify the padding character e.g.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">center</span> <span class="s1">'hello'</span> <span class="nv">size</span><span class="o">=</span><span class="nv">21</span> <span class="nv">pad</span><span class="o">=</span><span class="s1">'#'</span><span class="k">}}</span>
+</code></pre></div></div>
+
+<p>will output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>########hello########
+</code></pre></div></div>
+
+<h3 id="cut">Cut</h3>
+
+<p><code class="language-plaintext highlighter-rouge">cut</code> removes all instances of the parameter from the given string.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">cut</span> <span class="s1">'mocking, stubbing, faults'</span> <span class="s1">','</span><span class="k">}}</span> // mocking stubbing faults
+</code></pre></div></div>
+
+<h3 id="default-if-empty">Default if empty</h3>
+
+<p><code class="language-plaintext highlighter-rouge">defaultIfEmpty</code> outputs the passed value if it is not empty, or the default otherwise e.g.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">defaultIfEmpty</span> <span class="s1">'my value'</span> <span class="s1">'default'</span><span class="k">}}</span> // my value
+
+<span class="k">{{</span><span class="nv">defaultIfEmpty</span> <span class="s1">''</span> <span class="s1">'default'</span><span class="k">}}</span>         // default
+</code></pre></div></div>
+
+<h3 id="join">Join</h3>
+<p><code class="language-plaintext highlighter-rouge">join</code> takes a set of parameters or a collection and builds a single string, with
+each item separated by the specified parameter.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">join</span> <span class="s1">'Mark'</span> <span class="s1">'Rob'</span> <span class="s1">'Dan'</span> <span class="s1">', '</span><span class="k">}}</span> // Mark, Rob, Dan
+</code></pre></div></div>
+
+<p>You can optionally specify a prefix and suffix:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">join</span> <span class="s1">'Mark'</span> <span class="s1">'Rob'</span> <span class="s1">'Dan'</span> <span class="s1">', '</span> <span class="nv">prefix</span><span class="o">=</span><span class="s1">'['</span> <span class="nv">suffix</span><span class="o">=</span><span class="s1">']'</span><span class="k">}}</span> // [Mark, Rob, Dan]
+</code></pre></div></div>
+
+<h3 id="justify-left-and-right">Justify left and right</h3>
+
+<p><code class="language-plaintext highlighter-rouge">ljust</code> left-aligns the value in a field of a given width, optionally taking a padding character.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">ljust</span> <span class="s1">'things'</span> <span class="nv">size</span><span class="o">=</span><span class="nv">20</span><span class="k">}}</span>         // 'things              '
+<span class="k">{{</span><span class="nv">ljust</span> <span class="s1">'things'</span> <span class="nv">size</span><span class="o">=</span><span class="nv">20</span> <span class="nv">pad</span><span class="o">=</span><span class="s1">'#'</span><span class="k">}}</span> // 'things##############'
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">rjust</code> right-aligns the value in the same manner</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">rjust</span> <span class="s1">'things'</span> <span class="nv">size</span><span class="o">=</span><span class="nv">20</span><span class="k">}}</span>         // '              things'
+<span class="k">{{</span><span class="nv">rjust</span> <span class="s1">'things'</span> <span class="nv">size</span><span class="o">=</span><span class="nv">20</span> <span class="nv">pad</span><span class="o">=</span><span class="s1">'#'</span><span class="k">}}</span> // '##############things'
+</code></pre></div></div>
+
+<h3 id="lower-and-upper-case">Lower and upper case</h3>
+
+<p><code class="language-plaintext highlighter-rouge">lower</code> and <code class="language-plaintext highlighter-rouge">upper</code> convert the value to all lowercase and all uppercase:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">lower</span> <span class="s1">'MockLab'</span><span class="k">}}</span> // mocklab
+<span class="k">{{</span><span class="nv">upper</span> <span class="s1">'MockLab'</span><span class="k">}}</span> // MOCKLAB
+</code></pre></div></div>
+
+<h3 id="replace">Replace</h3>
+
+<p><code class="language-plaintext highlighter-rouge">replace</code> replaces all occurrences of the specified substring with the replacement value.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">replace</span> <span class="s1">'the wrong way'</span> <span class="s1">'wrong'</span> <span class="s1">'right'</span> <span class="k">}}</span> // the right way
+</code></pre></div></div>
+
+<h3 id="slugify">Slugify</h3>
+
+<p><code class="language-plaintext highlighter-rouge">slugify</code> converts to lowercase, removes non-word characters (alphanumerics and
+underscores) and converts spaces to hyphens. Also strips leading and trailing whitespace.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">slugify</span> <span class="s1">'Mock my APIs'</span><span class="k">}}</span> // mock-my-apis
+</code></pre></div></div>
+
+<h3 id="strip-tags">Strip tags</h3>
+
+<p><code class="language-plaintext highlighter-rouge">stripTags</code> strips all [X]HTML tags.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">stripTags</span> <span class="s1">'&lt;greeting&gt;hi&lt;/greeting&gt;'</span><span class="k">}}</span> // hi
+</code></pre></div></div>
+
+<h3 id="substring">Substring</h3>
+
+<p><code class="language-plaintext highlighter-rouge">substring</code> outputs the portion of a string value between two indices. If only
+one index is specified the substring between this point and the end will be returned.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">substring</span> <span class="s1">'one two'</span> <span class="nv">4</span><span class="k">}}</span>   // two
+<span class="k">{{</span><span class="nv">substring</span> <span class="s1">'one two'</span> <span class="nv">0</span> <span class="nv">3</span><span class="k">}}</span> // one
+</code></pre></div></div>
+
+<h3 id="word-wrap">Word wrap</h3>
+
+<p><code class="language-plaintext highlighter-rouge">wordWrap</code> wraps words at specified line length.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">wordWrap</span> <span class="s1">'one two three'</span> <span class="nv">4</span><span class="k">}}</span>
+</code></pre></div></div>
+
+<p>will output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>one
+two
+three
+</code></pre></div></div>
+
+<h3 id="yesno">Yes/no</h3>
+
+<p><code class="language-plaintext highlighter-rouge">yesno</code> maps values for true, false and optionally null, to the strings “yes”,
+“no”, “maybe”.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">yesno</span> <span class="kc">true</span><span class="k">}}</span>   // yes
+<span class="k">{{</span><span class="nv">yesno</span> <span class="kc">false</span><span class="k">}}</span>  // no
+<span class="k">{{</span><span class="nv">yesno</span> <span class="nv">null</span><span class="k">}}</span>   // maybe
+</code></pre></div></div>
+
+<p>You can also specify different strings to represent each state:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">yesno</span> <span class="kc">true</span> <span class="nv">yes</span><span class="o">=</span><span class="s1">'aye'</span><span class="k">}}</span>    // aye
+<span class="k">{{</span><span class="nv">yesno</span> <span class="kc">false</span> <span class="nv">no</span><span class="o">=</span><span class="s1">'nay'</span><span class="k">}}</span>    // nay
+<span class="k">{{</span><span class="nv">yesno</span> <span class="nv">null</span> <span class="nv">maybe</span><span class="o">=</span><span class="s1">'meh'</span><span class="k">}}</span>  // meh
+</code></pre></div></div>
+
 
         
       </section>

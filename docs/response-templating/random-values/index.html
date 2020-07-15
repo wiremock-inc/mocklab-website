@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Simulating State with Scenarios | MockLab</title>
+<title>Response Templating - Random Values | MockLab</title>
 
 
 
@@ -36,16 +36,16 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="Return different responses based on a state machine">
+<meta name="description" content="Generating random values">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Simulating State with Scenarios">
+<meta property="og:title" content="Response Templating - Random Values">
 
 
 
 
-  <meta property="og:description" content="Return different responses based on a state machine">
+  <meta property="og:description" content="Generating random values">
 
 
 
@@ -68,10 +68,10 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2020-07-15T17:09:38+01:00">
   
-    <link rel="next" href="/docs/stubbing/" title="Stubbing Basics">
+    <link rel="next" href="/docs/response-templating/string-encodings/" title="Response Templating - String Encodings">
   
   
-    <link rel="prev" href="/docs/soap-stubbing/" title="Stubbing a SOAP response">
+    <link rel="prev" href="/docs/response-templating/misc-helpers/" title="Response Templating - Miscellaneous Helpers">
   
 
 
@@ -252,8 +252,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/stateful-scenarios/" class="nav__list-item--selected">
-                
+                <a href="/docs/stateful-scenarios/">
 
                 
                 Simulating State with Scenarios
@@ -330,7 +329,8 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/response-templating/random-values/">
+                <a href="/docs/response-templating/random-values/" class="nav__list-item--selected">
+                
 
                 
                 Random Values
@@ -542,79 +542,56 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Simulating State with Scenarios">
-    <meta itemprop="description" content="Some testing activities require that different responses be served for a sequence of identical requests. For instanceif you are testing a to-do list application such as this one you may wish to startwith no to-do list items, post a new item, then see the item appear in the list.">
+    <meta itemprop="headline" content="Response Templating - Random Values">
+    <meta itemprop="description" content="MockLab provides two random value helpers - randomValue and pickRandom.">
     <meta itemprop="datePublished" content="July 15, 2020">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Simulating State with Scenarios
+        <h1 class="page__title" itemprop="headline">Response Templating - Random Values
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>Some testing activities require that different responses be served for a sequence of identical requests. For instance
-if you are testing a to-do list application <a href="/docs/exploratory-testing-tutorial/">such as this one</a> you may wish to start
-with no to-do list items, post a new item, then see the item appear in the list.</p>
+        <p>MockLab provides two random value helpers - <code class="language-plaintext highlighter-rouge">randomValue</code> and <code class="language-plaintext highlighter-rouge">pickRandom</code>.</p>
 
-<p>Assuming there is a “list to-do items” API call used to fetch the list, this must be called twice during the above test,
-returning no items on the first invocation, and the newly added item on the second. Since both of these requests will be
-identical (same URL, method, request headers), something additional is required for MockLab to differentiate the first and
-second cases.</p>
+<h2 id="random-value">Random value</h2>
 
-<p>MockLab’s Scenarios solve this problem by providing finite state machines that can be used as additional stub matching conditions.
-They allow more than one definition of an otherwise identical stub with different responses based on the current state of the machine.</p>
+<p>The <code class="language-plaintext highlighter-rouge">randomValue</code> helper generates random strings of a specific type and length.
+Optionally, values containing alphabetic characters can be made upper case via the <code class="language-plaintext highlighter-rouge">uppercase</code> parameter.</p>
 
-<h2 id="example">Example</h2>
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">randomValue</span> <span class="nv">length</span><span class="o">=</span><span class="nv">33</span> <span class="nv">type</span><span class="o">=</span><span class="s1">'ALPHANUMERIC'</span><span class="k">}}</span>
 
-<p>To implement the above case, you would declare that the stub returning the empty list is only matched when the scenario state is “Started”,
-while the stub returning the list with one item is only matched when the scenario state is “First item added”.</p>
+<span class="k">{{</span><span class="nv">randomValue</span> <span class="nv">length</span><span class="o">=</span><span class="nv">12</span> <span class="nv">type</span><span class="o">=</span><span class="s1">'ALPHANUMERIC'</span> <span class="nv">uppercase</span><span class="o">=</span><span class="kc">true</span><span class="k">}}</span>
 
-<p>Start by creating the empty list stub, which is matched only when the scenario named “To do list” is in the “Started” state:</p>
+<span class="k">{{</span><span class="nv">randomValue</span> <span class="nv">length</span><span class="o">=</span><span class="nv">55</span> <span class="nv">type</span><span class="o">=</span><span class="s1">'ALPHABETIC'</span><span class="k">}}</span>
 
-<p><img title="Empty to-do list stub" src="/images/screenshots/scenarios-empty-list-stub.png" /></p>
+<span class="k">{{</span><span class="nv">randomValue</span> <span class="nv">length</span><span class="o">=</span><span class="nv">27</span> <span class="nv">type</span><span class="o">=</span><span class="s1">'ALPHABETIC'</span> <span class="nv">uppercase</span><span class="o">=</span><span class="kc">true</span><span class="k">}}</span>
 
-<p>Then create a stub to handle posting of the first list item. When triggered this stub will move the scenario state to “First item added”:</p>
+<span class="k">{{</span><span class="nv">randomValue</span> <span class="nv">length</span><span class="o">=</span><span class="nv">10</span> <span class="nv">type</span><span class="o">=</span><span class="s1">'NUMERIC'</span><span class="k">}}</span>
 
-<p><img title="To-do list POST stub" src="/images/screenshots/scenarios-post-item-stub.png" /></p>
+<span class="k">{{</span><span class="nv">randomValue</span> <span class="nv">length</span><span class="o">=</span><span class="nv">5</span> <span class="nv">type</span><span class="o">=</span><span class="s1">'ALPHANUMERIC_AND_SYMBOLS'</span><span class="k">}}</span>
 
-<p>Finally, create a stub to return the list containing one item, which is matched only then the scenario is in the “First item added” state:</p>
-
-<p><img title="Single item to-to list stub" src="/images/screenshots/scenario-single-item-stub.png" /></p>
-
-<h2 id="testing">Testing</h2>
-
-<p>First, make a <code class="language-plaintext highlighter-rouge">GET</code> request to fetch the list, which should be empty. You should be able to do this any number of times
-without the result changing:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": []
-}
+<span class="k">{{</span><span class="nv">randomValue</span> <span class="nv">type</span><span class="o">=</span><span class="s1">'UUID'</span><span class="k">}}</span>
 </code></pre></div></div>
 
-<p>Now <code class="language-plaintext highlighter-rouge">POST</code> a new item (it actually doesn’t matter what the request body contains, since we didn’t specify a body matcher in the stub):</p>
+<h2 id="pick-random">Pick random</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items -X POST
+<p>The <code class="language-plaintext highlighter-rouge">pickRandom</code> helper randomly selects a value from its parameters.</p>
+
+<p>If the first parameter is a collection then the value will be randomly selected
+from within this:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Assume that numberList = [1, 2, 3]
+
+<span class="k">{{</span><span class="nv">pickRandom</span> <span class="nv">numberList</span><span class="k">}}</span> // One of 1, 2 or 3
 </code></pre></div></div>
 
-<p>This should now have moved the scenario state to “First item added”. Getting the list of items again should now return one item:</p>
+<p>Otherwise a value will be picked from the list of parameters provided:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": [
-    {
-      "id": "1",
-      "description": "Read all about Scenarios"
-    }
-  ]
-}
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">pickRandom</span> <span class="s1">'1'</span> <span class="s1">'2'</span> <span class="s1">'3'</span><span class="k">}}</span> // One of 1, 2 or 3
 </code></pre></div></div>
 
-<h2 id="scenario-reset">Scenario reset</h2>
-
-<p>All scenarios can be reset to their
-“Started” state by clicking <img src="/images/screenshots/scenario-reset-button.png" title="Scenario reset button" style="border: none; height: 50px;" />.</p>
 
         
       </section>

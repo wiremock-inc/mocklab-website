@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Simulating State with Scenarios | MockLab</title>
+<title>Response Templating - Basics | MockLab</title>
 
 
 
@@ -36,16 +36,16 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="Return different responses based on a state machine">
+<meta name="description" content="Returning dynamic responses using Handlebars templates">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Simulating State with Scenarios">
+<meta property="og:title" content="Response Templating - Basics">
 
 
 
 
-  <meta property="og:description" content="Return different responses based on a state machine">
+  <meta property="og:description" content="Returning dynamic responses using Handlebars templates">
 
 
 
@@ -68,10 +68,10 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2020-07-15T17:09:38+01:00">
   
-    <link rel="next" href="/docs/stubbing/" title="Stubbing Basics">
+    <link rel="next" href="/docs/response-templating/conditional-logic-and-iteration/" title="Response Templating - Conditional Logic and Iteration">
   
   
-    <link rel="prev" href="/docs/soap-stubbing/" title="Stubbing a SOAP response">
+    <link rel="prev" href="/docs/recording-stubs/" title="Recording Stubs">
   
 
 
@@ -252,8 +252,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/stateful-scenarios/" class="nav__list-item--selected">
-                
+                <a href="/docs/stateful-scenarios/">
 
                 
                 Simulating State with Scenarios
@@ -280,7 +279,8 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/response-templating/basics/">
+                <a href="/docs/response-templating/basics/" class="nav__list-item--selected">
+                
 
                 
                 Basics
@@ -542,79 +542,202 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Simulating State with Scenarios">
-    <meta itemprop="description" content="Some testing activities require that different responses be served for a sequence of identical requests. For instanceif you are testing a to-do list application such as this one you may wish to startwith no to-do list items, post a new item, then see the item appear in the list.">
+    <meta itemprop="headline" content="Response Templating - Basics">
+    <meta itemprop="description" content="Some elements of MockLab stub responses can be configured generated dynamically, via the use of Handlebars templates.">
     <meta itemprop="datePublished" content="July 15, 2020">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Simulating State with Scenarios
+        <h1 class="page__title" itemprop="headline">Response Templating - Basics
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>Some testing activities require that different responses be served for a sequence of identical requests. For instance
-if you are testing a to-do list application <a href="/docs/exploratory-testing-tutorial/">such as this one</a> you may wish to start
-with no to-do list items, post a new item, then see the item appear in the list.</p>
+        <p>Some elements of MockLab stub responses can be configured generated dynamically, via the use of <a href="https://github.com/jknack/handlebars.java" target="_blank">Handlebars templates</a>.</p>
 
-<p>Assuming there is a “list to-do items” API call used to fetch the list, this must be called twice during the above test,
-returning no items on the first invocation, and the newly added item on the second. Since both of these requests will be
-identical (same URL, method, request headers), something additional is required for MockLab to differentiate the first and
-second cases.</p>
+<p>Most commonly this is used in the response body but response header values can also
+be templated. For proxy responses, the target URL can be a template.</p>
 
-<p>MockLab’s Scenarios solve this problem by providing finite state machines that can be used as additional stub matching conditions.
-They allow more than one definition of an otherwise identical stub with different responses based on the current state of the machine.</p>
+<h2 id="enabling-templating">Enabling templating</h2>
 
-<h2 id="example">Example</h2>
+<p>Enable templating for a stub by ticking the “Enable templating” box in the Response section:</p>
 
-<p>To implement the above case, you would declare that the stub returning the empty list is only matched when the scenario state is “Started”,
-while the stub returning the list with one item is only matched when the scenario state is “First item added”.</p>
+<p><img src="/images/screenshots/enable-response-templating-screenshot.png" title="Enable templating" style="height: 70px" /></p>
 
-<p>Start by creating the empty list stub, which is matched only when the scenario named “To do list” is in the “Started” state:</p>
+<p>Ticking this box means that header values can be templated e.g.</p>
 
-<p><img title="Empty to-do list stub" src="/images/screenshots/scenarios-empty-list-stub.png" /></p>
+<p><img src="/images/screenshots/header-template-screenshot.png" title="Header template" style="height: 70px" /></p>
 
-<p>Then create a stub to handle posting of the first list item. When triggered this stub will move the scenario state to “First item added”:</p>
+<p>And also the response body e.g.</p>
 
-<p><img title="To-do list POST stub" src="/images/screenshots/scenarios-post-item-stub.png" /></p>
+<p><img src="/images/screenshots/body-template-screenshot.png" title="Body template" style="height: 130px" /></p>
 
-<p>Finally, create a stub to return the list containing one item, which is matched only then the scenario is in the “First item added” state:</p>
+<h2 id="handlebars-overview">Handlebars overview</h2>
 
-<p><img title="Single item to-to list stub" src="/images/screenshots/scenario-single-item-stub.png" /></p>
+<p>A complete description of the Handlebars syntax and core helpers can be found on the <a href="https://handlebarsjs.com/guide/" target="_blank">Handlebars JS</a>, but we’ll cover the essentials here.</p>
 
-<h2 id="testing">Testing</h2>
+<p>Handlebars works like many other template languages - a template is provided a data model
+and uses a special tag syntax to denote dynamic elements, referred to as a “helper” in this case.</p>
 
-<p>First, make a <code class="language-plaintext highlighter-rouge">GET</code> request to fetch the list, which should be empty. You should be able to do this any number of times
-without the result changing:</p>
+<p>Helpers are always delimited by double or triple curly braces (<code class="language-plaintext highlighter-rouge">{</code> and <code class="language-plaintext highlighter-rouge">}</code>). In the simplest case a helper can
+simply output the value of a variable in the model:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": []
-}
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">myVariable</span><span class="k">}}</span>        // Top-level model variable
+<span class="k">{{</span><span class="nv">outerVar</span><span class="p">.</span><span class="nv">innerVar</span><span class="k">}}</span> // Nested model variable
 </code></pre></div></div>
 
-<p>Now <code class="language-plaintext highlighter-rouge">POST</code> a new item (it actually doesn’t matter what the request body contains, since we didn’t specify a body matcher in the stub):</p>
+<h3 id="helper-parameters">Helper parameters</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items -X POST
+<p>Helpers can take both positional and named parameters. In both cases they are delimited by spaces.</p>
+
+<p>The following helper takes three positional parameters -
+the string in which the replacement should take place, the substring to find and the
+replacement value:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">replace</span> <span class="nv">myString</span> <span class="s1">'foo'</span> <span class="s1">'bar'</span><span class="k">}}</span>
 </code></pre></div></div>
 
-<p>This should now have moved the scenario state to “First item added”. Getting the list of items again should now return one item:</p>
+<p>Named values are of the form <code class="language-plaintext highlighter-rouge">name=value</code>. The following helper has a single
+positional parameter followed by a parameter named <code class="language-plaintext highlighter-rouge">format</code>:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": [
-    {
-      "id": "1",
-      "description": "Read all about Scenarios"
-    }
-  ]
-}
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">dateFormat</span> <span class="nv">myDate</span> <span class="nv">format</span><span class="o">=</span><span class="s1">'yyyy-MM-dd'</span><span class="k">}}</span>
 </code></pre></div></div>
 
-<h2 id="scenario-reset">Scenario reset</h2>
+<h3 id="nesting-helpers">Nesting helpers</h3>
 
-<p>All scenarios can be reset to their
-“Started” state by clicking <img src="/images/screenshots/scenario-reset-button.png" title="Scenario reset button" style="border: none; height: 50px;" />.</p>
+<p>Sometimes it’s necessary to apply a helper to the result of another one. This can
+be achieved by nesting helpers using bracket syntax. For example, this template
+will truncate the input string, then capitalise the first letter:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">capitalize</span> <span class="p">(</span><span class="nv">substring</span> <span class="nv">myString</span> <span class="nv">0</span> <span class="nv">4</span><span class="p">)</span><span class="k">}}</span>
+</code></pre></div></div>
+
+<h3 id="blocks">Blocks</h3>
+
+<p>Blocks can be used to apply processing to an inner piece of content.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{#if</span> <span class="nv">productExists</span><span class="k">}}</span>
+  // do something with the product
+<span class="k">{{else}}</span>
+  // product not found
+<span class="k">{{/if}}</span>
+</code></pre></div></div>
+
+<p>Blocks form the foundation of logical and looping structures in Handlebars and are <a href="/docs/response-templating-logic-and-iteration">described here in more detail</a>.</p>
+
+<h3 id="html-escaping">HTML escaping</h3>
+
+<p>We mentioned earlier that double or triple curly braces are used to delimit helpers.
+The difference between these two forms is that with double braces, Handlebars will
+automatically HTML escape the output of the helper, whereas with triple braces no escaping will be
+applied.</p>
+
+<p>For instance, suppose we have a data model where the variable <code class="language-plaintext highlighter-rouge">tag</code> has the value <code class="language-plaintext highlighter-rouge">&lt;html&gt;</code>.</p>
+
+<p>The template</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">tag</span><span class="k">}}</span>
+</code></pre></div></div>
+
+<p>will output</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&amp;lt;html&amp;gt;
+</code></pre></div></div>
+
+<p>whereas the template</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">tag</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<p>will output</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;html&gt;
+</code></pre></div></div>
+
+<h2 id="the-data-model">The data model</h2>
+<p>Currently the data model supplied to response templates contains a single top-level object
+which represents the incoming HTTP request.</p>
+
+<p>The following request attributes are available on the request object:</p>
+
+<p><code class="language-plaintext highlighter-rouge">request.url</code> - URL path and query</p>
+
+<p><code class="language-plaintext highlighter-rouge">request.path</code> - URL path</p>
+
+<p><code class="language-plaintext highlighter-rouge">request.pathSegments.[&lt;n&gt;]</code>- URL path segment (zero indexed) e.g. <code class="language-plaintext highlighter-rouge">request.pathSegments.[2]</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.query.&lt;key&gt;</code>- First value of a query parameter e.g. <code class="language-plaintext highlighter-rouge">request.query.search</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.query.&lt;key&gt;.[&lt;n&gt;]</code>- nth value of a query parameter (zero indexed) e.g. <code class="language-plaintext highlighter-rouge">request.query.search.[5]</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.method</code>- request method e.g. <code class="language-plaintext highlighter-rouge">POST</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.host</code>- hostname part of the URL e.g. <code class="language-plaintext highlighter-rouge">my.example.com</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.port</code>- port number e.g. <code class="language-plaintext highlighter-rouge">8080</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.scheme</code>- protocol part of the URL e.g. <code class="language-plaintext highlighter-rouge">https</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.baseUrl</code>- URL up to the start of the path e.g. <code class="language-plaintext highlighter-rouge">https://my.example.com:8080</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.headers.&lt;key&gt;</code>- First value of a request header e.g. <code class="language-plaintext highlighter-rouge">request.headers.X-Request-Id</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.headers.[&lt;key&gt;]</code>- Header with awkward characters e.g. <code class="language-plaintext highlighter-rouge">request.headers.[$?blah]</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.headers.&lt;key&gt;.[&lt;n&gt;]</code>- nth value of a header (zero indexed) e.g. <code class="language-plaintext highlighter-rouge">request.headers.ManyThings.[1]</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.cookies.&lt;key&gt;</code> - First value of a request cookie e.g. <code class="language-plaintext highlighter-rouge">request.cookies.JSESSIONID</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.cookies.&lt;key&gt;.[&lt;n&gt;]</code> - nth value of a request cookie e.g. <code class="language-plaintext highlighter-rouge">request.cookies.JSESSIONID.[2]</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">request.body</code> - Request body text (avoid for non-text bodies)</p>
+
+<h3 id="values-that-can-be-one-or-many">Values that can be one or many</h3>
+
+<p>A number of HTTP elements (query parameters, form fields, headers) can be single or multiple valued. The template request model and built-in helpers attempt to make
+this easy to work with by wrapping these in a “list or single” type that returns the first (and often only) value when no index is specified, but also support index access.</p>
+
+<p>For instance, given a request URL like <code class="language-plaintext highlighter-rouge">/multi-query?things=1&amp;things=2&amp;things=3</code> I can extract the query data in the following ways:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">request</span><span class="p">.</span><span class="nv">query</span><span class="p">.</span><span class="nv">things</span><span class="k">}}</span> // Will return 1
+<span class="k">{{</span><span class="nv">request</span><span class="p">.</span><span class="nv">query</span><span class="p">.</span><span class="nv">things</span><span class="p">.</span><span class="nv">0</span><span class="k">}}</span> // Will return 1
+<span class="k">{{</span><span class="nv">request</span><span class="p">.</span><span class="nv">query</span><span class="p">.</span><span class="nv">things</span><span class="p">.</span><span class="nv">first</span><span class="k">}}</span> // Will return 1
+<span class="k">{{</span><span class="nv">request</span><span class="p">.</span><span class="nv">query</span><span class="p">.</span><span class="nv">things</span><span class="p">.</span><span class="nv">1</span><span class="k">}}</span> // Will return 2
+<span class="k">{{</span><span class="nv">request</span><span class="p">.</span><span class="nv">query</span><span class="p">.</span><span class="nv">things</span><span class="p">.[</span><span class="nv">-1</span><span class="p">]</span><span class="k">}}</span> // Will return 2
+<span class="k">{{</span><span class="nv">request</span><span class="p">.</span><span class="nv">query</span><span class="p">.</span><span class="nv">things</span><span class="p">.</span><span class="nv">last</span><span class="k">}}</span> // Will return 3
+</code></pre></div></div>
+
+<blockquote>
+  <p><strong>Note</strong></p>
+
+  <p>When using the <code class="language-plaintext highlighter-rouge">eq</code> helper with one-or-many values, it is necessary to use the indexed form, even if only one value is present.
+The reason for this is that the non-indexed form returns the wrapper type and not a String, and will therefore fail any comparison
+with another String value.</p>
+</blockquote>
+
+<h2 id="handlebars-helpers">Handlebars helpers</h2>
+
+<p>MockLab provides a set of Handlebars helpers that perform a variety of logical functions and transformations inside templates. These include all of the standard helpers from the <a href="https://github.com/jknack/handlebars.java" target="_blank">Java Handlebars implementation by jknack</a>.</p>
+
+<p>All of the available helpers are described in detail in these articles:</p>
+
+<p><a href="/docs/response-templating/conditional-logic-and-iteration/">Conditional Logic and Iteration</a></p>
+
+<p><a href="/docs/response-templating/string-helpers/">Strings</a></p>
+
+<p><a href="/docs/response-templating/string-encodings/">String Encodings</a></p>
+
+<p><a href="/docs/response-templating/dates-and-times/">Dates &amp; Times</a></p>
+
+<p><a href="/docs/response-templating/random-values/">Random Values</a></p>
+
+<p><a href="/docs/response-templating/xml/">XML</a></p>
+
+<p><a href="/docs/response-templating/json/">JSON</a></p>
+
+<p><a href="/docs/response-templating/jwt/">JSON Web Tokens</a></p>
+
+<p><a href="/docs/response-templating/misc-helpers/">Miscellaneous Helpers</a></p>
 
         
       </section>

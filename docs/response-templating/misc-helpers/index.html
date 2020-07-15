@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Simulating State with Scenarios | MockLab</title>
+<title>Response Templating - Miscellaneous Helpers | MockLab</title>
 
 
 
@@ -36,16 +36,16 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="Return different responses based on a state machine">
+<meta name="description" content="Other assorted useful helpers">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Simulating State with Scenarios">
+<meta property="og:title" content="Response Templating - Miscellaneous Helpers">
 
 
 
 
-  <meta property="og:description" content="Return different responses based on a state machine">
+  <meta property="og:description" content="Other assorted useful helpers">
 
 
 
@@ -68,10 +68,10 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2020-07-15T17:09:38+01:00">
   
-    <link rel="next" href="/docs/stubbing/" title="Stubbing Basics">
+    <link rel="next" href="/docs/response-templating/random-values/" title="Response Templating - Random Values">
   
   
-    <link rel="prev" href="/docs/soap-stubbing/" title="Stubbing a SOAP response">
+    <link rel="prev" href="/docs/response-templating/jwt/" title="Response Templating - JSON Web Tokens (JWT)">
   
 
 
@@ -252,8 +252,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/stateful-scenarios/" class="nav__list-item--selected">
-                
+                <a href="/docs/stateful-scenarios/">
 
                 
                 Simulating State with Scenarios
@@ -370,7 +369,8 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/response-templating/misc-helpers/">
+                <a href="/docs/response-templating/misc-helpers/" class="nav__list-item--selected">
+                
 
                 
                 Miscellaneous Helpers
@@ -542,79 +542,51 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Simulating State with Scenarios">
-    <meta itemprop="description" content="Some testing activities require that different responses be served for a sequence of identical requests. For instanceif you are testing a to-do list application such as this one you may wish to startwith no to-do list items, post a new item, then see the item appear in the list.">
+    <meta itemprop="headline" content="Response Templating - Miscellaneous Helpers">
+    <meta itemprop="description" content="This article describes some useful helpers that don’t neatly fit into any of the other categories.">
     <meta itemprop="datePublished" content="July 15, 2020">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Simulating State with Scenarios
+        <h1 class="page__title" itemprop="headline">Response Templating - Miscellaneous Helpers
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>Some testing activities require that different responses be served for a sequence of identical requests. For instance
-if you are testing a to-do list application <a href="/docs/exploratory-testing-tutorial/">such as this one</a> you may wish to start
-with no to-do list items, post a new item, then see the item appear in the list.</p>
+        <p>This article describes some useful helpers that don’t neatly fit into any of the other categories.</p>
 
-<p>Assuming there is a “list to-do items” API call used to fetch the list, this must be called twice during the above test,
-returning no items on the first invocation, and the newly added item on the second. Since both of these requests will be
-identical (same URL, method, request headers), something additional is required for MockLab to differentiate the first and
-second cases.</p>
+<h2 id="assignment">Assignment</h2>
 
-<p>MockLab’s Scenarios solve this problem by providing finite state machines that can be used as additional stub matching conditions.
-They allow more than one definition of an otherwise identical stub with different responses based on the current state of the machine.</p>
+<p>You can create a string variable of own using the <code class="language-plaintext highlighter-rouge">assign</code> helper, then use it
+later in your template e.g.:</p>
 
-<h2 id="example">Example</h2>
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{#</span><span class="nn">assign</span> <span class="s1">'myCapitalisedQuery'</span><span class="k">}}{{</span><span class="nv">capitalize</span> <span class="nv">request</span><span class="p">.</span><span class="nv">query</span><span class="p">.</span><span class="nv">search</span><span class="k">}}{{/</span><span class="nn">assign</span><span class="k">}}</span>
 
-<p>To implement the above case, you would declare that the stub returning the empty list is only matched when the scenario state is “Started”,
-while the stub returning the list with one item is only matched when the scenario state is “First item added”.</p>
-
-<p>Start by creating the empty list stub, which is matched only when the scenario named “To do list” is in the “Started” state:</p>
-
-<p><img title="Empty to-do list stub" src="/images/screenshots/scenarios-empty-list-stub.png" /></p>
-
-<p>Then create a stub to handle posting of the first list item. When triggered this stub will move the scenario state to “First item added”:</p>
-
-<p><img title="To-do list POST stub" src="/images/screenshots/scenarios-post-item-stub.png" /></p>
-
-<p>Finally, create a stub to return the list containing one item, which is matched only then the scenario is in the “First item added” state:</p>
-
-<p><img title="Single item to-to list stub" src="/images/screenshots/scenario-single-item-stub.png" /></p>
-
-<h2 id="testing">Testing</h2>
-
-<p>First, make a <code class="language-plaintext highlighter-rouge">GET</code> request to fetch the list, which should be empty. You should be able to do this any number of times
-without the result changing:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": []
-}
+Capitalised query: <span class="k">{{</span><span class="nv">myCapitalisedQuery</span><span class="k">}}</span>
 </code></pre></div></div>
 
-<p>Now <code class="language-plaintext highlighter-rouge">POST</code> a new item (it actually doesn’t matter what the request body contains, since we didn’t specify a body matcher in the stub):</p>
+<h2 id="size">Size</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items -X POST
+<p>The <code class="language-plaintext highlighter-rouge">size</code> helper returns the size of a string, list or map:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">size</span> <span class="s1">'abcde'</span><span class="k">}}</span>               // Returns 5
+<span class="k">{{</span><span class="nv">size</span> <span class="nv">request</span><span class="p">.</span><span class="nv">query</span><span class="p">.</span><span class="nv">things</span><span class="k">}}</span>  // Returns number of values in query param 'things'
 </code></pre></div></div>
 
-<p>This should now have moved the scenario state to “First item added”. Getting the list of items again should now return one item:</p>
+<h2 id="with">With</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl http://example.mocklab.io/todo-items
-{
-  "items": [
-    {
-      "id": "1",
-      "description": "Read all about Scenarios"
-    }
-  ]
-}
+<p>The <code class="language-plaintext highlighter-rouge">with</code> helper creates a nested scope, allowing you to reference attributes on
+an object without fully qualifying it each time.</p>
+
+<p>For instance, given a variable whose value is an object with the properties <code class="language-plaintext highlighter-rouge">id</code> and <code class="language-plaintext highlighter-rouge">position</code>,
+<code class="language-plaintext highlighter-rouge">with</code> allows these to be accessed without qualifying each time:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{#</span><span class="nn">with</span> <span class="nv">myObject</span><span class="k">}}</span>
+  ID: <span class="k">{{{</span><span class="nv">id</span><span class="k">}}}</span>
+  Position: <span class="k">{{{</span><span class="nv">position</span><span class="k">}}}</span>
+<span class="k">{{/</span><span class="nn">with</span><span class="k">}}</span>
 </code></pre></div></div>
 
-<h2 id="scenario-reset">Scenario reset</h2>
-
-<p>All scenarios can be reset to their
-“Started” state by clicking <img src="/images/screenshots/scenario-reset-button.png" title="Scenario reset button" style="border: none; height: 50px;" />.</p>
 
         
       </section>
