@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Stubbing a SOAP response | MockLab</title>
+<title>Working with SOAP | MockLab</title>
 
 
 
@@ -40,7 +40,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Stubbing a SOAP response">
+<meta property="og:title" content="Working with SOAP">
 
 
 
@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-07-15T18:28:33+01:00">
+  <meta property="article:published_time" content="2020-07-24T21:50:37+01:00">
   
     <link rel="next" href="/docs/stateful-scenarios/" title="Simulating State with Scenarios">
   
@@ -269,6 +269,17 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
                 </a>
               </li>
             
+              
+              
+              <li>
+                <a href="/docs/soap-stubbing/" class="nav__list-item--selected">
+                
+
+                
+                Working with SOAP
+                </a>
+              </li>
+            
           </ul>
         </li>
       
@@ -457,17 +468,6 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/soap-stubbing/" class="nav__list-item--selected">
-                
-
-                
-                Stubbing a SOAP response
-                </a>
-              </li>
-            
-              
-              
-              <li>
                 <a href="/docs/exploratory-testing-tutorial/">
 
                 
@@ -542,34 +542,40 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Stubbing a SOAP response">
-    <meta itemprop="description" content="Stubbing a SOAP response is similar in most respects to stubbing a REST response. The main difference is that the HTTP methodand URL alone are not enough to differentiate requests, since SOAP relies on XML in the request body to indicate the action to betaken and parameters/data.">
-    <meta itemprop="datePublished" content="July 15, 2020">
+    <meta itemprop="headline" content="Working with SOAP">
+    <meta itemprop="description" content="Stubbing a SOAP response is similar in most respects to stubbing a REST response. The main difference is that the HTTP methodand URL alone are not enough to differentiate requests since these are always the same for a given endpoint.">
+    <meta itemprop="datePublished" content="July 24, 2020">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Stubbing a SOAP response
+        <h1 class="page__title" itemprop="headline">Working with SOAP
 </h1>
       </header>
       <section class="page__content" itemprop="text">
         <p>Stubbing a SOAP response is similar in most respects to stubbing a REST response. The main difference is that the HTTP method
-and URL alone are not enough to differentiate requests, since SOAP relies on XML in the request body to indicate the action to be
-taken and parameters/data.</p>
+and URL alone are not enough to differentiate requests since these are always the same for a given endpoint.</p>
 
-<p>MockLab stubs can be configured to match incoming request bodies using a variety of operators. The two of interest when working with SOAP are
-<code class="language-plaintext highlighter-rouge">equalToXml</code> and <code class="language-plaintext highlighter-rouge">matchesXPath</code>.</p>
+<p>In addition, we need to match on the <code class="language-plaintext highlighter-rouge">SOAPAction</code> header and the request body XML.</p>
 
-<h2 id="using-equaltoxml">Using equalToXml</h2>
+<h2 id="using-the-soapaction-header">Using the SOAPAction header</h2>
 
-<p>When dealing with request bodies that are small and have no data of a transient nature (transaction IDs and today’s date being examples of this)
+<p>SOAP APIs typically use the <code class="language-plaintext highlighter-rouge">SOAPAction</code> header to select the appropriate action for the call.
+Although you can sometimes avoid this, it’s usually a good idea to add a header match for <code class="language-plaintext highlighter-rouge">SOAPAction</code> as it’s more
+efficient and faster than relying exclusively on the XML body.</p>
+
+<p><img src="/images/screenshots/soap-action-header.png" title="Matching the SOAPAction header" /></p>
+
+<h2 id="matching-the-request-body-with-xml-equality">Matching the request body with XML equality</h2>
+
+<p>When dealing with request bodies that are small and have no data of a transient nature (e.g. transaction IDs or today’s date)
 <code class="language-plaintext highlighter-rouge">equalToXml</code> is a straightforward way to specify a match.</p>
 
 <p>For instance given a SOAP service for managing a to do list, you may wish to mock an interaction matching a specific request to add an item:</p>
 
 <p><img src="/images/screenshots/soap-request.png" title="SOAP request" /></p>
 
-<p>Which returns a specific response:
+<p>Which returns a success response:
 <img src="/images/screenshots/soap-response.png" title="SOAP response" /></p>
 
 <p>Testing this returns the expected XML response:</p>
@@ -607,24 +613,100 @@ taken and parameters/data.</p>
 &lt;/soap-env:Envelope&gt;
 </code></pre></div></div>
 
-<h2 id="using-matchesxpath">Using matchesXPath</h2>
+<h3 id="using-placeholders-to-ignore-transient-values">Using placeholders to ignore transient values</h3>
 
-<p>When working with large SOAP request bodies performance can suffer as full semantic XML document comparisons are fairly compute intensive.
-In this instance it may be more efficient and faster to match specific elements within the document using XPath.</p>
+<p>The above example works fine when the request body doesn’t contain any transient data
+such as transaction IDs or the current date. However, if data that changes on each
+request is introduced it will be necessary allow a match to occur regardless of the
+actual value received.</p>
 
-<p>Another situation in which this may be necessary is when transient data appears in the request data, meaning it is never exactly the same
-on more than one occasion.</p>
+<p>One way to do this is to use <a href="/docs/advanced-stubbing/#xml-placeholders">placeholders</a>.
+Let’s assume the request body of our API now contains a <code class="language-plaintext highlighter-rouge">TransactionId</code> element, which
+must be a unique value for each request e.g.:</p>
 
-<p>The behaviour described above could also be achieved using <code class="language-plaintext highlighter-rouge">matchesXPath</code>:</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;soap-env:Envelope</span> <span class="na">xmlns:soap-env=</span><span class="s">"http://www.w3.org/2001/12/soap-envelope"</span>
+  <span class="na">soap-env:encodingStyle=</span><span class="s">"http://www.w3.org/2001/12/soap-encoding"</span><span class="nt">&gt;</span>
+
+   <span class="nt">&lt;soap-env:Body</span> <span class="na">xmlns:m=</span><span class="s">"http://example.company/todo"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;m:TransactionId&gt;</span>1ea094dd-9548-4a79-a43c-b44670f955c6<span class="nt">&lt;/m:TransactionId&gt;</span>
+      <span class="nt">&lt;m:AddToDoItem&gt;</span>
+         <span class="nt">&lt;m:ToDoItem&gt;</span>Have a wash<span class="nt">&lt;/m:ToDoItem&gt;</span>
+      <span class="nt">&lt;/m:AddToDoItem&gt;</span>
+   <span class="nt">&lt;/soap-env:Body&gt;</span>
+
+<span class="nt">&lt;/soap-env:Envelope&gt;</span>
+</code></pre></div></div>
+
+<p>We can ignore this value by ticking the “Enable XMLUnit placeholders” box and
+putting an ignore token into the expected XML in the form:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;m:TransactionId&gt;</span>${xmlunit.ignore}<span class="nt">&lt;/m:TransactionId&gt;</span>
+</code></pre></div></div>
+
+<p><img src="/images/screenshots/soap-placeholders.png" title="SOAP request XML with placeholders" /></p>
+
+<h2 id="matching-the-request-body-with-xpath">Matching the request body with XPath</h2>
+
+<p>When working with large SOAP requests <code class="language-plaintext highlighter-rouge">equalToXml</code> can become quite slow as it must perform a comparison on every node in the XML document.</p>
+
+<p>It’s often faster to match specific elements within the document using the <code class="language-plaintext highlighter-rouge">matchesXPath</code> operator,
+and since this is a much looser approach to matching it’s another way to solve
+the problem described above where frequently changing values are present.</p>
+
+<p>When matching using XPath, your aim should be to target as few elements/attributes as possible while being able
+to reliably distinguish between requests.</p>
+
+<p>Given the same request body as in the previous section, we could use the following
+XPath to match just on the value of the <code class="language-plaintext highlighter-rouge">m:ToDoItem</code> element:</p>
+
+<div class="language-xpath highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">//</span><span class="nt">AddToDoItem</span><span class="o">/</span><span class="nt">ToDoItem</span><span class="p">[</span><span class="k">text</span><span class="p">()</span><span class="o">=</span><span class="s">'Have a wash'</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
 
 <p><img src="/images/screenshots/xpath-soap-match.png" title="Matching with XPath" /></p>
 
-<blockquote>
-  <p><strong>note</strong></p>
+<h3 id="using-multiple-xpath-expressions">Using multiple XPath expressions</h3>
 
-  <p>Note the XPath expression <code class="language-plaintext highlighter-rouge">//*[local-name() = 'ToDoItem' and text() = 'Have a wash']</code> uses <code class="language-plaintext highlighter-rouge">local-name()</code> in order to avoid having to
-  declare the <code class="language-plaintext highlighter-rouge">m</code> namespace.</p>
-</blockquote>
+<p>Sometimes you need to match on more than one XML element to be able to adequately
+distinguish between requests. Although XPath supports multiple predicates with logical and/or,
+often it can be easier to use multiple body matchers each targetting a single element.</p>
+
+<p>Suppose we added a <code class="language-plaintext highlighter-rouge">UserId</code> field that we also wanted to target:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;soap-env:Envelope</span> <span class="na">xmlns:soap-env=</span><span class="s">"http://www.w3.org/2001/12/soap-envelope"</span>
+  <span class="na">soap-env:encodingStyle=</span><span class="s">"http://www.w3.org/2001/12/soap-encoding"</span><span class="nt">&gt;</span>
+
+   <span class="nt">&lt;soap-env:Body</span> <span class="na">xmlns:m=</span><span class="s">"http://example.company/todo"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;m:TransactionId&gt;</span>1ea094dd-9548-4a79-a43c-b44670f955c6<span class="nt">&lt;/m:TransactionId&gt;</span>
+      <span class="nt">&lt;m:UserId&gt;</span>abc123<span class="nt">&lt;/m:UserId&gt;</span>
+      <span class="nt">&lt;m:AddToDoItem&gt;</span>
+         <span class="nt">&lt;m:ToDoItem&gt;</span>Have a wash<span class="nt">&lt;/m:ToDoItem&gt;</span>
+      <span class="nt">&lt;/m:AddToDoItem&gt;</span>
+   <span class="nt">&lt;/soap-env:Body&gt;</span>
+
+<span class="nt">&lt;/soap-env:Envelope&gt;</span>
+</code></pre></div></div>
+
+<p>We could add one <code class="language-plaintext highlighter-rouge">matchesXPath</code> body pattern for each of the elements we
+care about:</p>
+
+<p><img src="/images/screenshots/multiple-xpath-soap-match.png" title="Matching with multiple XPaths" /></p>
+
+<h3 id="a-gotcha---the-recursive-selector-">A gotcha - the recursive selector: //</h3>
+
+<p>Given the above XML document, you might expect the following XPath expression to
+produce a match:</p>
+
+<div class="language-xpath highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">//</span><span class="nt">UserId</span><span class="p">[</span><span class="k">text</span><span class="p">()</span><span class="o">=</span><span class="s">'abc123'</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p>However, due to a quirk of how XML documents with namespaces are evaluated this won’t work.
+Ensuring that you select at least one node beneath the element searched for recursively
+will fix this, so the above XPath can be corrected like this:</p>
+
+<div class="language-xpath highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">//</span><span class="nt">UserId</span><span class="o">/</span><span class="k">text</span><span class="p">()[</span><span class="o">.=</span><span class="s">'abc123'</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
 
         
       </section>
