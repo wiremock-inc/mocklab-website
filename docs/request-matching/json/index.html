@@ -28,7 +28,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<title>Response Templating - JSON Web Tokens (JWT) | MockLab</title>
+<title>Request Matching - Matching JSON requests | MockLab</title>
 
 
 
@@ -36,16 +36,16 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
 
-<meta name="description" content="Working with JSON Web Tokens (JWTs)">
+<meta name="description" content="Matching JSON">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Response Templating - JSON Web Tokens (JWT)">
+<meta property="og:title" content="Request Matching - Matching JSON requests">
 
 
 
 
-  <meta property="og:description" content="Working with JSON Web Tokens (JWTs)">
+  <meta property="og:description" content="Matching JSON">
 
 
 
@@ -68,10 +68,10 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2020-09-28T12:55:48+01:00">
   
-    <link rel="next" href="/docs/response-templating/misc-helpers/" title="Response Templating - Miscellaneous Helpers">
+    <link rel="next" href="/docs/request-matching/matcher-types/" title="Request Matching - Overview of Matcher Types">
   
   
-    <link rel="prev" href="/docs/response-templating/json/" title="Response Templating - Working with JSON">
+    <link rel="prev" href="/docs/recording-stubs/" title="Recording Stubs">
   
 
 
@@ -309,7 +309,8 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/request-matching/json/">
+                <a href="/docs/request-matching/json/" class="nav__list-item--selected">
+                
 
                 
                 Matching JSON requests
@@ -416,8 +417,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               
               
               <li>
-                <a href="/docs/response-templating/jwt/" class="nav__list-item--selected">
-                
+                <a href="/docs/response-templating/jwt/">
 
                 
                 JSON Web Tokens (JWT)
@@ -589,141 +589,278 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Response Templating - JSON Web Tokens (JWT)">
-    <meta itemprop="description" content="Many modern APIs, in particular those concerned with authentication and authorization,generate JSON Web Tokens (JWTs) for their clients to use.">
+    <meta itemprop="headline" content="Request Matching - Matching JSON requests">
+    <meta itemprop="description" content="When stubbing API functions that accept JSON request bodies we may want toreturn different responses based on the JSON sent. MockLab provides two match typesto supports this case - equalToJson and matchesJsonPath, which are describedin detail in this article.">
     <meta itemprop="datePublished" content="September 28, 2020">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Response Templating - JSON Web Tokens (JWT)
+        <h1 class="page__title" itemprop="headline">Request Matching - Matching JSON requests
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>Many modern APIs, in particular those concerned with authentication and authorization,
-generate <a href="https://jwt.io/" target="_blank">JSON Web Tokens (JWTs)</a> for their clients to use.</p>
+        <p>When stubbing API functions that accept JSON request bodies we may want to
+return different responses based on the JSON sent. MockLab provides two match types
+to supports this case - <code class="language-plaintext highlighter-rouge">equalToJson</code> and <code class="language-plaintext highlighter-rouge">matchesJsonPath</code>, which are described
+in detail in this article.</p>
 
-<p>JWTs must be cryptographically signed in order to be valid, which means they cannot
-be simply be generated using ordinary templating primitives. Signing can be via
-one of a number of algorithms, but by far the two most common are <code class="language-plaintext highlighter-rouge">HS256</code> (shared secret)
-and <code class="language-plaintext highlighter-rouge">RS256</code> (public/private key).</p>
+<h2 id="matching-via-json-equality">Matching via JSON equality</h2>
 
-<p>In order to enable creation of valid JWTs MockLab provides a pair of template helpers
-specifically for this purpose: <code class="language-plaintext highlighter-rouge">jwt</code> and <code class="language-plaintext highlighter-rouge">jwks</code>.</p>
+<p>The <code class="language-plaintext highlighter-rouge">equalToJson</code> match operator performs a semantic comparison of the input JSON
+against the expected JSON. This has a number of advantages over a straight string
+comparison:</p>
 
-<p>Both <code class="language-plaintext highlighter-rouge">HS256</code> and <code class="language-plaintext highlighter-rouge">RS256</code> signed tokens are supported.</p>
+<ul>
+  <li>Ignores differences in whitespace</li>
+  <li>Can be configured to ignore differences in array order</li>
+  <li>Can be configured to ignore extra object attributes</li>
+  <li>Supports placeholders so that specific attributes can be excluded from the comparison</li>
+</ul>
 
-<p>If you’d like to see these features in action, take a look at the <a href="/docs/oauth2-mock/">OAuth2 mock</a>
-hosted by MockLab, which is also available to use as an template when creating your own mock API.</p>
+<p>By default <code class="language-plaintext highlighter-rouge">equalToJson</code> will match only if all of the elements in the input JSON
+are the same as the expected JSON, arrays are in the same order and no additional
+attributes are present.</p>
 
-<h2 id="generating-a-token">Generating a token</h2>
+<p>For instance, given an expected JSON document like</p>
 
-<p>You can generate a token in a stub response by enabling templating
-and simply adding the following to the respobse body:</p>
+<p><img src="/images/screenshots/default-equal-to-json.png" title="Default equal to JSON" /></p>
 
-<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">maxAge</span><span class="o">=</span><span class="s1">'12 days'</span><span class="k">}}}</span>
+<p>You would need to send in the request body for the stub to match exactly that JSON
+in order for the stub to be matched:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl https://example.mocklab.io/json -d '{
+  "itemId": 102938,
+  "sizes": ["S", "M", "L"]
+}'
+
+{ "result": "OK" }
 </code></pre></div></div>
 
-<p>This will select defaults
-for all the required values, set a 100 year expiry term and sign the token using <code class="language-plaintext highlighter-rouge">HS256</code> (shared secret).</p>
+<p>Changing the <code class="language-plaintext highlighter-rouge">sizes</code> order would cause a non-match:</p>
 
-<h3 id="expiry-date">Expiry date</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl https://example.mocklab.io/json -d '{
+  "itemId": 102938,
+  "sizes": ["L", "M", "S"]
+}'
 
-<p>You can customise expiry term either by setting the <code class="language-plaintext highlighter-rouge">maxAge</code> parameter e.g.</p>
+                                               Request was not matched
+                                               =======================
 
-<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">maxAge</span><span class="o">=</span><span class="s1">'12 days'</span><span class="k">}}}</span>
+-----------------------------------------------------------------------------------------------------------------------
+| Closest stub                                             | Request                                                  |
+-----------------------------------------------------------------------------------------------------------------------
+                                                           |
+JSON body matching                                         |
+                                                           |
+POST                                                       | POST
+/json                                                      | /json
+                                                           |
+{                                                          | {                                                   &lt;&lt;&lt;&lt;&lt; Body does not match
+  "itemId" : 102938,                                       |   "itemId" : 102938,
+  "sizes" : [ "S", "M", "L" ]                              |   "sizes" : [ "L", "M", "S" ]
+}                                                          | }
+                                                           |
+-----------------------------------------------------------------------------------------------------------------------
 </code></pre></div></div>
 
-<p>or by setting an absolute expiry date e.g.</p>
+<p>Adding an extra attribute would also cause a non-match:</p>
 
-<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">exp</span><span class="o">=</span><span class="p">(</span><span class="nv">parseDate</span> <span class="s1">'2040-02-23T21:22:23Z'</span><span class="p">)</span><span class="k">}}}</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl https://example.mocklab.io/json -d '{
+  "itemId": 102938,
+  "sizes": ["S", "M", "L"],
+  "tag": "essentials"
+}'
+
+                                               Request was not matched
+                                               =======================
+
+-----------------------------------------------------------------------------------------------------------------------
+| Closest stub                                             | Request                                                  |
+-----------------------------------------------------------------------------------------------------------------------
+                                                           |
+JSON body matching                                         |
+                                                           |
+POST                                                       | POST
+/json                                                      | /json
+                                                           |
+{                                                          | {                                                   &lt;&lt;&lt;&lt;&lt; Body does not match
+  "itemId" : 102938,                                       |   "itemId" : 102938,
+  "sizes" : [ "S", "M", "L" ]                              |   "sizes" : [ "S", "M", "L" ],
+}                                                          |   "tag" : "essentials"
+                                                           | }
+                                                           |
+-----------------------------------------------------------------------------------------------------------------------
 </code></pre></div></div>
 
-<p>You can similarly set the <code class="language-plaintext highlighter-rouge">nbf</code> (not before) date:</p>
+<h3 id="ignoring-array-order">Ignoring array order</h3>
 
-<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">nbf</span><span class="o">=</span><span class="p">(</span><span class="nv">parseDate</span> <span class="s1">'2018-02-23T21:22:23Z'</span><span class="p">)</span><span class="k">}}}</span>
+<p>Sometimes the order of elements in an array is unimportant and can change arbitrarily
+between multiple requests. In this case it’s undesirable for your stub match to fail
+due to array order, so to remedy this you can simply tick “Ignore array order”.</p>
+
+<p><img src="/images/screenshots/ignore-array-order.png" title="Equal to JSON ignoring array order" /></p>
+
+<p>This will allow requests like the following to succeed:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl https://example.mocklab.io/json -d '{
+  "itemId": 102938,
+  "sizes": ["S", "L", "M"]
+}'                   
+
+{ "result": "OK" }
 </code></pre></div></div>
 
-<h3 id="standard-claims">Standard claims</h3>
+<h3 id="ignoring-extra-elements">Ignoring extra elements</h3>
 
-<p>Standard claims can be set as follows.</p>
+<p>If you’re only interested in matching a specific set of JSON elements and don’t mind
+if additional elements are present you can tick “Ignore extra elements”.</p>
 
-<p>Issuer:</p>
+<p><img src="/images/screenshots/ignore-extra-elements.png" title="Equal to JSON ignoring extra elements" /></p>
 
-<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">iss</span><span class="o">=</span><span class="s1">'https://jwt-example.mocklab.io/'</span><span class="k">}}}</span>
+<p>This would permit the following to match:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl https://example.mocklab.io/json -d '{
+  "itemId": 102938,
+  "sizes": ["S", "M", "L"],
+  "tag": "essentials"
+}'
 </code></pre></div></div>
 
-<p>Audience:</p>
+<h3 id="using-placeholders-to-ignore-specific-json-attributes">Using placeholders to ignore specific JSON attributes</h3>
 
-<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">aud</span><span class="o">=</span><span class="s1">'https://jwt-target.mocklab.io/'</span><span class="k">}}}</span>
+<p>If you want to check that an element is present, but don’t care what the value is
+then you can use JSONUnit placeholder syntax to achieve this.</p>
+
+<p>Note: unlike with XML placeholders this is enabled by default.</p>
+
+<p>For instance, given the following configuration:</p>
+
+<p><img src="/images/screenshots/json-placeholders.png" title="Equal to JSON with placeholder" /></p>
+
+<p>This would permit the the following to match:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl https://example.mocklab.io/json -d '{
+  "itemId": 8888888888,
+  "sizes": ["S", "M", "L"],
+  "tag": "essentials"
+}'
 </code></pre></div></div>
 
-<p>Subject:</p>
+<p>When using <code class="language-plaintext highlighter-rouge">${json-unit.ignore}</code>, the element’s type is also ignored (in addition to its value),
+so in the above case a string, boolean etc. could have been used in place of the numeric ID.</p>
 
-<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">sub</span><span class="o">=</span><span class="s1">'jonsmith'</span><span class="k">}}}</span>
+<p>If you want to constrain an element to a specific type but still ignore the value
+you can use one of the following placeholders:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">${json-unit.regex}[A-Z]+</code> (any Java-style regular expression can be used)</li>
+  <li><code class="language-plaintext highlighter-rouge">${json-unit.any-string}</code></li>
+  <li><code class="language-plaintext highlighter-rouge">${json-unit.any-boolean}</code></li>
+  <li><code class="language-plaintext highlighter-rouge">${json-unit.any-number}</code></li>
+</ul>
+
+<h2 id="matching-via-jsonpath---matchesjsonpath">Matching via JSONPath - <code class="language-plaintext highlighter-rouge">matchesJsonPath</code></h2>
+
+<p><a href="https://github.com/json-path/JsonPath" target="_blank">JSONPath</a> is an expression language,
+similar in concept to XPath that permits elements or collections of elements
+to be queried from a JSON document.</p>
+
+<p>MockLab supports stub matching using JSONPath expressions, optionally sub-matching
+the result using MockLab’s own operators (<code class="language-plaintext highlighter-rouge">equalTo</code>, <code class="language-plaintext highlighter-rouge">matches</code> etc.).</p>
+
+<p>Given the following configration:</p>
+
+<p><img src="/images/screenshots/jsonpath-with-submatch.png" title="JSONPath with equal to" /></p>
+
+<p>The following JSON will be matched:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl https://example.mocklab.io/json -d '{
+  "itemId": 102938,
+  "itemName": "Socks"
+}'
 </code></pre></div></div>
 
-<h3 id="custom-claims">Custom claims</h3>
+<h3 id="expression-only-vs-expression--sub-match">Expression only vs. expression + sub-match</h3>
 
-<p>You can also set any custom claim you wish via named parameters e.g.</p>
+<p>It is possible to match a JSON document without a sub-match by selecting “is present”
+from the drop-down:</p>
 
-<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span>
-    <span class="nv">isAdmin</span><span class="o">=</span><span class="kc">true</span>
-    <span class="nv">quota</span><span class="o">=</span><span class="nv">23</span>
-    <span class="nv">score</span><span class="o">=</span><span class="nv">0</span><span class="p">.</span><span class="nv">96</span>
-    <span class="nv">email</span><span class="o">=</span><span class="s1">'jonsmith@example.mocklab.io'</span>
-    <span class="nv">signupDate</span><span class="o">=</span><span class="p">(</span><span class="nv">parseDate</span> <span class="s1">'2017-01-02T03:04:05Z'</span><span class="p">)</span>
-<span class="k">}}}</span>
-</code></pre></div></div>
+<p><img src="/images/screenshots/jsonpath-no-submatch.png" title="JSONPath with equal to" /></p>
 
-<h3 id="signing-with-rs256">Signing with RS256</h3>
+<p>If you do this, the JSON input will be considered a match if the expression returns
+1 or more elements.</p>
 
-<p>By setting the <code class="language-plaintext highlighter-rouge">alg</code> parameter, the token can be signed using the public/private key
-algorithm:</p>
+<p>This feature is primarily present for compatibility with WireMock projects, and
+generally it is better to use sub-matches as this results in simpler JSONPath
+expressions and more useful debug output when there is a non-match.</p>
 
-<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwt</span> <span class="nv">alg</span><span class="o">=</span><span class="s1">'RS256'</span><span class="k">}}}</span>
-</code></pre></div></div>
+<h3 id="common-jsonpath-examples">Common JSONPath examples</h3>
 
-<h2 id="retrieving-keys">Retrieving keys</h2>
+<p>Matching on a specific array element by position.</p>
 
-<p>For clients to be able to validate JWTs, they need to be able to retrieve either
-the shared secret or the public key, depending on the signing algorithm.</p>
+<p><code class="language-plaintext highlighter-rouge">$.sizes[1]</code> <code class="language-plaintext highlighter-rouge">equal to</code> <code class="language-plaintext highlighter-rouge">M</code></p>
 
-<h3 id="getting-all-keys-for-your-mock-api">Getting all keys for your mock API</h3>
-
-<p>The keys used to sign tokens for a particular mock API can be retrieved via the
-settings admin API resource. To fetch these via curl, you can do the following:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -H 'Authorization:Token &lt;your MockLab API token&gt;' https://your-mock-api.mocklab.io/__admin/settings
-</code></pre></div></div>
-
-<p>This will return a JSON document like this, from which you can retrieve the any of the
-keys:</p>
+<p>would match:</p>
 
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"extended"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"jwt"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"hs256Secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"rs256PublicKeyId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"rs256PublicKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PUBLIC KEY-----</span><span class="se">\n</span><span class="s2">...</span><span class="se">\n</span><span class="s2">-----END RSA PUBLIC KEY-----</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"rs256PrivateKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----</span><span class="se">\n</span><span class="s2">...</span><span class="se">\n</span><span class="s2">-----END RSA PRIVATE KEY-----</span><span class="se">\n</span><span class="s2">"</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+  </span><span class="nl">"sizes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"S"</span><span class="p">,</span><span class="w"> </span><span class="s2">"M"</span><span class="p">,</span><span class="w"> </span><span class="s2">"L"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
-<h3 id="the-json-web-key-set-jwks">The JSON Web Key Set (JWKS)</h3>
+<p>Matching on an element of an object found via another element.</p>
 
-<p>When using <code class="language-plaintext highlighter-rouge">RS256</code> (public/private key) signing, it is common for clients to fetch
-the public key for verification via a JSON Web Key Set (JWKS) endpoint. You serve
-a JWKS from your mock API simply by adding a stub containing the following response
-body (with templating enabled):</p>
+<p><code class="language-plaintext highlighter-rouge">$.addresses[?(@.type == 'business')].postcode</code> <code class="language-plaintext highlighter-rouge">contains</code> <code class="language-plaintext highlighter-rouge">N11NN</code></p>
 
-<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">jwks</span><span class="k">}}}</span>
-</code></pre></div></div>
+<p>would match:</p>
 
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"addresses"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"home"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Z55ZZ"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"business"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"N11NN"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>It is necessary to use <code class="language-plaintext highlighter-rouge">contains</code> in this instance as a JSONPath expression containing
+a query part (between the <code class="language-plaintext highlighter-rouge">[?</code> and <code class="language-plaintext highlighter-rouge">]</code>) will always return a collection
+of results.</p>
+
+<p>Matching an element found recursively.</p>
+
+<p><code class="language-plaintext highlighter-rouge">$..postcode</code> <code class="language-plaintext highlighter-rouge">contains</code> <code class="language-plaintext highlighter-rouge">N11NN</code></p>
+
+<p>would match:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"addresses"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"home"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Z55ZZ"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"business"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"N11NN"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>and would also match:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"business"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"N11NN"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
         
       </section>
