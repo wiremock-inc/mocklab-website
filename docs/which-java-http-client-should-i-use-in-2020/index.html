@@ -1,0 +1,732 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <!-- start Mixpanel --><script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
+    loaded: function(mixpanel) {
+        distinct_id = mixpanel.get_distinct_id();
+    }
+});</script><!-- end Mixpanel -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Which Java HTTP client should I use in 2020? | MockLab</title>
+
+
+
+
+
+
+
+<meta name="description" content="A comparison of all the major Java HTTP clients">
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="MockLab">
+<meta property="og:title" content="Which Java HTTP client should I use in 2020?">
+
+
+
+
+  <meta property="og:description" content="A comparison of all the major Java HTTP clients">
+
+
+
+  <meta property="keywords" content="Java,HTTP">
+
+
+
+
+
+  
+
+  
+
+
+
+  <meta property="og:image" content="https://www.mocklab.io/images/mocklab_logo_with_text_large.png">
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-10-09T14:46:29+01:00">
+  
+  
+    <link rel="prev" href="/docs/updated-terms-and-conditions/" title="Updated MockLab Terms of Service">
+  
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": null,
+      "logo": "/images/https://www.mocklab.io/images/mocklab_logo_with_text_large.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : null,
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="MockLab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<link href="https://fonts.googleapis.com/css?family=Cairo:300" rel="stylesheet">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@1/dist/instantsearch.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.0/dist/instantsearch-theme-algolia.min.css">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+  </head>
+
+  <body>
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<nav class="header-nav sticky">
+  <ul class="header-nav__container">
+    <li class="header-nav__logo">
+        <a href="https://get.mocklab.io">
+            <img src="/images/mocklab_logo_with_text.png" title="MockLab logo"/>
+        </a>
+    </li>
+
+    <li class="header-nav__item">
+        <a href="/docs/getting-started/" title="Docs">Docs</a>
+    </li>
+    <li class="header-nav__item">
+        <a href="/blog/" title="Docs">Blog</a>
+    </li>
+    <li class="header-nav__item">
+        <a href="https://get.mocklab.io/pricing" title="Docs">Pricing</a>
+    </li>
+    <li class="header-nav__item header-nav__item--last">
+        <a href="https://app.mocklab.io" title="Login" target="_blank">Login</a>
+    </li>
+
+    <li class="header-nav__cta">
+        <a href="https://app.mocklab.io/login?for=signup" title="Sign up" target="_blank">Sign up</a>
+    </li>
+  </ul>
+
+</nav>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Which Java HTTP client should I use in 2020?">
+    <meta itemprop="description" content="A review and comparison of all the major Java HTTP client libraries available in 2020.">
+    <meta itemprop="datePublished" content="October 09, 2020">
+    
+
+    <div class="page__inner-wrap">
+      <div class="page__return-nav-link">
+        <a href="/blog/" title="Back to articles">Back to articles</a>
+      </div>
+
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Which Java HTTP client should I use in 2020?
+</h1>
+          
+
+          <p class="page__date">
+              <img class="author-pic" src="/images/authors/tom_akehurst.png"/> Tom Akehurst
+
+              
+                on <time datetime="2020-10-09T14:46:29+01:00">October 09, 2020</time>
+              
+          </p>
+
+          <div class="page__meta">
+            
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <span itemprop="keywords">
+    
+      
+      
+      <!-- <a href="/categories/#http" class="page__taxonomy-item" rel="tag">HTTP</a><span class="sep">, </span> -->
+      <span class="page__taxonomy-item">HTTP<span class="sep">, </span></span>
+    
+      
+      
+      <!-- <a href="/categories/#java" class="page__taxonomy-item" rel="tag">Java</a> -->
+      <span class="page__taxonomy-item">Java</span>
+    
+    </span>
+  </p>
+
+
+
+          </div>
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p>HTTP has become the dominant protocol for integration of networked programs, and consequently many (possibly most) Java projects need to be able to make HTTP calls to other systems.</p>
+
+<p>As with many things in the Java ecosystem, a broad array of alternatives exist for achieving this, both via core libraries and open source.</p>
+
+<p>This can make choosing the right HTTP client less than straightforward. This article aims to provide an overview of the major libraries, with a focus on the characteristics you’re likely to care about when making a selection for your project.</p>
+
+<p>We’re only going to discuss clients that actually implement the HTTP protocol, so libraries such as Spring’s RestTemplate or Feign that act as higher-level wrappers will not be discussed (although we may look at these in a future article).</p>
+
+<h2 id="features-and-capabilities">Features and capabilities</h2>
+
+<p>So what criteria should we consider when choosing an HTTP client?</p>
+
+<p>Obviously, each project’s requirements are somewhat unique, but there are several common factors that most teams would wish to consider:</p>
+<ul>
+  <li>Features</li>
+  <li>API style</li>
+  <li>Quality and maturity</li>
+  <li>Maintenance and community</li>
+  <li>Operability, reliability and observability</li>
+  <li>Security</li>
+  <li>Performance</li>
+</ul>
+
+<p>The last three of these are deep topics in their own right, and we’ll write more about these in future articles.</p>
+
+<p>While some factors are somewhat qualitative e.g. documentation, the following features can easily be described in yes/no form and are summarised for each client in the table below.</p>
+
+<p><strong>Synchronous vs. asynchronous API</strong><br />
+Whether the client supports a synchronous (blocking) call style, asynchronous (non-blocking) or both.</p>
+
+<p>We also indicate what style (or styles) of async API is presented, if any. In practice, this is one or more of futures, callbacks or reactive streams.</p>
+
+<p><strong>HTTP/2</strong><br />
+Support for version 2 of the HTTP protocol.</p>
+
+<p><strong>Forms</strong><br />
+Support for posting of form data to the server.</p>
+
+<p>Note: all clients can do this if you’re willing to build up the request from scratch yourself, so what we’re really talking about here is whether a specific API is provided.</p>
+
+<p><strong>Multipart request and file upload</strong><br />
+Support for sending multipart requests to the server.</p>
+
+<p>As with forms, we’re interested in whether the client provides an API specifically for this.</p>
+
+<p><strong>Cookies</strong><br />
+Receives, stores, sends and allows manipulation of cookies.</p>
+
+<p><strong>Authentication</strong><br />
+Support for HTTP authentication protocols. The most common of these are:</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Basic_access_authentication" target="_blank">HTTP Basic</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Digest_access_authentication" target="_blank">Digest</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/NT_LAN_Manager" target="_blank">NTLM</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/SPNEGO" target="_blank">SPNEGO</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Kerberos_(protocol)" target="_blank">Kerberos</a></li>
+</ul>
+
+<p>While all of the clients discussed can in principle support any authentication scheme by allowing setting of request headers and request parameters, only some offer explicit extension points into which authentication implementations can be plugged, and fewer still offer common schemes out of the box.</p>
+
+<p><strong>Transparent content compression/decompression</strong><br />
+Whether the client can perform <a href="https://en.wikipedia.org/wiki/HTTP_compression">compression and decompression</a>
+of content via (most commonly) <a href="" target="_blank">Deflate</a>,
+<a href="https://en.wikipedia.org/wiki/Gzip" target="_blank">GZip</a> or
+<a href="https://en.wikipedia.org/wiki/Brotli" target="_blank">Brotli</a>
+without requiring the caller to explicitly perform the encode and decode steps.</p>
+
+<p>At present GZip is by far the most common algorithm.</p>
+
+<p><strong>Caching</strong><br />
+Support for caching of HTTP responses according to the caching elements of the HTTP standard.</p>
+
+<p><strong>Websockets</strong><br />
+Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank">Websockets</a> extension to the HTTP spec.</p>
+
+<h2 id="configuration-options">Configuration options</h2>
+<p>The potential range of configuration options for an HTTP client is large, and some of the clients discussed here offer very fine-grained control over both high and low-level aspects of their behaviour.</p>
+
+<p>However, there are a few settings that are likely to be of interest to most teams (at some stage):</p>
+<ul>
+  <li>Connect timeout</li>
+  <li>Socket read timeout</li>
+  <li>Redirect policy</li>
+  <li>Pooled connection limit - overall and per destination/route</li>
+  <li>Idle connection timeout</li>
+  <li>Proxy server address and authentication settings</li>
+</ul>
+
+<p>A further characteristic to be aware of is that some clients (specifically the core Java ones) only expose certain parameters as system properties. This means that a) they can only be set globally per running JVM, and b) they are much harder to integrate with other configuration systems.</p>
+
+<p>In general, being able to set configuration parameters programmatically, at the client instance level is preferable as this permits multiple clients to exist differing options and simpler integration into frameworks and apps with their own config arrangements. It also makes life much easier if you’re deploying into an environment such as a servlet container where you may not have full control over startup parameters.</p>
+
+<h2 id="the-clients">The clients</h2>
+<p>The HTTP clients we will examine are:</p>
+
+<ul>
+  <li>Java’s <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/HttpURLConnection.html" target="_blank">HttpURLConnection</a> and <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/javax/net/ssl/HttpsURLConnection.html" target="_blank">HttpsURLConnection</a></li>
+  <li>The new <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpClient.html" target="_blank">HttpClient</a>, introduced in Java 11</li>
+  <li><a href="https://hc.apache.org/httpcomponents-client-5.0.x/index.html" target="_blank">Apache HTTPClient</a></li>
+  <li><a href="https://square.github.io/okhttp/" target="_blank">OkHttpClient</a></li>
+  <li><a href="https://github.com/AsyncHttpClient/async-http-client" target="_blank">AsyncHttpClient</a></li>
+  <li><a href="https://www.eclipse.org/jetty/documentation/current/http-client.html" target="_blank">Jetty HttpClient</a></li>
+</ul>
+
+<p>Below is a summary of the salient information and features for each client:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Java version compatibility (current version of client)</th>
+      <th>Original release date</th>
+      <th>Latest release (as of the end of September 2020)</th>
+      <th>Sync/Async</th>
+      <th>Async API style(s)</th>
+      <th>HTTP/2</th>
+      <th>Forms</th>
+      <th>Multipart / file upload</th>
+      <th>Cookies</th>
+      <th>Authentication</th>
+      <th>Transparent content compression</th>
+      <th>Caching</th>
+      <th>Websockets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="/images/http-clients/old-java-logo.png" style="border: none; height: 50px" alt="Old Java logo" /><br /> HttpURLConnection</td>
+      <td>1.1+ (HTTP)) 1.4+ (HTTPS)</td>
+      <td>1997 (with JDK 1.1) 2002 (with JDK 1.4)</td>
+      <td>September 2020 (with Java SE 15)</td>
+      <td>Sync only</td>
+      <td>N/A</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>None</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><img src="/images/http-clients/new-java-logo.png" style="border: none; height: 50px" alt="New Java logo" /><br /> Java HttpClient</td>
+      <td>9+ (as incubator module) 11+ (GA)</td>
+      <td>September 2018 (with Java SE 11)</td>
+      <td>September 2020 (with Java SE 15)</td>
+      <td>Both</td>
+      <td>Futures</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Basic (not pre-emptive) Pluggable</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td><img src="/images/http-clients/httpcomponents-logo.png" style="border: none; height: 40px" alt="Apache HTTP Components logo" /><br /> Apache HTTPClient</td>
+      <td>7+</td>
+      <td>2001</td>
+      <td>September 2020</td>
+      <td>Both</td>
+      <td>Futures</td>
+      <td>Currently only in the 5.1 beta</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>BasicDigestNTLMSPNEGOKerberosPluggable</td>
+      <td>GZip Deflate</td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><img src="/images/http-clients/square-logo.png" style="border: none; height: 50px" alt="Square logo" /><br /> OkHttp</td>
+      <td>8+</td>
+      <td>2013</td>
+      <td>September 2020</td>
+      <td>Both</td>
+      <td>Callbacks</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Pluggable</td>
+      <td>GZip Deflate Brotli</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>AsyncHttpClient</td>
+      <td>8+</td>
+      <td>2010</td>
+      <td>April 2020 Note: original maintainer has stepped down and a new maintainer is currently being sought</td>
+      <td>Async only</td>
+      <td>Futures  Callbacks Reactive streams</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>None</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td><img src="/images/http-clients/jetty-logo.png" style="border: none; height: 40px" alt="Jetty logo" /><br /> Jetty HttpClient</td>
+      <td>8+</td>
+      <td>2009</td>
+      <td>July 2020</td>
+      <td>Both</td>
+      <td>Callbacks</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Basic Digest SPNEGO Pluggable</td>
+      <td>GZip</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The following sections describe each client in detail.</p>
+
+<h2 id="httpurlconnection--httpsurlconnection">HttpURLConnection / HttpsURLConnection</h2>
+<p><img src="/images/http-clients/old-java-logo.png" style="border: none; height: 100px" alt="Old Java logo" /></p>
+
+<p><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/HttpURLConnection.html" target="_blank">HttpURLConnection</a> is the oldest of the clients we’re comparing, and probably the oldest in the Java ecosystem, having been introduced way back in version 1.1 of the JDK. Its HTTPS supporting counterpart HttpsURLConnection was introduced in Java 1.4.</p>
+
+<p>The main advantage of using these classes is that they’re guaranteed to be available, even in older Java versions, without the need to add any external dependencies.</p>
+
+<p>Arguably, however, that’s where the benefits end. These classes suffer from pretty clunky API design, only offer a synchronous/blocking API, have no HTTP/2 support and lack additional features such as compression and form handling.</p>
+
+<p>They also exhibit some pretty questionable (or buggy, depending on your view) <a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6382788" target="_blank">default behaviour</a> which has been retained throughout the versions for the sake of backwards compatibility.</p>
+
+<p>It’s worth noting that many “wrapper” clients such as Spring’s RestTemplate will use Http(s)URLConnection as their default underlying HTTP implementation, so you can often end up using it without realising. It’s always a good idea to check how your HTTP calls are being made under the hood!</p>
+
+<h3 id="configuration">Configuration</h3>
+<p>HttpURLConnection supports the basic set of configuration options you’d expect, but not much more. The connection pool limit and keep-alive idle timeout are only available as system properties.</p>
+
+<h3 id="documentation">Documentation</h3>
+<p>The official documentation is pretty much limited to just the <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/HttpURLConnection.html" target="_blank">Javadoc page</a>, however, a plethora of 3rd party blog articles exist and at the time of writing, there are over 30k Stackoverflow questions relating to HttpURLConnection.</p>
+
+<h3 id="when-to-use">When to use</h3>
+<p>Use it if you’re not yet on Java 11+ and you’re unable to add any more 3rd party dependencies. Otherwise, avoid!</p>
+
+<h2 id="java-11-httpclient">Java 11+ HttpClient</h2>
+<p><img src="/images/http-clients/new-java-logo.png" style="border: none; height: 100px" alt="New Java logo" /></p>
+
+<p>Java 9 introduced a brand new HTTP client as an incubator module, and this was then made generally available in Java 11.</p>
+
+<p>The new client has a fluent, builder-driven API which is much more legible and easier to work with than HttpURLConnection. It supports both synchronous and asynchronous modes of operation, with the latter making use of Futures.</p>
+
+<p>A major benefit over the older Java client is support for HTTP/2, which is now becoming increasingly prevalent and offers some significant performance improvements over HTTP/1.1.</p>
+
+<p>The new client offers a pluggable authentication mechanism, only provides an implementation of non-preemptive HTTP Basic so if you need anything else you’ll need to implement it yourself.</p>
+
+<p>Transparent compression is not supported, so this is also something you’ll need to handle yourself if you need it.</p>
+
+<p>It does however provide support for cookies.</p>
+
+<h3 id="configuration-1">Configuration</h3>
+<p>Available configuration options are very similar to those for HttpURLConnection, with the connection pool limit and keep-alive idle timeout also only settable via system properties.</p>
+
+<p>Unlike the older client, the redirect policy can be set programmatically per client instance.</p>
+
+<h3 id="documentation-1">Documentation</h3>
+<p>The official documentation for the new HttpClient is a little bit better than for HttpURLConnection, consisting of a <a href="https://openjdk.java.net/groups/net/httpclient/recipes.html" target="_blank">recipes document</a> in addition to the <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpClient.html" target="_blank">Javadoc</a>.</p>
+
+<p>However as the newest client in our list, inevitably less has been written about it in blogs and forums, so expect to work a little harder in the near future to find answers to your questions.</p>
+
+<h3 id="when-to-use-1">When to use</h3>
+<p>Use it if you’re already on Java 11+ and are happy with limited documentation and configuration options.</p>
+
+<h2 id="apache-httpclient">Apache HttpClient</h2>
+<p><img src="/images/http-clients/httpcomponents-logo.png" style="border: none; height: 100px" alt="Apache HTTP Components logo" /></p>
+
+<p>The Apache HTTP client was the first widely adopted open source client to be released, arriving in its original form in 2002. Now on its 5th major version, it’s probably still the most commonly used client outside of Java’s core libraries.</p>
+
+<p>The Apache client is rich in features and configuration options, although at the time of writing HTTP/2 is only supported in the 5.1 beta release.</p>
+
+<h3 id="community-and-maintenance">Community and maintenance</h3>
+<p><img src="/images/http-clients/apache-contribution-graph.png" style="border: none" alt="Apache client contribution graph" /></p>
+
+<p>As a top-level Apache project, HttpClient’s future seems fairly well assured. Contributions continue to arrive at a steady rate, albeit one that’s a bit lower than the most actively maintained libraries in this article.</p>
+
+<h3 id="configuration-2">Configuration</h3>
+<p>One of the Apache client’s strengths is its configurability. Many features of the client such as connection management and name resolution are abstracted and pluggable, so it’s possible to extensively configure them in code, or even supply your own implementations. This makes the Apache client a good bet if you have unusual or tricky requirements.</p>
+
+<p>While it will accept parameters supplied via system properties, all configuration can be done at the client instance level.</p>
+
+<p>One gotcha to watch out for with the Apache client is the low default connection pool limits - 5 per route and 25 overall. These defaults can result in significant bottlenecks in high throughput systems, so it’s always wise to review and raise these before subjecting your app to live traffic.</p>
+
+<h3 id="documentation-2">Documentation</h3>
+<p>The Apache client’s documentation website is produced using the Maven site generator, so it isn’t the most modern reading experience. The content of the documentation is OK if not great, providing code samples for a variety of scenarios, but without much supporting narrative.</p>
+
+<p>Luckily, given how widely used HTTPClient is and its maturity there’s plenty of help available on Stack Overflow and 3rd party blog sites such as <a href="https://www.baeldung.com/httpclient-guide" target="_blank">Baeldung</a>.</p>
+
+<h3 id="when-to-use-2">When to use</h3>
+<p>The Apache client is a strong choice when you need extreme flexibility in configuring and customising behaviour. Teams that place a lot of value on familiarity and breadth of adoption may also find it the most comfortable option.</p>
+
+<h2 id="okhttpclient">OkHttpClient</h2>
+<p><img src="/images/http-clients/square-logo.png" style="border: none; height: 100px" alt="Square logo" /></p>
+
+<p>OkHttpClient is an open source library originally released in 2013 by <a href="https://square.github.io/" target="_blank">Square</a>.</p>
+
+<p>The main motivation behind OkHttp is a strong focus on production readiness - performance, reliability and security. It natively supports HTTP/2 and TLS1.3+ and has a number of fault tolerance features such as the ability to fail over between multiple IP addresses and recover from failed connection attempts. It also implements transparent content compression via Deflate, GZip and Brotli, being the only client that supports the last of these.</p>
+
+<p>OkHttpClient’s defaults are thoughtfully chosen. Provided you keep to the latest version, you’ll get a fast, secure and reliable setup without needing to do much of your own configuration.</p>
+
+<p>Since version 4 OkHttp has been written in Kotlin. Some teams see this as a downside as it means that the Kotlin standard library is pulled in as a transitive dependency (adding about 1.5MB at the time of writing), and also that debugging the client’s code is more difficult for developers not familiar with Kotlin.</p>
+
+<h3 id="community-and-maintenance-1">Community and maintenance</h3>
+<p><img src="/images/http-clients/okhttp-contribution-graph.png" style="border: none" alt="OkHttp client contribution graph" /></p>
+
+<p>OkHttp continues to be sponsored by Square and shows a healthy, regular contribution rate. It has nearly 40k stars on GitHub and has been contributed to by over 200 individuals.</p>
+
+<h3 id="configuration-3">Configuration</h3>
+<p>Despite being strong on usable out-of-the-box defaults, OkHttpClient provides plenty of configuration options and extension points. Everything is configurable at the client instance level, so multiple clients can exist with different settings and it’s straightforward to integrate with your configuration system.</p>
+
+<p>Another configuration option OkHttp provides not seen elsewhere is separate read and write timeouts.</p>
+
+<h3 id="documentation-3">Documentation</h3>
+<p>The OkHttp <a href="https://square.github.io/okhttp/" target="_blank">documentation site</a> is very good and nicely presented. It provides a decent level of detail for all of the major topics, a decent API reference and a search function that actually works.</p>
+
+<h3 id="when-to-use-3">When to use</h3>
+<p>OkHttp is the client we’d recommend by default.</p>
+
+<p>It has all of the features you’re likely to need, both initially and in the future, and will probably give you the fewest headaches when running in production. It has extensive options for configuration and customisation, but will usually do a perfectly good job with its default settings.</p>
+
+<h2 id="asynchttpclient">AsyncHttpClient</h2>
+<p>AsyncHttpClient was originally released in 2010, building on top of <a href="https://netty.io/" target="_blank">Netty</a> for fast, non-blocking I/O. Uniquely amongst our set of clients, it only presents an asynchronous API, however, it provides considerable flexibility here, supporting Futures, Callbacks and Reactive Streams API styles.</p>
+
+<h3 id="community-and-maintenance-2">Community and maintenance</h3>
+<p><img src="/images/http-clients/asynchttpclient-contribution-graph.png" style="border: none" alt="AsyncHttpClient contribution graph" /></p>
+
+<p>The project has mostly seen a decent level of contribution activity over the last few years. However, as of June 2020, the lead maintainer of AsyncHttpClient has stepped down and is looking for a successor so its future is currently somewhat uncertain.</p>
+
+<h3 id="configuration-4">Configuration</h3>
+<p>AsyncHttpClient provides a wealth of configuration options, allowing very fine-grained tuning of timeouts, thread pools and other high and low-level parameters. All of these are all settable from when building a client instance.</p>
+
+<h3 id="documentation-4">Documentation</h3>
+<p>Official documentation is limited to the README document on GitHub, which provides an adequate but brief overview of the major features and a path to getting started. It links to several blog posts which go into a bit more depth, but these are 9-10 years old so are of limited utility.</p>
+
+<p>A search of Stack Overflow for “asynchttpclient” yields a little over 2k results, so while you may have some success finding answers there, there’s significantly less content than for most of the other clients discussed in this article.</p>
+
+<h3 id="when-to-use-4">When to use</h3>
+<p>We’d hesitate to recommend AsyncHttpClient at this point in time due to the uncertainty around its ongoing maintenance.</p>
+
+<p>However, if you’re comfortable with this risk and need a battle-tested, high performing non-blocking client then it’s still worth a look.</p>
+
+<h2 id="jetty-httpclient">Jetty HttpClient</h2>
+<p><img src="/images/http-clients/jetty-logo.png" style="border: none; height: 80px" alt="Jetty logo" /></p>
+
+<p>The Jetty client has been an integral part of the Jetty project since 2009. It uses entirely non-blocking code under the hood and presents both synchronous and asynchronous APIs.</p>
+
+<p>HTTP/2 is supported via the inclusion of an additional library.</p>
+
+<h3 id="community-and-maintenance-3">Community and maintenance</h3>
+<p><img src="/images/http-clients/jetty-contribution-graph.png" style="border: none" alt="Jetty contribution graph" />
+[Contribution graph for the Jetty project overall]</p>
+
+<p>The Jetty project lives within the Eclipse foundation. It’s also backed by a commercial company - Webtide. Their staff (including Jetty’s originator) make regular contributions to the project and are responsive to bug reports and queries.</p>
+
+<h3 id="configuration-5">Configuration</h3>
+<p>The Jetty client provides a pretty comprehensive set of configuration options. These include all of the obvious settings you’d want to tweak, plus access to lower-level tuning parameters such as the executor implementation, scheduler and byte buffer pools.</p>
+
+<p>One notable absence is an overall connection pool limit parameter. However, it is possible to set a per-destination limit for pooled connections, which in practice is often the more useful parameter.</p>
+
+<h3 id="documentation-5">Documentation</h3>
+<p>The <a href="https://www.eclipse.org/jetty/documentation/current/http-client.html" target="_blank">Jetty client documentation pages</a> are reasonably good, with a decent “getting started” section and fairly detailed coverage of the major features. Plenty of code examples are provided, with supporting narrative.</p>
+
+<h3 id="when-to-use-5">When to use</h3>
+<p>The Jetty client supports HTTP/2 and is very configurable, which makes it a good alternative to the OkHttp client if you’re not happy with the latter’s Kotlin dependencies.</p>
+
+<p>It may also be the right choice if you’re using Jetty server already since they share a fair amount of common code and API design. This means that things like TLS configuration work very similarly across client and server.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+<p>Hopefully, if you’ve made it this far, you’re now more informed about the range of HTTP clients available in the Java ecosystem and how to go about selecting one for your project.</p>
+
+<p>We’d definitely recommend avoiding HttpURLConnection unless you really have no alternative, particularly now that the Java 11+ HttpClient is available.</p>
+
+<p>If ultimate flexibility is what you need and you can do without HTTP/2 for the time being, the venerable Apache client may be the one to aim for. You’ll also benefit from its very widespread use and the abundance of information around the internet.</p>
+
+<p>However, all things being equal Square’s OkHttpClient would be our recommendation for teams choosing a new client library. It’s feature-rich, highly configurable and works well in production out of the box.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+      </footer>
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+<nav class="page__footer-links">
+  <div class="page__footer-links-block">
+    <ul>
+      <li>&copy; 2020 MockLab</li>
+      <li><a href="mailto:info@mocklab.io">info@mocklab.io</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <h3>Help</h3>
+    <ul>
+      <li><a href="/docs/getting-started/">Docs</a></li>
+      <li><a href="/docs/getting-started/">Blog</a></li>
+      <li><a href="https://get.mocklab.io/pricing">Pricing</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <h3>Solutions</h3>
+    <ul>
+      <li><a href="/oauth2/">OAuth2</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <h3>Policies</h3>
+    <ul>
+      <li><a href="/docs/terms-and-conditions/">Terms and conditions</a></li>
+      <li><a href="/docs/privacy-policy/">Privacy policy</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <ul>
+
+    </ul>
+  </div>
+</nav>
+
+      </footer>
+    </div>
+
+    <script src="/assets/js/main.min.js"></script>
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78148205-6', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+<script>
+    window.intercomSettings = {
+        app_id: "xjme6u4w"
+    };
+</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/xjme6u4w';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+
+
+  </body>
+</html>
+
