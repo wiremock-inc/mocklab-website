@@ -66,7 +66,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-10-09T14:46:29+01:00">
+  <meta property="article:published_time" content="2020-10-12T11:14:36+01:00">
   
   
     <link rel="prev" href="/docs/updated-terms-and-conditions/" title="Updated MockLab Terms of Service">
@@ -181,7 +181,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Which Java HTTP client should I use in 2020?">
     <meta itemprop="description" content="A review and comparison of all the major Java HTTP client libraries available in 2020.">
-    <meta itemprop="datePublished" content="October 09, 2020">
+    <meta itemprop="datePublished" content="October 12, 2020">
     
 
     <div class="page__inner-wrap">
@@ -199,7 +199,7 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
               <img class="author-pic" src="/images/authors/tom_akehurst.png"/> Tom Akehurst
 
               
-                on <time datetime="2020-10-09T14:46:29+01:00">October 09, 2020</time>
+                on <time datetime="2020-10-12T11:14:36+01:00">October 12, 2020</time>
               
           </p>
 
@@ -252,9 +252,9 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 
 <p>We’re only going to discuss clients that actually implement the HTTP protocol, so libraries such as Spring’s RestTemplate or Feign that act as higher-level wrappers will not be discussed (although we may look at these in a future article).</p>
 
-<h2 id="features-and-capabilities">Features and capabilities</h2>
+<h2 id="criteria">Criteria</h2>
 
-<p>So what criteria should we consider when choosing an HTTP client?</p>
+<p>So what should we consider when choosing an HTTP client?</p>
 
 <p>Obviously, each project’s requirements are somewhat unique, but there are several common factors that most teams would wish to consider:</p>
 <ul>
@@ -275,6 +275,10 @@ mixpanel.init('71b55ac57b47107ca89d12dc7c75cf00', {
 Whether the client supports a synchronous (blocking) call style, asynchronous (non-blocking) or both.</p>
 
 <p>We also indicate what style (or styles) of async API is presented, if any. In practice, this is one or more of futures, callbacks or reactive streams.</p>
+
+<p>It’s worth pointing out that although most clients with an asynchronous API only support one
+style (futures or callbacks typically), there are a number of wrapper libraries
+such as Square’s <a href="https://square.github.io/retrofit/" target="_blank">Retrofit</a> or Spring’s <a href="https://www.baeldung.com/spring-5-webclient" target="_blank"><em>WebClient</em></a> that adapt these to other styles such as reactive streams.</p>
 
 <p><strong>HTTP/2</strong><br />
 Support for version 2 of the HTTP protocol.</p>
@@ -306,7 +310,7 @@ Support for HTTP authentication protocols. The most common of these are:</p>
 <p>While all of the clients discussed can in principle support any authentication scheme by allowing setting of request headers and request parameters, only some offer explicit extension points into which authentication implementations can be plugged, and fewer still offer common schemes out of the box.</p>
 
 <p><strong>Transparent content compression/decompression</strong><br />
-Whether the client can perform <a href="https://en.wikipedia.org/wiki/HTTP_compression">compression and decompression</a>
+Whether the client can perform <a href="https://en.wikipedia.org/wiki/HTTP_compression" target="_blank">compression and decompression</a>
 of content via (most commonly) <a href="" target="_blank">Deflate</a>,
 <a href="https://en.wikipedia.org/wiki/Gzip" target="_blank">GZip</a> or
 <a href="https://en.wikipedia.org/wiki/Brotli" target="_blank">Brotli</a>
@@ -357,7 +361,7 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
       <th> </th>
       <th>Java version compatibility (current version of client)</th>
       <th>Original release date</th>
-      <th>Latest release (as of the end of September 2020)</th>
+      <th>Latest release (as of September 2020)</th>
       <th>Sync/Async</th>
       <th>Async API style(s)</th>
       <th>HTTP/2</th>
@@ -373,8 +377,8 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
   <tbody>
     <tr>
       <td><img src="/images/http-clients/old-java-logo.png" style="border: none; height: 50px" alt="Old Java logo" /><br /> HttpURLConnection</td>
-      <td>1.1+ (HTTP)) 1.4+ (HTTPS)</td>
-      <td>1997 (with JDK 1.1) 2002 (with JDK 1.4)</td>
+      <td>1.1+ (HTTP)<br />1.4+ (HTTPS)</td>
+      <td>1997 (with JDK 1.1)<br />2002 (with JDK 1.4)</td>
       <td>September 2020 (with Java SE 15)</td>
       <td>Sync only</td>
       <td>N/A</td>
@@ -414,7 +418,7 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
       <td>Yes</td>
       <td>Yes</td>
       <td>Yes</td>
-      <td>BasicDigestNTLMSPNEGOKerberosPluggable</td>
+      <td>Basic<br />Digest<br />NTLM<br />SPNEGO<br />Kerberos<br />Pluggable</td>
       <td>GZip Deflate</td>
       <td>Yes</td>
       <td>No</td>
@@ -439,7 +443,7 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
       <td>AsyncHttpClient</td>
       <td>8+</td>
       <td>2010</td>
-      <td>April 2020 Note: original maintainer has stepped down and a new maintainer is currently being sought</td>
+      <td>April 2020</td>
       <td>Async only</td>
       <td>Futures  Callbacks Reactive streams</td>
       <td>No</td>
@@ -462,7 +466,7 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
       <td>Yes</td>
       <td>Yes</td>
       <td>Yes</td>
-      <td>Basic Digest SPNEGO Pluggable</td>
+      <td>Basic<br />Digest<br />SPNEGO<br />Pluggable</td>
       <td>GZip</td>
       <td>No</td>
       <td>Yes</td>
@@ -475,7 +479,7 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
 <h2 id="httpurlconnection--httpsurlconnection">HttpURLConnection / HttpsURLConnection</h2>
 <p><img src="/images/http-clients/old-java-logo.png" style="border: none; height: 100px" alt="Old Java logo" /></p>
 
-<p><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/HttpURLConnection.html" target="_blank">HttpURLConnection</a> is the oldest of the clients we’re comparing, and probably the oldest in the Java ecosystem, having been introduced way back in version 1.1 of the JDK. Its HTTPS supporting counterpart HttpsURLConnection was introduced in Java 1.4.</p>
+<p><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/HttpURLConnection.html" target="_blank"><em>HttpURLConnection</em></a> is the oldest of the clients we’re comparing, and probably the oldest in the Java ecosystem, having been introduced way back in version 1.1 of the JDK. Its HTTPS supporting counterpart HttpsURLConnection was introduced in Java 1.4.</p>
 
 <p>The main advantage of using these classes is that they’re guaranteed to be available, even in older Java versions, without the need to add any external dependencies.</p>
 
@@ -483,13 +487,13 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
 
 <p>They also exhibit some pretty questionable (or buggy, depending on your view) <a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6382788" target="_blank">default behaviour</a> which has been retained throughout the versions for the sake of backwards compatibility.</p>
 
-<p>It’s worth noting that many “wrapper” clients such as Spring’s RestTemplate will use Http(s)URLConnection as their default underlying HTTP implementation, so you can often end up using it without realising. It’s always a good idea to check how your HTTP calls are being made under the hood!</p>
+<p>It’s worth noting that many “wrapper” clients such as Spring’s RestTemplate will use <em>Http(s)URLConnection</em> as their default underlying HTTP implementation, so you can often end up using it without realising. It’s always a good idea to check how your HTTP calls are being made under the hood!</p>
 
 <h3 id="configuration">Configuration</h3>
-<p>HttpURLConnection supports the basic set of configuration options you’d expect, but not much more. The connection pool limit and keep-alive idle timeout are only available as system properties.</p>
+<p><em>HttpURLConnection</em> supports the basic set of configuration options you’d expect, but not much more. The connection pool limit and keep-alive idle timeout are only available as system properties.</p>
 
 <h3 id="documentation">Documentation</h3>
-<p>The official documentation is pretty much limited to just the <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/HttpURLConnection.html" target="_blank">Javadoc page</a>, however, a plethora of 3rd party blog articles exist and at the time of writing, there are over 30k Stackoverflow questions relating to HttpURLConnection.</p>
+<p>The official documentation is pretty much limited to just the <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/HttpURLConnection.html" target="_blank">Javadoc page</a>, however, a plethora of 3rd party blog articles exist and at the time of writing, there are over 30k Stackoverflow questions relating to <em>HttpURLConnection</em>.</p>
 
 <h3 id="when-to-use">When to use</h3>
 <p>Use it if you’re not yet on Java 11+ and you’re unable to add any more 3rd party dependencies. Otherwise, avoid!</p>
@@ -499,7 +503,7 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
 
 <p>Java 9 introduced a brand new HTTP client as an incubator module, and this was then made generally available in Java 11.</p>
 
-<p>The new client has a fluent, builder-driven API which is much more legible and easier to work with than HttpURLConnection. It supports both synchronous and asynchronous modes of operation, with the latter making use of Futures.</p>
+<p>The new client has a fluent, builder-driven API which is much more legible and easier to work with than <em>HttpURLConnection</em>. It supports both synchronous and asynchronous modes of operation, with the latter making use of Futures.</p>
 
 <p>A major benefit over the older Java client is support for HTTP/2, which is now becoming increasingly prevalent and offers some significant performance improvements over HTTP/1.1.</p>
 
@@ -510,12 +514,12 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
 <p>It does however provide support for cookies.</p>
 
 <h3 id="configuration-1">Configuration</h3>
-<p>Available configuration options are very similar to those for HttpURLConnection, with the connection pool limit and keep-alive idle timeout also only settable via system properties.</p>
+<p>Available configuration options are very similar to those for <em>HttpURLConnection</em>, with the connection pool limit and keep-alive idle timeout also only settable via system properties.</p>
 
 <p>Unlike the older client, the redirect policy can be set programmatically per client instance.</p>
 
 <h3 id="documentation-1">Documentation</h3>
-<p>The official documentation for the new HttpClient is a little bit better than for HttpURLConnection, consisting of a <a href="https://openjdk.java.net/groups/net/httpclient/recipes.html" target="_blank">recipes document</a> in addition to the <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpClient.html" target="_blank">Javadoc</a>.</p>
+<p>The official documentation for the new <em>HttpClient</em> is a little bit better than for <em>HttpURLConnection</em>, consisting of a <a href="https://openjdk.java.net/groups/net/httpclient/recipes.html" target="_blank">recipes document</a> in addition to the <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpClient.html" target="_blank">Javadoc</a>.</p>
 
 <p>However as the newest client in our list, inevitably less has been written about it in blogs and forums, so expect to work a little harder in the near future to find answers to your questions.</p>
 
@@ -532,7 +536,7 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
 <h3 id="community-and-maintenance">Community and maintenance</h3>
 <p><img src="/images/http-clients/apache-contribution-graph.png" style="border: none" alt="Apache client contribution graph" /></p>
 
-<p>As a top-level Apache project, HttpClient’s future seems fairly well assured. Contributions continue to arrive at a steady rate, albeit one that’s a bit lower than the most actively maintained libraries in this article.</p>
+<p>As a top-level Apache project, <em>HTTPClient</em>’s future seems fairly well assured. Contributions continue to arrive at a steady rate, albeit one that’s a bit lower than the most actively maintained libraries in this article.</p>
 
 <h3 id="configuration-2">Configuration</h3>
 <p>One of the Apache client’s strengths is its configurability. Many features of the client such as connection management and name resolution are abstracted and pluggable, so it’s possible to extensively configure them in code, or even supply your own implementations. This makes the Apache client a good bet if you have unusual or tricky requirements.</p>
@@ -544,7 +548,7 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
 <h3 id="documentation-2">Documentation</h3>
 <p>The Apache client’s documentation website is produced using the Maven site generator, so it isn’t the most modern reading experience. The content of the documentation is OK if not great, providing code samples for a variety of scenarios, but without much supporting narrative.</p>
 
-<p>Luckily, given how widely used HTTPClient is and its maturity there’s plenty of help available on Stack Overflow and 3rd party blog sites such as <a href="https://www.baeldung.com/httpclient-guide" target="_blank">Baeldung</a>.</p>
+<p>Luckily, given how widely used <em>HTTPClient</em> is and its maturity there’s plenty of help available on Stack Overflow and 3rd party blog sites such as <a href="https://www.baeldung.com/httpclient-guide" target="_blank">Baeldung</a>.</p>
 
 <h3 id="when-to-use-2">When to use</h3>
 <p>The Apache client is a strong choice when you need extreme flexibility in configuring and customising behaviour. Teams that place a lot of value on familiarity and breadth of adoption may also find it the most comfortable option.</p>
@@ -552,21 +556,21 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
 <h2 id="okhttpclient">OkHttpClient</h2>
 <p><img src="/images/http-clients/square-logo.png" style="border: none; height: 100px" alt="Square logo" /></p>
 
-<p>OkHttpClient is an open source library originally released in 2013 by <a href="https://square.github.io/" target="_blank">Square</a>.</p>
+<p><em>OkHttpClient</em> is an open source library originally released in 2013 by <a href="https://square.github.io/" target="_blank">Square</a>.</p>
 
 <p>The main motivation behind OkHttp is a strong focus on production readiness - performance, reliability and security. It natively supports HTTP/2 and TLS1.3+ and has a number of fault tolerance features such as the ability to fail over between multiple IP addresses and recover from failed connection attempts. It also implements transparent content compression via Deflate, GZip and Brotli, being the only client that supports the last of these.</p>
 
-<p>OkHttpClient’s defaults are thoughtfully chosen. Provided you keep to the latest version, you’ll get a fast, secure and reliable setup without needing to do much of your own configuration.</p>
+<p><em>OkHttpClient</em>’s defaults are thoughtfully chosen. Provided you keep to the latest version, you’ll get a fast, secure and reliable setup without needing to do much of your own configuration.</p>
 
 <p>Since version 4 OkHttp has been written in Kotlin. Some teams see this as a downside as it means that the Kotlin standard library is pulled in as a transitive dependency (adding about 1.5MB at the time of writing), and also that debugging the client’s code is more difficult for developers not familiar with Kotlin.</p>
 
 <h3 id="community-and-maintenance-1">Community and maintenance</h3>
 <p><img src="/images/http-clients/okhttp-contribution-graph.png" style="border: none" alt="OkHttp client contribution graph" /></p>
 
-<p>OkHttp continues to be sponsored by Square and shows a healthy, regular contribution rate. It has nearly 40k stars on GitHub and has been contributed to by over 200 individuals.</p>
+<p><em>OkHttp</em> continues to be sponsored by Square and shows a healthy, regular contribution rate. It has nearly 40k stars on GitHub and has been contributed to by over 200 individuals.</p>
 
 <h3 id="configuration-3">Configuration</h3>
-<p>Despite being strong on usable out-of-the-box defaults, OkHttpClient provides plenty of configuration options and extension points. Everything is configurable at the client instance level, so multiple clients can exist with different settings and it’s straightforward to integrate with your configuration system.</p>
+<p>Despite being strong on usable out-of-the-box defaults, <em>OkHttpClient</em> provides plenty of configuration options and extension points. Everything is configurable at the client instance level, so multiple clients can exist with different settings and it’s straightforward to integrate with your configuration system.</p>
 
 <p>Another configuration option OkHttp provides not seen elsewhere is separate read and write timeouts.</p>
 
@@ -579,15 +583,15 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
 <p>It has all of the features you’re likely to need, both initially and in the future, and will probably give you the fewest headaches when running in production. It has extensive options for configuration and customisation, but will usually do a perfectly good job with its default settings.</p>
 
 <h2 id="asynchttpclient">AsyncHttpClient</h2>
-<p>AsyncHttpClient was originally released in 2010, building on top of <a href="https://netty.io/" target="_blank">Netty</a> for fast, non-blocking I/O. Uniquely amongst our set of clients, it only presents an asynchronous API, however, it provides considerable flexibility here, supporting Futures, Callbacks and Reactive Streams API styles.</p>
+<p><em>AsyncHttpClient</em> was originally released in 2010, building on top of <a href="https://netty.io/" target="_blank">Netty</a> for fast, non-blocking I/O. Uniquely amongst our set of clients, it only presents an asynchronous API, however, it provides considerable flexibility here, supporting Futures, Callbacks and Reactive Streams API styles.</p>
 
 <h3 id="community-and-maintenance-2">Community and maintenance</h3>
 <p><img src="/images/http-clients/asynchttpclient-contribution-graph.png" style="border: none" alt="AsyncHttpClient contribution graph" /></p>
 
-<p>The project has mostly seen a decent level of contribution activity over the last few years. However, as of June 2020, the lead maintainer of AsyncHttpClient has stepped down and is looking for a successor so its future is currently somewhat uncertain.</p>
+<p>The project has mostly seen a decent level of contribution activity over the last few years. However, as of June 2020, the lead maintainer of <em>AsyncHttpClient</em> has stepped down and is looking for a successor so its future is currently somewhat uncertain.</p>
 
 <h3 id="configuration-4">Configuration</h3>
-<p>AsyncHttpClient provides a wealth of configuration options, allowing very fine-grained tuning of timeouts, thread pools and other high and low-level parameters. All of these are all settable from when building a client instance.</p>
+<p><em>AsyncHttpClient</em> provides a wealth of configuration options, allowing very fine-grained tuning of timeouts, thread pools and other high and low-level parameters. All of these are all settable from when building a client instance.</p>
 
 <h3 id="documentation-4">Documentation</h3>
 <p>Official documentation is limited to the README document on GitHub, which provides an adequate but brief overview of the major features and a path to getting started. It links to several blog posts which go into a bit more depth, but these are 9-10 years old so are of limited utility.</p>
@@ -595,7 +599,7 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
 <p>A search of Stack Overflow for “asynchttpclient” yields a little over 2k results, so while you may have some success finding answers there, there’s significantly less content than for most of the other clients discussed in this article.</p>
 
 <h3 id="when-to-use-4">When to use</h3>
-<p>We’d hesitate to recommend AsyncHttpClient at this point in time due to the uncertainty around its ongoing maintenance.</p>
+<p>We’d hesitate to recommend <em>AsyncHttpClient</em> at this point in time due to the uncertainty around its ongoing maintenance.</p>
 
 <p>However, if you’re comfortable with this risk and need a battle-tested, high performing non-blocking client then it’s still worth a look.</p>
 
@@ -628,11 +632,11 @@ Support for the <a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank
 <h2 id="conclusions">Conclusions</h2>
 <p>Hopefully, if you’ve made it this far, you’re now more informed about the range of HTTP clients available in the Java ecosystem and how to go about selecting one for your project.</p>
 
-<p>We’d definitely recommend avoiding HttpURLConnection unless you really have no alternative, particularly now that the Java 11+ HttpClient is available.</p>
+<p>We’d definitely recommend avoiding <em>HttpURLConnection</em> unless you really have no alternative, particularly now that the Java 11+ <em>HttpClient</em> is available.</p>
 
 <p>If ultimate flexibility is what you need and you can do without HTTP/2 for the time being, the venerable Apache client may be the one to aim for. You’ll also benefit from its very widespread use and the abundance of information around the internet.</p>
 
-<p>However, all things being equal Square’s OkHttpClient would be our recommendation for teams choosing a new client library. It’s feature-rich, highly configurable and works well in production out of the box.</p>
+<p>However, all things being equal Square’s <em>OkHttpClient</em> would be our recommendation for teams choosing a new client library. It’s feature-rich, highly configurable and works well in production out of the box.</p>
 
         
       </section>
