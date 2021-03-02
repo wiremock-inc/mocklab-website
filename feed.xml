@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://www.mocklab.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.mocklab.io/" rel="alternate" type="text/html" /><updated>2021-02-15T18:25:57+00:00</updated><id>https://www.mocklab.io/feed.xml</id><title type="html">MockLab</title><subtitle>MockLab is the hosted API mocking tool built on WireMock</subtitle><author><name>Your Name</name></author><entry><title type="html">Which Java HTTP client should I use in 2020?</title><link href="https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/" rel="alternate" type="text/html" title="Which Java HTTP client should I use in 2020?" /><published>2020-10-12T00:00:00+00:00</published><updated>2020-10-12T00:00:00+00:00</updated><id>https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020</id><content type="html" xml:base="https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/">&lt;p&gt;HTTP has become the dominant protocol for integration of networked programs, and consequently many (possibly most) Java projects need to be able to make HTTP calls to other systems.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://www.mocklab.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.mocklab.io/" rel="alternate" type="text/html" /><updated>2021-03-02T18:25:48+00:00</updated><id>https://www.mocklab.io/feed.xml</id><title type="html">MockLab</title><subtitle>MockLab is the hosted API mocking tool built on WireMock</subtitle><author><name>Your Name</name></author><entry><title type="html">Which Java HTTP client should I use in 2020?</title><link href="https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/" rel="alternate" type="text/html" title="Which Java HTTP client should I use in 2020?" /><published>2020-10-12T00:00:00+00:00</published><updated>2020-10-12T00:00:00+00:00</updated><id>https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020</id><content type="html" xml:base="https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/">&lt;p&gt;HTTP has become the dominant protocol for integration of networked programs, and consequently many (possibly most) Java projects need to be able to make HTTP calls to other systems.&lt;/p&gt;
 
 &lt;p&gt;As with many things in the Java ecosystem, a broad array of alternatives exist for achieving this, both via core libraries and open source.&lt;/p&gt;
 
@@ -94,6 +94,23 @@ Support for the &lt;a href=&quot;https://en.wikipedia.org/wiki/WebSocket&quot; t
 &lt;p&gt;A further characteristic to be aware of is that some clients (specifically the core Java ones) only expose certain parameters as system properties. This means that a) they can only be set globally per running JVM, and b) they are much harder to integrate with other configuration systems.&lt;/p&gt;
 
 &lt;p&gt;In general, being able to set configuration parameters programmatically, at the client instance level is preferable as this permits multiple clients to exist differing options and simpler integration into frameworks and apps with their own config arrangements. It also makes life much easier if you’re deploying into an environment such as a servlet container where you may not have full control over startup parameters.&lt;/p&gt;
+
+&lt;div class=&quot;mid-article-cta&quot;&gt;
+  &lt;p class=&quot;mid-article-cta__text&quot;&gt;
+    If you've made it this far there's a good chance you're building a system that
+    relies on 3rd party APIs. MockLab can help you test your system when those
+    APIs don't exist yet, have flakey test environments or are expensive to call.
+  &lt;/p&gt;
+
+  &lt;p class=&quot;mid-article-cta__text&quot;&gt;
+    It's quick and simple to get started with and it's powered by WireMock so it
+    has the flexibility to grow with your project's testing demands.
+  &lt;/p&gt;
+
+  &lt;a class=&quot;mid-article-cta__learn-more&quot; href=&quot;https://get.mocklab.io/?utm_source=www.mocklab.io&amp;amp;utm_medium=blog&amp;amp;utm_campaign=java-http-client-cta&quot; title=&quot;Learn more&quot; target=&quot;_blank&quot;&gt;Learn more&lt;/a&gt;
+
+  &lt;a class=&quot;mid-article-cta__get-started&quot; href=&quot;https://app.mocklab.io/login?for=signup&amp;amp;utm_source=www.mocklab.io&amp;amp;utm_medium=blog&amp;amp;utm_campaign=java-http-client-cta&quot; title=&quot;Get started for free&quot; target=&quot;_blank&quot;&gt;Get started for free&lt;/a&gt;
+&lt;/div&gt;
 
 &lt;h2 id=&quot;the-clients&quot;&gt;The clients&lt;/h2&gt;
 &lt;p&gt;The HTTP clients we will examine are:&lt;/p&gt;
@@ -441,12 +458,21 @@ a receiver - just create a new webhook in the Integrations menu (&lt;img src=&qu
 &lt;p&gt;As I mentioned at the start, this is a first beta release, and we intend to evolve and improve Swagger support based on the feedback from real use. If you love, hate or simply think this feature could be improved please drop us a message in the chat widget or
 &lt;a href=&quot;mailto:info@mocklab.io&quot;&gt;by email&lt;/a&gt; and let us know!&lt;/p&gt;
 
-&lt;div class=&quot;signup-cta&quot;&gt;
-  &lt;p class=&quot;signup-cta__text&quot;&gt;
-    New to MockLab? No problem, you can sign up for a free 14 day trial using GitHub, Google or your email address. No credit card required.
+&lt;div class=&quot;mid-article-cta&quot;&gt;
+  &lt;p class=&quot;mid-article-cta__text&quot;&gt;
+    If you've made it this far there's a good chance you're building a system that
+    relies on 3rd party APIs. MockLab can help you test your system when those
+    APIs don't exist yet, have flakey test environments or are expensive to call.
   &lt;/p&gt;
 
-  &lt;a href=&quot;https://app.mocklab.io/login?for=signup&amp;amp;utm_source=www.mocklab.io&amp;amp;utm_medium=blog&amp;amp;utm_campaign=swagger-post-cta&quot; title=&quot;Sign up&quot; target=&quot;_blank&quot;&gt;Sign up&lt;/a&gt;
+  &lt;p class=&quot;mid-article-cta__text&quot;&gt;
+    It's quick and simple to get started with and it's powered by WireMock so it
+    has the flexibility to grow with your project's testing demands.
+  &lt;/p&gt;
+
+  &lt;a class=&quot;mid-article-cta__learn-more&quot; href=&quot;https://get.mocklab.io/?utm_source=www.mocklab.io&amp;amp;utm_medium=blog&amp;amp;utm_campaign=java-http-client-cta&quot; title=&quot;Learn more&quot; target=&quot;_blank&quot;&gt;Learn more&lt;/a&gt;
+
+  &lt;a class=&quot;mid-article-cta__get-started&quot; href=&quot;https://app.mocklab.io/login?for=signup&amp;amp;utm_source=www.mocklab.io&amp;amp;utm_medium=blog&amp;amp;utm_campaign=java-http-client-cta&quot; title=&quot;Get started for free&quot; target=&quot;_blank&quot;&gt;Get started for free&lt;/a&gt;
 &lt;/div&gt;</content><author><name>Tom Akehurst</name></author><category term="MockLab" /><category term="API Mocking" /><category term="Open API Specification" /><category term="Swagger" /><category term="Swaggerhub" /><summary type="html">MockLab now supports import of Swagger documents and integration with Swaggerhub.</summary></entry><entry><title type="html">Build a Paypal Sandbox for Load Testing in 10 Minutes</title><link href="https://www.mocklab.io/blog/build-a-paypal-sandbox-for-load-testing/" rel="alternate" type="text/html" title="Build a Paypal Sandbox for Load Testing in 10 Minutes" /><published>2018-07-10T00:00:00+00:00</published><updated>2018-07-10T00:00:00+00:00</updated><id>https://www.mocklab.io/blog/build-a-paypal-sandbox-for-load-testing</id><content type="html" xml:base="https://www.mocklab.io/blog/build-a-paypal-sandbox-for-load-testing/">&lt;div class=&quot;video&quot;&gt;
 &lt;script src=&quot;https://fast.wistia.com/embed/medias/tz7u9ot0sj.jsonp&quot; async=&quot;&quot;&gt;&lt;/script&gt;&lt;script src=&quot;https://fast.wistia.com/assets/external/E-v1.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;&lt;div class=&quot;wistia_responsive_padding&quot; style=&quot;padding:56.25% 0 0 0;position:relative;&quot;&gt;&lt;div class=&quot;wistia_responsive_wrapper&quot; style=&quot;height:100%;left:0;position:absolute;top:0;width:100%;&quot;&gt;&lt;div class=&quot;wistia_embed wistia_async_tz7u9ot0sj videoFoam=true&quot; style=&quot;height:100%;position:relative;width:100%&quot;&gt;&lt;div class=&quot;wistia_swatch&quot; style=&quot;height:100%;left:0;opacity:0;overflow:hidden;position:absolute;top:0;transition:opacity 200ms;width:100%;&quot;&gt;&lt;img src=&quot;https://fast.wistia.com/embed/medias/tz7u9ot0sj/swatch&quot; style=&quot;filter:blur(5px);height:100%;object-fit:contain;width:100%;&quot; alt=&quot;&quot; onload=&quot;this.parentNode.style.opacity=1;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -613,10 +639,19 @@ apache-jmeter-4.0/bin/jmeter
 
 &lt;p&gt;Then just hit play to start testing!&lt;/p&gt;
 
-&lt;div class=&quot;signup-cta&quot;&gt;
-  &lt;p class=&quot;signup-cta__text&quot;&gt;
-    If you'd like to try this yourself you can sign up for a free 14 day trial of MockLab.
-  It's very quick and easy - log in with GitHub, Google or your email address. No credit card required.
+&lt;div class=&quot;mid-article-cta&quot;&gt;
+  &lt;p class=&quot;mid-article-cta__text&quot;&gt;
+    If you've made it this far there's a good chance you're building a system that
+    relies on 3rd party APIs. MockLab can help you test your system when those
+    APIs don't exist yet, have flakey test environments or are expensive to call.
   &lt;/p&gt;
-  &lt;a href=&quot;https://app.mocklab.io/login?for=signup&amp;amp;utm_source=www.mocklab.io&amp;amp;utm_medium=blog&amp;amp;utm_campaign=paypal_sandbox_article-bottom_cta&quot; title=&quot;Sign up&quot; target=&quot;_blank&quot;&gt;Sign up&lt;/a&gt;
+
+  &lt;p class=&quot;mid-article-cta__text&quot;&gt;
+    It's quick and simple to get started with and it's powered by WireMock so it
+    has the flexibility to grow with your project's testing demands.
+  &lt;/p&gt;
+
+  &lt;a class=&quot;mid-article-cta__learn-more&quot; href=&quot;https://get.mocklab.io/?utm_source=www.mocklab.io&amp;amp;utm_medium=blog&amp;amp;utm_campaign=java-http-client-cta&quot; title=&quot;Learn more&quot; target=&quot;_blank&quot;&gt;Learn more&lt;/a&gt;
+
+  &lt;a class=&quot;mid-article-cta__get-started&quot; href=&quot;https://app.mocklab.io/login?for=signup&amp;amp;utm_source=www.mocklab.io&amp;amp;utm_medium=blog&amp;amp;utm_campaign=java-http-client-cta&quot; title=&quot;Get started for free&quot; target=&quot;_blank&quot;&gt;Get started for free&lt;/a&gt;
 &lt;/div&gt;</content><author><name>Tom Akehurst</name></author><category term="MockLab" /><category term="API Mocking" /><category term="Performance Testing" /><category term="Paypal" /><summary type="html">Build a mock of the Paypal API to allow end to end load testing of your e-commerce app.</summary></entry></feed>
