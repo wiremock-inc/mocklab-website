@@ -20,7 +20,7 @@
 
 
 
-<title>Swagger Import | MockLab</title>
+<title>Import &amp; Export - Swagger and OpenAPI | MockLab</title>
 
 
 
@@ -28,11 +28,11 @@
 
 
 
-<meta name="description" content="Generate your mock API automatically from a Swagger definition">
+<meta name="description" content="Generate your mock API automatically from a Swagger or OpenAPI definition.">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Swagger Import">
+<meta property="og:title" content="Import &amp; Export - Swagger and OpenAPI">
 
 
   <link rel="canonical" href="https://www.mocklab.io/docs/swagger/">
@@ -40,7 +40,7 @@
 
 
 
-  <meta property="og:description" content="Generate your mock API automatically from a Swagger definition">
+  <meta property="og:description" content="Generate your mock API automatically from a Swagger or OpenAPI definition.">
 
 
 
@@ -61,7 +61,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2021-03-16T11:19:38+00:00">
+  <meta property="article:published_time" content="2021-03-21T18:04:01+00:00">
   
     <link rel="next" href="https://www.mocklab.io/docs/terms-and-conditions/" title="MockLab Terms of Service">
   
@@ -172,7 +172,7 @@
 <div id="main" role="main">
   
 
-<div class="sidebar sticky">
+<div class="sidebar">
   <nav class="nav__list">
     <ul class="doc-categories">
       
@@ -441,21 +441,51 @@
               
               
               <li>
-                <a href="/docs/swagger/" class="nav__list-item--selected">
-                
+                <a href="https://www.mocklab.io/docs/import-and-export/">
 
                 
-                Swagger Import
+                Overview
                 </a>
               </li>
             
               
               
               <li>
-                <a href="https://www.mocklab.io/docs/import-and-export/">
+                <a href="https://www.mocklab.io/docs/import-export/wiremock/">
 
                 
-                How to: Import and export your mock API
+                WireMock
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="/docs/swagger/" class="nav__list-item--selected">
+                
+
+                
+                Swagger and OpenAPI
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="https://www.mocklab.io/docs/import-export/postman/">
+
+                
+                Postman
+                </a>
+              </li>
+            
+              
+              
+              <li>
+                <a href="https://www.mocklab.io/docs/import-export/api/">
+
+                
+                Via the API
                 </a>
               </li>
             
@@ -597,71 +627,37 @@
 
 
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Swagger Import">
-    <meta itemprop="description" content="Swagger / OpenAPI Specification is undoubtedly the most widely used description language for REST and REST-like APIs.MockLab supports automatic generation of mock APIs from imported Swagger descriptions.">
-    <meta itemprop="datePublished" content="March 16, 2021">
+    <meta itemprop="headline" content="Import &amp; Export - Swagger and OpenAPI">
+    <meta itemprop="description" content="Swagger / OpenAPI is undoubtedly the most widely used description language for REST and REST-like APIs.MockLab supports automatic generation of mock APIs from imported Swagger and OpenAPI specifications.">
+    <meta itemprop="datePublished" content="March 21, 2021">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Swagger Import
+        <h1 class="page__title" itemprop="headline">Import &amp; Export - Swagger and OpenAPI
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>Swagger / OpenAPI Specification is undoubtedly the most widely used description language for REST and REST-like APIs.
-MockLab supports automatic generation of mock APIs from imported Swagger descriptions.</p>
+        <p>Swagger / OpenAPI is undoubtedly the most widely used description language for REST and REST-like APIs.
+MockLab supports automatic generation of mock APIs from imported Swagger and OpenAPI specifications.</p>
 
-<p>The following sections describe the various approaches available.</p>
-
-<h2 id="importing-manually-via-the-ui">Importing manually via the UI</h2>
-
-<p>Click the Import button on the stubs toolbar (<img src="/images/screenshots/import-button.png" alt="Import Button" style="height: 40px; border: none;" />)
-to open the import dialog box:</p>
-
-<p><img src="/images/screenshots/import-stubs-dialog.png" alt="Stub toolbar" style="border-radius: 3px;" /></p>
-
-<p>Then paste your YAML or JSON Swagger definition into the text editor, pick your duplicate policy and hit Import.</p>
-
-<p>Officially the import feature supports version 3.x of Swagger/OAS, although in practice it will
-import most version 2.x definitions without issue.</p>
-
-<h2 id="automating-imports-via-the-api">Automating imports via the API</h2>
-
-<p>You can automate the import process by posting the Swagger definition to your mock API’s admin API.</p>
-
-<p>For instance, assuming you’ve created a mock API with a domain name of <code class="language-plaintext highlighter-rouge">my-swagger-api</code>. You can import
-a new definition by making the following call:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST http://my-swagger-api.mocklab.io/__admin/imports/open-api-spec
-
-{
-  "spec": "&lt;your JSON or YAML Swagger definition&gt;",
-  "duplicatePolicy": "ALWAYS_OVERWRITE"
-}
-</code></pre></div></div>
-
-<p>The possible values for <code class="language-plaintext highlighter-rouge">duplicatePolicy</code> are <code class="language-plaintext highlighter-rouge">ALWAYS_OVERWRITE</code> and <code class="language-plaintext highlighter-rouge">ALWAYS_CREATE_NEW</code>.</p>
-
-<h2 id="duplicate-policy">Duplicate policy</h2>
-
-<p>If you’re working with a Swagger definition that’s changing on a regular basis, you’ll probably want
-to re-import it repeatedly.</p>
-
-<p>This means it’s necessary to decide what to do when a stub is newly generated for an url/operation/content type combination
-for which a stub already exists from a previous import.</p>
-
-<p>Most of the time, for the sake of keeping the mock API correct you’ll want to overwrite the previous stub, so this is the default behaviour.</p>
-
-<p>However, you also have the option of having a new stub created each time. This means if you’ve edited a stub generated from a previous
-import e.g. to add some specific test data, you won’t lose this and have the opportunity to incorporate it into the newer stub.</p>
+<p>See <a href="/docs/import-and-export/">Import and Export Overview</a> for basic importing instructions via the UI and
+<a href="/docs/import-export/api">Importing and Export via the API</a> for directions on automating
+imports via MockLab’s API.</p>
 
 <h2 id="customising-the-import">Customising the import</h2>
 
+<p>When importing from a Swagger/OpenAPI spec, it’s often useful to be able to control
+how certain aspects of the generated stubs are produced. MockLab supports a number
+of extension attributes that can be added to your spec document for this purpose.</p>
+
 <h3 id="specifying-url-path-and-query-parameters">Specifying URL path and query parameters</h3>
 
-<p>When MockLab converts a response example to a stub, by default it will generate random values for URL path and query parameters.
-However, if a response uses the multiple example format, you can specify the exact parameter values you wish to be required
-by the stub.</p>
+<p>When MockLab converts a response example to a stub, by default it will generate random values for URL path and query parameters.</p>
+
+<p>However, if a response uses the multiple example format, you can specify the exact parameter values you wish to be required
+by the stub. This can be useful if your test cases or application under test expects specific
+responses to be available in your mock API.</p>
 
 <p>For instance, given the following Open API path element:</p>
 
@@ -713,7 +709,7 @@ by the stub.</p>
 One will have a URL path equal to <code class="language-plaintext highlighter-rouge">/people/abc123</code> and a requred query parameter of <code class="language-plaintext highlighter-rouge">fields=summary</code>.
 The other will have a URL path equal to <code class="language-plaintext highlighter-rouge">/people/cba321</code> and a requred query parameter of <code class="language-plaintext highlighter-rouge">fields=full</code>.</p>
 
-<p>Any values not specified in this manner will be automatically generated based on the parameter’s schema.</p>
+<p>Any values not specified in this manner will be randomly generated based on the parameter’s schema.</p>
 
 <h3 id="controlling-data-generation-from-schemas">Controlling data generation from schemas</h3>
 
@@ -776,28 +772,6 @@ commonly used, plus all supplied by MockLab:</p>
 
   <p>Only required query parameters will be included in the stubs’ request criteria. Non-required query parameters
 will excluded, meaning that any or no value will be accepted.</p>
-</blockquote>
-
-<h2 id="integrating-with-swaggerhub">Integrating with Swaggerhub</h2>
-
-<p>Swaggerhub (Smartbear’s hosted Swagger authoring and collaboration tool), supports integration of external tools via webhooks.</p>
-
-<p>MockLab can be configured as a receiver so that stubs are imported on each save or publish of your Swaggerhub project.</p>
-
-<p>To do this, create a new webhook in the Integrations menu (<img src="/images/screenshots/swaggerhub-integrations-icon.png" alt="Swaggerhub integrations icon" style="border:none; width: 52px;" />) with a payload URL (which you can also copy from the bottom of the import dialog in the Stubs page) like</p>
-
-<p><code class="language-plaintext highlighter-rouge">http://my-swagger-api.mocklab.io/__admin/imports/swaggerhub?apiToken=l1389usdkfh13</code>,</p>
-
-<p>substituting your own domain name and API token:</p>
-
-<p><img src="/images/screenshots/swaggerhub-webhook-dialog.png" alt="Swaggerhub webhook dialog" /></p>
-
-<p>Once you’ve added this, try saving your API then heading back to MockLab and refreshing your stubs.</p>
-
-<blockquote>
-  <p><strong>note</strong></p>
-
-  <p>At present Swaggerhub import will be executed with a duplicate policy of ALWAYS_OVERWRITE.</p>
 </blockquote>
 
         

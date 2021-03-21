@@ -20,7 +20,7 @@
 
 
 
-<title>Request Matching - Overview of Matcher Types | MockLab</title>
+<title>Import &amp; Export - WireMock | MockLab</title>
 
 
 
@@ -28,19 +28,19 @@
 
 
 
-<meta name="description" content="Overview of the match operations supported by MockLab">
+<meta name="description" content="Importing and exporting mock APIs between WireMock and MockLab.">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Request Matching - Overview of Matcher Types">
+<meta property="og:title" content="Import &amp; Export - WireMock">
 
 
-  <link rel="canonical" href="https://www.mocklab.io/docs/request-matching/matcher-types/">
-  <meta property="og:url" content="https://www.mocklab.io/docs/request-matching/matcher-types/">
+  <link rel="canonical" href="https://www.mocklab.io/docs/import-export/wiremock/">
+  <meta property="og:url" content="https://www.mocklab.io/docs/import-export/wiremock/">
 
 
 
-  <meta property="og:description" content="Overview of the match operations supported by MockLab">
+  <meta property="og:description" content="Importing and exporting mock APIs between WireMock and MockLab.">
 
 
 
@@ -63,10 +63,10 @@
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2021-03-21T18:04:01+00:00">
   
-    <link rel="next" href="https://www.mocklab.io/docs/request-matching/url/" title="Request Matching - Matching URLs">
+    <link rel="next" href="https://www.mocklab.io/docs/mock-rest-api/" title="How to build a mock REST API [Tutorial]">
   
   
-    <link rel="prev" href="https://www.mocklab.io/docs/request-matching/json/" title="Request Matching - Matching JSON requests">
+    <link rel="prev" href="https://www.mocklab.io/docs/import-export/postman/" title="Import &amp; Export - Postman">
   
 
 
@@ -287,8 +287,7 @@
               
               
               <li>
-                <a href="/docs/request-matching/matcher-types/" class="nav__list-item--selected">
-                
+                <a href="https://www.mocklab.io/docs/request-matching/matcher-types/">
 
                 
                 Overview of Matcher Types
@@ -452,7 +451,8 @@
               
               
               <li>
-                <a href="https://www.mocklab.io/docs/import-export/wiremock/">
+                <a href="/docs/import-export/wiremock/" class="nav__list-item--selected">
+                
 
                 
                 WireMock
@@ -627,81 +627,81 @@
 
 
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Request Matching - Overview of Matcher Types">
-    <meta itemprop="description" content="MockLab (via WireMock) supports a set of match operations that can be used againstthe request’s query, headers, cookies and body.">
+    <meta itemprop="headline" content="Import &amp; Export - WireMock">
+    <meta itemprop="description" content="MockLab and WireMock share the same native JSON format for stubs, so mock APIscan be imported and exported between the two.">
     <meta itemprop="datePublished" content="March 21, 2021">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Request Matching - Overview of Matcher Types
+        <h1 class="page__title" itemprop="headline">Import &amp; Export - WireMock
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>MockLab (via WireMock) supports a set of match operations that can be used against
-the request’s query, headers, cookies and body.</p>
+        <p>MockLab and WireMock share the same native JSON format for stubs, so mock APIs
+can be imported and exported between the two.</p>
 
-<p>This article provides an overview of these matchers. The names shown are the exact
-keys used in the WireMock/MockLab JSON API.</p>
+<p>JSON exports can also be stored in source control, and used to clone or move stubs
+between MockLab APIs.</p>
 
-<h2 id="equalto"><code class="language-plaintext highlighter-rouge">equalTo</code></h2>
+<h2 id="importing-a-mock-api-into-mocklab-from-wiremock">Importing a mock API into MockLab from WireMock</h2>
 
-<p>Only matches if the input string is exactly equal to the expected value.</p>
+<p>Assuming you’re running a WireMock instance on port 8080, you can export all the
+stubs currently defined via the admin API:</p>
 
-<h2 id="binaryequalto"><code class="language-plaintext highlighter-rouge">binaryEqualTo</code></h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --output example-stubs.json http://localhost:8080/__admin/mappings
+</code></pre></div></div>
 
-<p>Like <code class="language-plaintext highlighter-rouge">equalTo</code> but compares bytes rather than strings. Useful when you need to match
-e.g. an uploaded image.</p>
+<p>Then to import into MockLab, open the Import dialog and drop or upload the <code class="language-plaintext highlighter-rouge">example-stubs.json</code>:</p>
 
-<h2 id="matches"><code class="language-plaintext highlighter-rouge">matches</code></h2>
+<p><img alt="Import file" src="/images/screenshots/import-file.png" style="width: 80%" /></p>
 
-<p>Matches the input string against a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html" target="_blank">Java style regular expression</a>.</p>
+<blockquote>
+  <p><strong>Note</strong></p>
 
-<h2 id="doesnotmatch"><code class="language-plaintext highlighter-rouge">doesNotMatch</code></h2>
+  <p>A current limitation of this approach is that response bodies represented as
+files under the <code class="language-plaintext highlighter-rouge">__files</code> directory will not be imported. See the <a href="#pushing-stubs-to-mocklab-using-wiremocks-java-api">section below</a>
+to see how this can be worked around using the WireMock Java API.</p>
+</blockquote>
 
-<p>The negative of <code class="language-plaintext highlighter-rouge">matches</code>. Will match if the incoming value does <strong>not</strong> match the regular expression.</p>
+<h2 id="importing-a-mock-api-into-wiremock-from-mocklab">Importing a mock API into WireMock from MockLab</h2>
 
-<h2 id="contains"><code class="language-plaintext highlighter-rouge">contains</code></h2>
+<p>First, export the stubs via the Export dialog in the Stubs page:</p>
 
-<p>Matches if the input string contains the expected value.</p>
+<p><img alt="Export dialog" src="/images/screenshots/export-stubs.png" style="width: 60%" /></p>
 
-<h2 id="equaltojson"><code class="language-plaintext highlighter-rouge">equalToJson</code></h2>
+<p>Then call the WireMock import API with the file you downloaded:</p>
 
-<p>Matches if the input string is valid JSON and is semantically equal to the expected value.
-This is often a better choice than <code class="language-plaintext highlighter-rouge">equalTo</code> when dealing with JSON as it will ignore
-differences in whitespace, and it is optionally possible to ignore array orderings
-and extra object attributes. It also provides the concept of placeholders, allowing
-you to selectively ignore or merely constrain specific JSON elements.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -v -d @example-stubs.json http://localhost:8080/__admin/mappings/import
+</code></pre></div></div>
 
-<p>The underlying implementation for <code class="language-plaintext highlighter-rouge">equalToJson</code> is supplied by
-<a href="https://github.com/lukas-krecan/JsonUnit" target="_blank">JSONUnit</a>.</p>
+<p>Alternatively you can copy <code class="language-plaintext highlighter-rouge">example-stubs.json</code> into the <code class="language-plaintext highlighter-rouge">mappings</code> directory
+under your WireMock root and either restart WireMock or make a <code class="language-plaintext highlighter-rouge">POST</code> request to the
+reset API:</p>
 
-<p>You can learn more about working with JSON in the <a href="/docs/request-matching/json/">Matching JSON</a> article.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -v -X POST http://localhost:8080/__admin/mappings/reset
+</code></pre></div></div>
 
-<h2 id="matchesjsonpath"><code class="language-plaintext highlighter-rouge">matchesJsonPath</code></h2>
+<h2 id="pushing-stubs-to-mocklab-using-wiremocks-java-api">Pushing stubs to MockLab using WireMock’s Java API</h2>
 
-<p>Tests the input JSON string against a JSONPath expression, and returns a match if
-one or more elements are returned. No match will be returned if the input is not valid
-JSON.</p>
+<p>If you have a WireMock project that consists of individual JSON stub mapping
+files under the <code class="language-plaintext highlighter-rouge">mappings</code> directory that refer to response body files under <code class="language-plaintext highlighter-rouge">__files</code>
+you can push these to MockLab via WireMock’s Java API. Unlike the the export method
+described above this will inline response bodies before sending them (since this is)
+presently the only form that MockLab supports.</p>
 
-<p>The actual JSONPath evaluation is performed by the <a href="[JSONPath](https://github.com/json-path/JsonPath)" target="_blank">Java JSONPath implmementation</a>.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">WireMock</span> <span class="n">wireMock</span> <span class="o">=</span> <span class="nc">WireMock</span><span class="o">.</span><span class="na">create</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">scheme</span><span class="o">(</span><span class="s">"https"</span><span class="o">)</span>
+    <span class="c1">// The domain name of the mock API you wish to import into</span>
+    <span class="o">.</span><span class="na">host</span><span class="o">(</span><span class="s">"my-api.mocklab.io"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">port</span><span class="o">(</span><span class="mi">443</span><span class="o">)</span>
+    <span class="c1">// API token from https://app.mocklab.io/account/api</span>
+    <span class="o">.</span><span class="na">authenticator</span><span class="o">(</span><span class="k">new</span> <span class="nc">ClientTokenAuthenticator</span><span class="o">(</span><span class="s">"mytokenabc123"</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
 
-<h2 id="equaltoxml"><code class="language-plaintext highlighter-rouge">equalToXml</code></h2>
-
-<p>Matches if the input string is valid XML and is semantically equal to the expected value.
-Like with <code class="language-plaintext highlighter-rouge">matchesJsonPath</code> this ignores differences in whitespace and supports placeholders
-so that specific element values can be ignored.</p>
-
-<p>The underlying implementation for <code class="language-plaintext highlighter-rouge">equalToXml</code> is supplied by
-<a href="https://www.xmlunit.org/" target="_blank">XMLUnit</a>.</p>
-
-<p>You can learn more about working with XML in the <a href="/docs/request-matching/xml/">Matching XML</a> article.</p>
-
-<h2 id="matchesxpath"><code class="language-plaintext highlighter-rouge">matchesXPath</code></h2>
-
-<p>Tests the input XML string against an XPath 1.0 expression, and returns a match if
-one or more elements are returned. No match will be returned if the input is not valid
-XML.</p>
+<span class="c1">// The root directory of the WireMock project, under which the mappings and __files directories should be found</span>
+<span class="n">wireMock</span><span class="o">.</span><span class="na">loadMappingsFrom</span><span class="o">(</span><span class="s">"/wiremock"</span><span class="o">);</span>
+</code></pre></div></div>
 
         
       </section>
