@@ -1,0 +1,718 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Postman Mock Server vs. MockLab | MockLab</title>
+
+
+
+
+
+
+
+<meta name="description" content="A comparison of Postman mock servers and MockLab for building mock APIs.">
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="MockLab">
+<meta property="og:title" content="Postman Mock Server vs. MockLab">
+
+
+  <link rel="canonical" href="https://www.mocklab.io/blog/postman-mock-server-vs-mocklab/">
+  <meta property="og:url" content="https://www.mocklab.io/blog/postman-mock-server-vs-mocklab/">
+
+
+
+  <meta property="og:description" content="A comparison of Postman mock servers and MockLab for building mock APIs.">
+
+
+
+  <meta property="keywords" content="Postman,MockLab,API Mocking">
+
+
+
+
+
+  
+
+  
+
+
+
+  <meta property="og:image" content="https://www.mocklab.io/images/mocklab_logo_with_text_large.png">
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2021-03-24T00:00:00+00:00">
+  
+  
+    <link rel="prev" href="https://www.mocklab.io/blog/which-java-http-client-should-i-use-in-2020/" title="Which Java HTTP client should I use in 2020?">
+  
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "https://www.mocklab.io",
+      "logo": "https://www.mocklab.io/images/https://www.mocklab.io/images/mocklab_logo_with_text_large.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "",
+      "url" : "https://www.mocklab.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.mocklab.io/feed.xml" type="application/atom+xml" rel="alternate" title="MockLab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<link href="https://fonts.googleapis.com/css?family=Cairo:300" rel="stylesheet">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://www.mocklab.io/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://www.mocklab.io/images/favicon.png">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@1/dist/instantsearch.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.0/dist/instantsearch-theme-algolia.min.css">
+
+    <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5oa515rnev");
+</script>
+
+  </head>
+
+  <body>
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<nav class="header-nav sticky">
+  <ul class="header-nav__container">
+    <li class="header-nav__logo">
+        <a href="https://get.mocklab.io">
+            <img src="/images/mocklab_logo_with_text.png" title="MockLab logo" alt="MockLab logo"/>
+        </a>
+    </li>
+
+    <li class="header-nav__item">
+        <a href="/docs/getting-started/" title="Docs">Docs</a>
+    </li>
+    <li class="header-nav__item">
+        <a href="/blog/" title="Docs">Blog</a>
+    </li>
+    <li class="header-nav__item">
+        <a href="https://get.mocklab.io/pricing" title="Docs">Pricing</a>
+    </li>
+    <li class="header-nav__item header-nav__item--last">
+        <a href="https://app.mocklab.io" title="Login" target="_blank">Login</a>
+    </li>
+
+    <li class="header-nav__cta">
+        <a href="https://app.mocklab.io/login?for=signup" title="Sign up" target="_blank">Sign up</a>
+    </li>
+  </ul>
+
+</nav>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Postman Mock Server vs. MockLab">
+    <meta itemprop="description" content="Postman offers the ability to create mock mock servers, while mocking APIs is MockLab’s main focus. This article compares their approaches and highlights their respective strengths.">
+    <meta itemprop="datePublished" content="March 24, 2021">
+    
+
+    <div class="page__inner-wrap">
+      <div class="page__return-nav-link">
+        <a href="/blog/" title="Back to articles">Back to articles</a>
+      </div>
+
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Postman Mock Server vs. MockLab
+</h1>
+          
+
+          <p class="page__date">
+              <img class="author-pic" src="/images/authors/tom_akehurst.png"/> Tom Akehurst
+
+              
+                on <time datetime="2021-03-24T00:00:00+00:00">March 24, 2021</time>
+              
+          </p>
+
+          <div class="page__meta">
+            
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <span itemprop="keywords">
+    
+      
+      
+      <!-- <a href="https://www.mocklab.io/categories/#api-mocking" class="page__taxonomy-item" rel="tag">API Mocking</a><span class="sep">, </span> -->
+      <span class="page__taxonomy-item">API Mocking<span class="sep">, </span></span>
+    
+      
+      
+      <!-- <a href="https://www.mocklab.io/categories/#mocklab" class="page__taxonomy-item" rel="tag">MockLab</a><span class="sep">, </span> -->
+      <span class="page__taxonomy-item">MockLab<span class="sep">, </span></span>
+    
+      
+      
+      <!-- <a href="https://www.mocklab.io/categories/#postman" class="page__taxonomy-item" rel="tag">Postman</a> -->
+      <span class="page__taxonomy-item">Postman</span>
+    
+    </span>
+  </p>
+
+
+
+          </div>
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p>Postman is indisputably the dominant HTTP testing tool on the market today, and
+if you’re involved in developing or testing APIs it’s highly likely you’ve used it
+(or know someone who does at least).</p>
+
+<p>A feature of Postman is “mock servers”, which allows mock APIs to be generated from
+from Collections (Postman’s main data model - sets of request and response examples). This
+article compares Postman’s capabilities and approach to API mocking with MockLab’s,
+examining the relative strengths and best use of each.</p>
+
+<h2 id="terminology">Terminology</h2>
+
+<p>The concepts underlying Postman’s and MockLab’s mocking capabilities are very similar,
+but some naming and terminology differs. The following table describes both
+products’ terms for each major concept:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>MockLab</th>
+      <th>Postman</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mock API</td>
+      <td>Mock Server</td>
+      <td>A container for stubs/examples. Accessed via a unique domain name.</td>
+    </tr>
+    <tr>
+      <td>Stub</td>
+      <td>Example</td>
+      <td>Specification of a request to be matched, paired with the response to be returned.</td>
+    </tr>
+    <tr>
+      <td>Response Templating</td>
+      <td>Dynamic Responses</td>
+      <td>Responses that contain random values, variables or request data.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="getting-up-and-running">Getting up and running</h2>
+
+<p>With both products you need to sign-up/log into a user account in order to create a mock API/server.</p>
+
+<p>In Postman you create a mock server either via the context menu for a collection, or from the Mock Servers tab:</p>
+
+<p><img src="/images/postman-vs-mocklab/postman-new-mock-server.png" style="border: none" alt="Postman new mock server" /></p>
+
+<p>In MockLab you can create a new mock API via the “+ Mock API” button on the top bar:</p>
+
+<p><img src="/images/postman-vs-mocklab/mocklab-new-mock-api.png" style="border: none" alt="MockLab new mock API" /></p>
+
+<h3 id="base-urls-and-domain-names">Base URLs and domain names</h3>
+
+<p>To use a mock server/API in either product, a unique base URL is needed.</p>
+
+<p>Postman will generate a unique domain name for a mock server using a UUID for the
+hostname e.g.</p>
+
+<p><code class="language-plaintext highlighter-rouge">https://aab7bb9b-4a59-4169-bd3a-697274f033f7.mock.pstmn.io</code></p>
+
+<p>MockLab will also generate a unique domain name, using a short hash for the hostname e.g.</p>
+
+<p><code class="language-plaintext highlighter-rouge">https://nd7dd.mocklab.io</code></p>
+
+<p>MockLab also permits you to optionally choose a hostname of your own, so you can
+create a mock API with a base URL like</p>
+
+<p><code class="language-plaintext highlighter-rouge">https://acme-payments-api.mocklab.io</code></p>
+
+<h2 id="creating-stubs-and-examples">Creating stubs and examples</h2>
+
+<p>In Postman, examples in a collection are used directly to configure responses in
+the mock server. Adding a new example to a request in a collection will automatically
+add it to the mock server:</p>
+
+<p><img src="/images/postman-vs-mocklab/postman-new-example.png" style="border: none" alt="Postman new example" /></p>
+
+<p>In MockLab, stubs are added directly from within a mock API’s Stubs page:</p>
+
+<p><img src="/images/postman-vs-mocklab/mocklab-new-stub.png" style="border: none" alt="MockLab new stub" /></p>
+
+<h2 id="matching-requests">Matching requests</h2>
+
+<p>An essential component of mocking is request matching. The mocking tool must
+select the correct response for the incoming request based on a set of criteria.</p>
+
+<p>This is often as simple as checking that the HTTP method and URL are exactly equal but
+it’s not uncommon to need to match headers, cookies or request body elements.
+Sometimes it’s also necessary to match more loosely e.g. when we want to return
+a response regardless of the user ID passed in the URL path.</p>
+
+<h3 id="url-and-query">URL and query</h3>
+
+<p>Postman supports a degree of request matching flexibility above simple method + URL
+equality.</p>
+
+<p>In your URL path you can specify a parameter name and this will be treated as a wildard, so any value will be accepted:</p>
+
+<p><img src="/images/postman-vs-mocklab/postman-path-parameter.png" alt="Postman path parameter" /></p>
+
+<p>MockLab also supports loose matching of URL paths, but via the use of regular expressions
+rather than named parameters:</p>
+
+<p><img src="/images/postman-vs-mocklab/mocklab-loose-url-matching.png" style="width: 80%" alt="MockLab loose URL matching" /></p>
+
+<p>This gives some additional control over named parameters - you can use very loose
+regex expressions that will match anything, or choose to constrain the range of valid
+values to e.g. just numbers.</p>
+
+<h3 id="query-parameters-headers-and-cookies">Query parameters, headers and cookies</h3>
+
+<p>Postman doesn’t use query parameters, headers or cookies in its matching process,
+so a request sent with any combination of these values will always be matched provided
+the method and URL are correct.</p>
+
+<p>MockLab supports matching of all of these attributes. It also provides a variety
+of predicates, so that it’s possible to match loosely or precisely, depending on your needs.</p>
+
+<p>For instance, you could match a request with a query parameter of <code class="language-plaintext highlighter-rouge">search</code>
+exactly equalling <code class="language-plaintext highlighter-rouge">pyjamas</code>, an <code class="language-plaintext highlighter-rouge">Accept</code> header containing <code class="language-plaintext highlighter-rouge">json</code> and a cookie named
+<code class="language-plaintext highlighter-rouge">session</code> that consists of lowercase alphanumerics only:</p>
+
+<p><img src="/images/postman-vs-mocklab/mocklab-request-attribute-matching.png" style="width: 80%" alt="MockLab query, header and cookie matching" /></p>
+
+<h3 id="request-body">Request body</h3>
+
+<p>Matching the request body is also a requirement in many situations. For instance,
+if you want to test a successful outcome when one variant of a request payload is
+POSTed to the API and an error when a different variant is sent, you need to be able
+to distinguish between request body contents.</p>
+
+<p>By default, Postman will ignore the request body when matching a request. However,
+you can make it include the request body, evaluating an exact match by including the
+following header in the HTTP request:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x-mock-match-request-body: true
+</code></pre></div></div>
+
+<p>This is quite limiting for a couple of reasons:</p>
+
+<ol>
+  <li>It requires you to modify your application under test in order to make it send the header.</li>
+  <li>Exact matching on request bodies can fail when whitespace varies, or when volatile data such as transaction IDs are present.</li>
+</ol>
+
+<p>MockLab can match the request body without the need to modify requests sent by
+the app under test. It offers a set of predicates that support flexible
+matching of input in JSON, XML or plain text.</p>
+
+<p>For example, you could match a request with a JSON body of the correct general structure
+and one field exactly specified using the <code class="language-plaintext highlighter-rouge">equalToJson</code> predicate:</p>
+
+<p><img src="/images/postman-vs-mocklab/mocklab-body-matching.png" style="width: 80%" alt="MockLab body matching" /></p>
+
+<h2 id="debugging">Debugging</h2>
+
+<p>When testing a system with your mock APIs, sooner or later you’re going to want to see
+the details of requests that were made. Both products have a request log feature
+for this purpose, with each presenting very similar information.</p>
+
+<p>Postman:</p>
+
+<p><img src="/images/postman-vs-mocklab/postman-request-log.png" style="border: none" alt="Postman request log" /></p>
+
+<p>MockLab:</p>
+
+<p><img src="/images/postman-vs-mocklab/mocklab-request-log.png" style="border: none" alt="MockLab request log" /></p>
+
+<h3 id="unmatched-requests">Unmatched requests</h3>
+
+<p>A common issue when working with mock APIs is when a request made by your app under test isn’t matched.</p>
+
+<p>When Postman can’t match a response to your request it issues a standard response:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"error":{"name":"mockRequestNotFoundError","message":"To mock this request add an example response for the mock server to return.","header":"You need an example"}}
+</code></pre></div></div>
+
+<p>When MockLab can’t match a request it will return a diff between the most similar stub
+it could find and the request:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl https://example.mocklab.io/v1/users -X PUT -d '{ "wrong": "stuff" }'
+
+                                               Request was not matched
+                                               =======================
+
+-----------------------------------------------------------------------------------------------------------------------
+| Closest stub                                             | Request                                                  |
+-----------------------------------------------------------------------------------------------------------------------
+                                                           |
+JSON request body matching                                 |
+                                                           |
+POST                                                       | PUT                                                 &lt;&lt;&lt;&lt;&lt; HTTP method does not match
+[path] /v1/users                                           | /v1/users
+                                                           |
+{                                                          | {                                                   &lt;&lt;&lt;&lt;&lt; Body does not match
+  "id" : 1234,                                             |   "wrong" : "stuff"
+  "name" : "${json-unit.any-string}",                      | }
+  "isAdminUser" : "${json-unit.any-boolean}"               |
+}                                                          |
+                                                           |
+-----------------------------------------------------------------------------------------------------------------------
+</code></pre></div></div>
+
+<h2 id="importing-from-other-formats">Importing from other formats</h2>
+
+<p>There are a number of widely used formats for describing HTTP interfaces and events.
+If you’re already working with one of these, being able to generate a mock API
+automatically from it can be a big time-saver.</p>
+
+<p>Postman can import from <a href="https://swagger.io/specification/" target="_blank">OpenAPI</a>,
+<a href="https://raml.org/" target="_blank">RAML</a>,
+<a href="https://graphql.org/" target="_blank">GraphQL</a>,
+<a href="https://curl.se/" target="_blank">curl</a> and
+<a href="https://en.wikipedia.org/wiki/Web_Application_Description_Language" target="_blank">WADL</a>:</p>
+
+<p><img src="/images/postman-vs-mocklab/postman-import.png" style="border: none" alt="Postman import" /></p>
+
+<p>MockLab supports <a href="https://swagger.io/specification/" target="_blank">OpenAPI</a>,
+<a href="https://swagger.io/specification/" target="_blank">Swagger</a>,
+Postman collections and
+<a href="http://wiremock.org" target="_blank">WireMock</a> JSON:</p>
+
+<p><img src="/images/postman-vs-mocklab/mocklab-import.png" style="border: none" alt="MockLab import" /></p>
+
+<h3 id="customising-the-import">Customising the import</h3>
+
+<p>When importing from a specification format like OpenAPI (one that represents a contract
+rather than just a list of request/response pairs) it’s useful to be able to exert
+some control over how your examples or stubs are generated.</p>
+
+<p>Postman presents a number of options prior to executing the import that permit you
+to choose things like whether response examples or schemas will be used to generate
+the request and response parameters in your Postman examples:</p>
+
+<p><img src="/images/postman-vs-mocklab/postman-openapi-import-options.png" style="border: none" alt="Postman OpenAPI import options" /></p>
+
+<p>MockLab takes a slightly different approach. Rather than offering a set of options
+up-front, it understands a set of <a href="https://swagger.io/docs/specification/openapi-extensions/" target="_blank">extended attributes</a>
+that you can add to your OpenAPI spec. These allow you to set specific request
+parameters in the generated stubs, rather than getting the randomly generated defaults.
+In this way you can also control how randomly-generated values are produced when response bodies
+are generated from schemas.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">schema</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">string</span>
+  <span class="na">x-faker</span><span class="pi">:</span> <span class="s">name.first_name</span>
+</code></pre></div></div>
+
+<p>See the <a href="Swagger documentation" target="_blank">https://www.mocklab.io/docs/swagger/#customising-the-import</a>
+for details on using extended attributes.</p>
+
+<h2 id="dynamic-responses">Dynamic responses</h2>
+
+<p>A basic stub or example will return a fixed response each time it is matched.
+However, in some cases it’s necessary to generate the response dynamically.</p>
+
+<p>Reasons for this include:</p>
+
+<ul>
+  <li>Copying data into the response from the request e.g a URL path parameter or element from the request body.</li>
+  <li>Including random data such as names, dates, job titles, addresses etc.</li>
+  <li>Generating values that must be calculated per request e.g. when a cryptographic signature must be included.</li>
+</ul>
+
+<p>Postman supports a rich set of random value generators based on <a href="https://www.npmjs.com/package/faker" target="_blank">Faker</a>.</p>
+
+<p>You can include tokens like  <code class="language-plaintext highlighter-rouge">{{$randomFirstName}}</code>  in an example’s
+response body and they will be substitued with a random value of the type specified
+when the response is served. You can find the <a href="https://learning.postman.com/docs/writing-scripts/script-references/variables-list/" target="_blank">full list of available tokens here</a>.</p>
+
+<p>Postman also supports using wildcards as variables in response bodies, so for instance
+if your example’s URL is  <code class="language-plaintext highlighter-rouge">/v1/users/{{user_id}}</code>  then you
+can return the value of <code class="language-plaintext highlighter-rouge">user_id</code> in your response body by including  <code class="language-plaintext highlighter-rouge">/v1/users/{{user_id}}</code> .</p>
+
+<p><img src="/images/postman-vs-mocklab/postman-dynamic-variable.png" style="border: none" alt="Postman dynamic variable" /></p>
+
+<p>MockLab supports full <a href="https://handlebarsjs.com/" target="_blank">Handlebars</a>
+template syntax in its response bodies and headers. This enables <a href="/docs/response-templating/conditional-logic-and-iteration/" target="_blank">conditional logic and looping</a>, variables, and access to a library of functions via Handlebars helpers.</p>
+
+<p>The model provided to the template
+includes all <a href="/docs/response-templating/basics/#the-data-model" target="_blank">attributes of the incoming request</a>, so it’s possible to include
+URL path elements, query parameters, header and the request body in your responses.</p>
+
+<p>Additionally, there are a number of Handlebars helpers to extract and transform
+<a href="/docs/response-templating/string-helpers/" target="_blank">text</a>/<a href="/docs/response-templating/json/" target="_blank">JSON</a>/<a href="/docs/response-templating/xml/" target="_blank">XML</a>,
+manipulate <a href="/docs/response-templating/dates-and-times/" target="_blank">dates/times</a>, generate <a href="/docs/response-templating/random-values/" target="_blank">random strings</a>
+(the full Faker set isn’t supported yet) and generate properly constructed, signed <a href="/docs/response-templating/jwt/" target="_blank">JSON Web Tokens (JWTs)</a>.</p>
+
+<p><img src="/images/postman-vs-mocklab/mocklab-response-templating.png" style="width: 80%;padding: 15px" alt="MockLab response templating" /></p>
+
+<h2 id="response-delays">Response delays</h2>
+
+<p>Mock servers often return responses faster than their real API counterparts.
+This is great when you just want your functional test suite to run as fast as possible,
+but if you’re testing your app’s UX with realistic timings, or want to check that
+a timeout is configured correctly then you need to be able to add artificial delay
+to your responses.</p>
+
+<p>Postman permits you to specify a fixed delay at the mock server level.</p>
+
+<p><img src="/images/postman-vs-mocklab/postman-response-delay.png" alt="Postman response delay" /></p>
+
+<p>MockLab supports <a href="/docs/delays/" target="_blank">fixed, random and chunked delays</a> at the individual stub level.</p>
+
+<p><img src="/images/postman-vs-mocklab/mocklab-response-delay.png" style="width: 80%" alt="MockLab response delay" /></p>
+
+<h2 id="automation">Automation</h2>
+
+<p>In modern development and testing workflows it’s common to want to automate the setup of
+your environment and to be able to operate your tools programmatically. Both products provide APIs for these purposes.</p>
+
+<p><a href="https://www.postman.com/postman/workspace/postman-public-workspace/folder/12959542-6c733d02-0bec-4bcb-bb36-59db8d941198?ctx=documentation" target="_blank">Postman’s API</a>
+supports create/update/delete of mock servers and collections,
+allowing you to automatically configure the mock servers available to your environment
+and the specific examples served by them.</p>
+
+<p><img src="/images/postman-vs-mocklab/postman-api.png" style="border:none;width:30%" alt="Postman API" /></p>
+
+<p><a href="/docs/provisioning/" target="_blank">MockLab’s Provisioning API</a>
+allows mock APIs to be created and deleted.</p>
+
+<p>Once created a mock API has its own <a href="/docs/mocking/" target="_blank">Mocking API</a>
+which supports create/update/delete of stubs, querying of the request log and control
+of other features such as recording.</p>
+
+<p><img src="/images/postman-vs-mocklab/mocklab-api.png" style="border:none" alt="MockLab API" /></p>
+
+<h2 id="other-features">Other features</h2>
+
+<p>MockLab provides a few extra capabilities that are not yet supported by Postman.</p>
+
+<p><a href="/docs/recording-stubs/" target="_blank">Recording</a> - the ability to intercept HTTP traffic between your app (or a client tool)
+and an API, converting it into a set of stubs.</p>
+
+<p><a href="/docs/proxying/" target="_blank">Proxying</a> - conditionally forwarding requests to another API. This is useful
+when you want to test against a real API, but mock the parts of it that haven’t yet been implemented.
+It’s also a good way to reliably return otherwise hard-to-reproduce errors.</p>
+
+<p><a href="/docs/simulating-faults/" target="_blank">Faults</a> - a MockLab stub can respond with a number of network faults including dropped
+connections and garbage HTTP content.</p>
+
+<p><strong>Performance testing</strong> - Mock servers in Postman are rate limited, meaning they’re not
+practical for use in a load test. MockLab’s Performance plans provide dedicated host
+capacity, no rate limiting and a performance metrics dashboard.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Postman mock servers are a great solution if you already have Postman in your
+workflow, your request matching requirements are simple and you want a
+straightforward solution that’s tightly integrated with your existing setup.</p>
+
+<p>MockLab may be the best choice if you need fine control over how requests are matched,
+advanced response templating, recording, proxying, a comprehensive API or support for performance testing.</p>
+
+<p>And remember, you can <a href="https://www.mocklab.io/docs/import-export/postman/" target="_blank">import your Postman collections</a> into MockLab to get started.</p>
+
+<div class="mid-article-cta">
+  <p class="mid-article-cta__text">
+    If you've made it this far, why not give MockLab a try?
+  </p>
+
+  <p class="mid-article-cta__text">
+    It's quick, simple and free to get started, and it has the flexibility to grow with your project's testing demands.
+  </p>
+
+  <a class="mid-article-cta__learn-more" href="https://get.mocklab.io/?utm_source=www.mocklab.io&amp;utm_medium=blog&amp;utm_campaign=postman-vs-mocklab-learn-more-cta" title="Learn more">Learn more</a>
+
+  <a class="mid-article-cta__get-started" href="https://app.mocklab.io/login?for=signup&amp;utm_source=www.mocklab.io&amp;utm_medium=blog&amp;utm_campaign=postman-vs-mocklab-get-started-cta" title="Get started for free" target="_blank">Get started for free</a>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+      </footer>
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+<nav class="page__footer-links">
+  <div class="page__footer-links-block">
+    <ul>
+      <li>&copy; 2021 MockLab</li>
+      <li><a href="mailto:info@mocklab.io">info@mocklab.io</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <h3>Help</h3>
+    <ul>
+      <li><a href="/docs/getting-started/">Docs</a></li>
+      <li><a href="/docs/getting-started/">Blog</a></li>
+      <li><a href="https://get.mocklab.io/pricing">Pricing</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <h3>Solutions</h3>
+    <ul>
+      <li><a href="/oauth2/">OAuth2</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <h3>Policies</h3>
+    <ul>
+      <li><a href="/docs/terms-and-conditions/">Terms and conditions</a></li>
+      <li><a href="/docs/privacy-policy/">Privacy policy</a></li>
+    </ul>
+  </div>
+
+  <div class="page__footer-links-block">
+    <ul>
+
+    </ul>
+  </div>
+</nav>
+
+      </footer>
+    </div>
+
+    <script src="https://www.mocklab.io/assets/js/main.min.js"></script>
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78148205-6', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+<script>
+    window.intercomSettings = {
+        app_id: "xjme6u4w"
+    };
+</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/xjme6u4w';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+
+
+  </body>
+</html>
+
