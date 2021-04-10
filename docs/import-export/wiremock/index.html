@@ -61,7 +61,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2021-03-30T13:59:11+01:00">
+  <meta property="article:published_time" content="2021-04-10T18:28:32+01:00">
   
     <link rel="next" href="https://www.mocklab.io/docs/mock-rest-api/" title="How to build a mock REST API [Tutorial]">
   
@@ -629,7 +629,7 @@
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Import &amp; Export - WireMock">
     <meta itemprop="description" content="MockLab and WireMock share the same native JSON format for stubs, so mock APIscan be imported and exported between the two.">
-    <meta itemprop="datePublished" content="March 30, 2021">
+    <meta itemprop="datePublished" content="April 10, 2021">
     
 
     <div class="page__inner-wrap">
@@ -660,8 +660,9 @@ stubs currently defined via the admin API:</p>
   <p><strong>Note</strong></p>
 
   <p>A current limitation of this approach is that response bodies represented as
-files under the <code class="language-plaintext highlighter-rouge">__files</code> directory will not be imported. See the <a href="#pushing-stubs-to-mocklab-using-wiremocks-java-api">section below</a>
-to see how this can be worked around using the WireMock Java API.</p>
+files under the <code class="language-plaintext highlighter-rouge">__files</code> directory will not be imported.
+See how this can be worked around by <a href="#uploading-a-wiremock-folder">uploading a WireMock project folder</a>
+and via the <a href="#pushing-stubs-to-mocklab-using-wiremocks-java-api">WireMock Java API</a>.</p>
 </blockquote>
 
 <h2 id="importing-a-mock-api-into-wiremock-from-mocklab">Importing a mock API into WireMock from MockLab</h2>
@@ -682,13 +683,35 @@ reset API:</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -v -X POST http://localhost:8080/__admin/mappings/reset
 </code></pre></div></div>
 
-<h2 id="pushing-stubs-to-mocklab-using-wiremocks-java-api">Pushing stubs to MockLab using WireMock’s Java API</h2>
+<blockquote>
+  <p><strong>Note</strong></p>
+
+  <p>If any of your stubs make use of <strong>response templating</strong> then you’ll need to ensure WireMock
+is started with the <code class="language-plaintext highlighter-rouge">--local-response-templating</code> CLI parameter
+or <a href="http://wiremock.org/docs/response-templating/">Java equivalent</a>.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Note</strong></p>
+
+  <p>It is not currently possible to import stubs that use the JWT and JWKS template helpers
+into WireMock.</p>
+</blockquote>
+
+<h2 id="uploading-a-wiremock-folder">Uploading a WireMock folder</h2>
 
 <p>If you have a WireMock project that consists of individual JSON stub mapping
 files under the <code class="language-plaintext highlighter-rouge">mappings</code> directory that refer to response body files under <code class="language-plaintext highlighter-rouge">__files</code>
-you can push these to MockLab via WireMock’s Java API. Unlike the the export method
-described above this will inline response bodies before sending them (since this is)
-presently the only form that MockLab supports.</p>
+you can import this by dragging and dropping the project folder into the dialog.
+Unlike the method involving a single JSON file described above, this will cause the
+response bodies under <code class="language-plaintext highlighter-rouge">__files</code> to be inlined.</p>
+
+<p><img alt="Import file" src="/images/screenshots/wiremock-folder-drop.png" style="width: 80%" /></p>
+
+<h2 id="pushing-stubs-to-mocklab-using-wiremocks-java-api">Pushing stubs to MockLab using WireMock’s Java API</h2>
+
+<p>Another way to import a WireMock project that has a <code class="language-plaintext highlighter-rouge">__files</code> directory is to push it using WireMock’s Java API.
+This method also inlines response bodies before sending them to MockLab:</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">WireMock</span> <span class="n">wireMock</span> <span class="o">=</span> <span class="nc">WireMock</span><span class="o">.</span><span class="na">create</span><span class="o">()</span>
     <span class="o">.</span><span class="na">scheme</span><span class="o">(</span><span class="s">"https"</span><span class="o">)</span>
