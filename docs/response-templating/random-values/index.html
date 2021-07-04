@@ -61,12 +61,12 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2021-04-18T19:15:23+01:00">
+  <meta property="article:published_time" content="2021-07-04T19:47:00+01:00">
   
     <link rel="next" href="https://www.mocklab.io/docs/response-templating/string-encodings/" title="Response Templating - String Encodings">
   
   
-    <link rel="prev" href="https://www.mocklab.io/docs/response-templating/misc-helpers/" title="Response Templating - Miscellaneous Helpers">
+    <link rel="prev" href="https://www.mocklab.io/docs/response-templating/number-helpers/" title="Response Templating - Number Helpers">
   
 
 
@@ -384,6 +384,16 @@
               
               
               <li>
+                <a href="https://www.mocklab.io/docs/response-templating/number-helpers/">
+
+                
+                Number Helpers
+                </a>
+              </li>
+            
+              
+              
+              <li>
                 <a href="https://www.mocklab.io/docs/response-templating/dates-and-times/">
 
                 
@@ -639,7 +649,7 @@
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Response Templating - Random Values">
     <meta itemprop="description" content="MockLab provides two random value helpers - randomValue and pickRandom.">
-    <meta itemprop="datePublished" content="April 18, 2021">
+    <meta itemprop="datePublished" content="July 04, 2021">
     
 
     <div class="page__inner-wrap">
@@ -650,7 +660,7 @@
       <section class="page__content" itemprop="text">
         <p>MockLab provides two random value helpers - <code class="language-plaintext highlighter-rouge">randomValue</code> and <code class="language-plaintext highlighter-rouge">pickRandom</code>.</p>
 
-<h2 id="random-value">Random value</h2>
+<h2 id="random-strings">Random strings</h2>
 
 <p>The <code class="language-plaintext highlighter-rouge">randomValue</code> helper generates random strings of a specific type and length.
 Optionally, values containing alphabetic characters can be made upper case via the <code class="language-plaintext highlighter-rouge">uppercase</code> parameter.</p>
@@ -667,7 +677,32 @@ Optionally, values containing alphabetic characters can be made upper case via t
 
 <span class="k">{{</span><span class="nv">randomValue</span> <span class="nv">length</span><span class="o">=</span><span class="nv">5</span> <span class="nv">type</span><span class="o">=</span><span class="s1">'ALPHANUMERIC_AND_SYMBOLS'</span><span class="k">}}</span>
 
+<span class="k">{{</span><span class="nv">randomValue</span> <span class="nv">length</span><span class="o">=</span><span class="nv">5</span> <span class="nv">type</span><span class="o">=</span><span class="s1">'HEXADECIMAL'</span> <span class="nv">uppercase</span><span class="o">=</span><span class="kc">true</span><span class="k">}}</span>
+
 <span class="k">{{</span><span class="nv">randomValue</span> <span class="nv">type</span><span class="o">=</span><span class="s1">'UUID'</span><span class="k">}}</span>
+</code></pre></div></div>
+
+<h2 id="random-numbers">Random numbers</h2>
+
+<p>While the <code class="language-plaintext highlighter-rouge">randomValue</code> helper can generate a number as a string when type <code class="language-plaintext highlighter-rouge">NUMERIC</code> is requested,
+sometimes it can be useful to emit an actual typed number with the ability to control
+lower and upper bounds. Working with numbers this way supports further processing
+with the <code class="language-plaintext highlighter-rouge">math</code> helper or can serve as input to the <code class="language-plaintext highlighter-rouge">range</code> helper, among other uses.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">randomInt</code> helper emits random integers with one, both or neither bound specified.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">randomInt</span><span class="k">}}</span>
+<span class="k">{{</span><span class="nv">randomInt</span> <span class="nv">lower</span><span class="o">=</span><span class="nv">5</span> <span class="nv">upper</span><span class="o">=</span><span class="nv">9</span><span class="k">}}</span>
+<span class="k">{{</span><span class="nv">randomInt</span> <span class="nv">upper</span><span class="o">=</span><span class="nv">54323</span><span class="k">}}</span>
+<span class="k">{{</span><span class="nv">randomInt</span> <span class="nv">lower</span><span class="o">=</span><span class="nv">-24</span><span class="k">}}</span>
+</code></pre></div></div>
+
+<p>Likewise <code class="language-plaintext highlighter-rouge">randomDecimal</code> will emit random decimals:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">randomDecimal</span><span class="k">}}</span>
+<span class="k">{{</span><span class="nv">randomDecimal</span> <span class="nv">lower</span><span class="o">=</span><span class="nv">-10</span><span class="p">.</span><span class="nv">1</span> <span class="nv">upper</span><span class="o">=</span><span class="nv">-0</span><span class="p">.</span><span class="nv">9</span><span class="k">}}</span>
+<span class="k">{{</span><span class="nv">randomDecimal</span> <span class="nv">upper</span><span class="o">=</span><span class="nv">12</span><span class="p">.</span><span class="nv">5</span><span class="k">}}</span>
+<span class="k">{{</span><span class="nv">randomDecimal</span> <span class="nv">lower</span><span class="o">=</span><span class="nv">-24</span><span class="p">.</span><span class="nv">01</span><span class="k">}}</span>
 </code></pre></div></div>
 
 <h2 id="pick-random">Pick random</h2>

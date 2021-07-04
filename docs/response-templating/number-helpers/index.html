@@ -20,7 +20,7 @@
 
 
 
-<title>Import &amp; Export - Swagger and OpenAPI | MockLab</title>
+<title>Response Templating - Number Helpers | MockLab</title>
 
 
 
@@ -28,19 +28,19 @@
 
 
 
-<meta name="description" content="Generate your mock API automatically from a Swagger or OpenAPI definition.">
+<meta name="description" content="Working with numbers">
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="MockLab">
-<meta property="og:title" content="Import &amp; Export - Swagger and OpenAPI">
+<meta property="og:title" content="Response Templating - Number Helpers">
 
 
-  <link rel="canonical" href="https://www.mocklab.io/docs/swagger/">
-  <meta property="og:url" content="https://www.mocklab.io/docs/swagger/">
+  <link rel="canonical" href="https://www.mocklab.io/docs/response-templating/number-helpers/">
+  <meta property="og:url" content="https://www.mocklab.io/docs/response-templating/number-helpers/">
 
 
 
-  <meta property="og:description" content="Generate your mock API automatically from a Swagger or OpenAPI definition.">
+  <meta property="og:description" content="Working with numbers">
 
 
 
@@ -63,10 +63,10 @@
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2021-07-04T19:47:00+01:00">
   
-    <link rel="next" href="https://www.mocklab.io/docs/teams-and-collaboration/" title="Teams and Collaboration">
+    <link rel="next" href="https://www.mocklab.io/docs/response-templating/random-values/" title="Response Templating - Random Values">
   
   
-    <link rel="prev" href="https://www.mocklab.io/docs/stubbing/" title="Stubbing Basics">
+    <link rel="prev" href="https://www.mocklab.io/docs/response-templating/misc-helpers/" title="Response Templating - Miscellaneous Helpers">
   
 
 
@@ -384,7 +384,8 @@
               
               
               <li>
-                <a href="https://www.mocklab.io/docs/response-templating/number-helpers/">
+                <a href="/docs/response-templating/number-helpers/" class="nav__list-item--selected">
+                
 
                 
                 Number Helpers
@@ -481,8 +482,7 @@
               
               
               <li>
-                <a href="/docs/swagger/" class="nav__list-item--selected">
-                
+                <a href="https://www.mocklab.io/docs/swagger/">
 
                 
                 Swagger and OpenAPI
@@ -647,152 +647,118 @@
 
 
   <article class="doc-page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Import &amp; Export - Swagger and OpenAPI">
-    <meta itemprop="description" content="Swagger / OpenAPI is undoubtedly the most widely used description language for REST and REST-like APIs.MockLab supports automatic generation of mock APIs from imported Swagger and OpenAPI specifications.">
+    <meta itemprop="headline" content="Response Templating - Number Helpers">
+    <meta itemprop="description" content="Math helperThe math helper performs common arithmetic operations. It can accept integers, decimalsor strings as its operands and will always yield a number as its output rather than a string.">
     <meta itemprop="datePublished" content="July 04, 2021">
     
 
     <div class="page__inner-wrap">
       <header>
-        <h1 class="page__title" itemprop="headline">Import &amp; Export - Swagger and OpenAPI
+        <h1 class="page__title" itemprop="headline">Response Templating - Number Helpers
 </h1>
       </header>
       <section class="page__content" itemprop="text">
-        <p>Swagger / OpenAPI is undoubtedly the most widely used description language for REST and REST-like APIs.
-MockLab supports automatic generation of mock APIs from imported Swagger and OpenAPI specifications.</p>
+        <h2 id="math-helper">Math helper</h2>
+<p>The <code class="language-plaintext highlighter-rouge">math</code> helper performs common arithmetic operations. It can accept integers, decimals
+or strings as its operands and will always yield a number as its output rather than a string.</p>
 
-<p>See <a href="/docs/import-and-export/">Import and Export Overview</a> for basic importing instructions via the UI and
-<a href="/docs/import-export/api">Importing and Export via the API</a> for directions on automating
-imports via MockLab’s API.</p>
+<p>Addition, subtraction, multiplication, division and remainder (mod) are supported.</p>
 
-<h2 id="customising-the-import">Customising the import</h2>
-
-<p>When importing from a Swagger/OpenAPI spec, it’s often useful to be able to control
-how certain aspects of the generated stubs are produced. MockLab supports a number
-of extension attributes that can be added to your spec document for this purpose.</p>
-
-<h3 id="specifying-url-path-and-query-parameters">Specifying URL path and query parameters</h3>
-
-<p>When MockLab converts a response example to a stub, by default it will generate random values for URL path and query parameters.</p>
-
-<p>However, if a response uses the multiple example format, you can specify the exact parameter values you wish to be required
-by the stub. This can be useful if your test cases or application under test expects specific
-responses to be available in your mock API.</p>
-
-<p>For instance, given the following Open API path element:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">/people/{id}</span><span class="pi">:</span>
-    <span class="na">description</span><span class="pi">:</span> <span class="s">People by ID</span>
-    <span class="na">parameters</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">id</span>
-        <span class="na">in</span><span class="pi">:</span> <span class="s">path</span>
-        <span class="na">required</span><span class="pi">:</span> <span class="no">true</span>
-        <span class="na">schema</span><span class="pi">:</span>
-          <span class="na">type</span><span class="pi">:</span> <span class="s">string</span>
-
-    <span class="na">get</span><span class="pi">:</span>
-      <span class="na">description</span><span class="pi">:</span> <span class="s">Get a person</span>
-      <span class="na">parameters</span><span class="pi">:</span>
-        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">fields</span>
-          <span class="na">in</span><span class="pi">:</span> <span class="s">query</span>
-          <span class="na">required</span><span class="pi">:</span> <span class="no">true</span>
-          <span class="na">schema</span><span class="pi">:</span>
-            <span class="na">type</span><span class="pi">:</span> <span class="s">string</span>
-            <span class="na">enum</span><span class="pi">:</span>
-              <span class="pi">-</span> <span class="s">full</span>
-              <span class="pi">-</span> <span class="s">summary</span>
-
-      <span class="na">responses</span><span class="pi">:</span>
-        <span class="s1">'</span><span class="s">200'</span><span class="pi">:</span>
-          <span class="na">description</span><span class="pi">:</span> <span class="s">People search returned successfully</span>
-          <span class="na">content</span><span class="pi">:</span>
-            <span class="s">application/json</span><span class="pi">:</span>
-              <span class="na">examples</span><span class="pi">:</span>
-                <span class="na">one</span><span class="pi">:</span>
-                  <span class="na">summary</span><span class="pi">:</span> <span class="s">First example</span>
-                  <span class="na">x-parameter-values</span><span class="pi">:</span>
-                    <span class="na">id</span><span class="pi">:</span> <span class="s">abc123</span>
-                    <span class="na">fields</span><span class="pi">:</span> <span class="s">summary</span>
-                  <span class="na">value</span><span class="pi">:</span> <span class="pi">|</span>
-                    <span class="s">{ "name": "John" }</span>
-
-                <span class="na">two</span><span class="pi">:</span>
-                  <span class="na">summary</span><span class="pi">:</span> <span class="s">Second example</span>
-                  <span class="na">x-parameter-values</span><span class="pi">:</span>
-                    <span class="na">id</span><span class="pi">:</span> <span class="s">cba321</span>
-                    <span class="na">fields</span><span class="pi">:</span> <span class="s">full</span>
-                  <span class="na">value</span><span class="pi">:</span> <span class="pi">|</span>
-                    <span class="s">{ "name": "Jeff", id: "cba123" }</span>
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{</span><span class="nv">math</span> <span class="nv">1</span> <span class="s1">'+'</span> <span class="nv">2</span><span class="k">}}</span>
+<span class="k">{{</span><span class="nv">math</span> <span class="nv">4</span> <span class="s1">'-'</span> <span class="nv">2</span><span class="k">}}</span>
+<span class="k">{{</span><span class="nv">math</span> <span class="nv">2</span> <span class="s1">'*'</span> <span class="nv">3</span><span class="k">}}</span>
+<span class="k">{{</span><span class="nv">math</span> <span class="nv">8</span> <span class="s1">'/'</span> <span class="nv">2</span><span class="k">}}</span>
+<span class="k">{{</span><span class="nv">math</span> <span class="nv">10</span> <span class="s1">'%'</span> <span class="nv">3</span><span class="k">}}</span>
 </code></pre></div></div>
 
-<p>Two stubs will be created from the above example.
-One will have a URL path equal to <code class="language-plaintext highlighter-rouge">/people/abc123</code> and a requred query parameter of <code class="language-plaintext highlighter-rouge">fields=summary</code>.
-The other will have a URL path equal to <code class="language-plaintext highlighter-rouge">/people/cba321</code> and a requred query parameter of <code class="language-plaintext highlighter-rouge">fields=full</code>.</p>
+<h2 id="formatting-numbers">Formatting numbers</h2>
+<p>The <code class="language-plaintext highlighter-rouge">numberFormat</code> helper allows you to specify how numbers are printed. It supports
+a number of predefined formats, custom format strings and various other options
+including rounding mode, decimal places and locale.</p>
 
-<p>Any values not specified in this manner will be randomly generated based on the parameter’s schema.</p>
-
-<h3 id="controlling-data-generation-from-schemas">Controlling data generation from schemas</h3>
-
-<p>When importing a response with a schema but no examples, MockLab will randomly generate an example
-that conforms to the schema.</p>
-
-<p>For each schema attribute an attempt will be made to determine the data type, using the
-<code class="language-plaintext highlighter-rouge">format</code> if present, but if not making a guess based on the field name. For instance,
-a <code class="language-plaintext highlighter-rouge">string</code> attribute named <code class="language-plaintext highlighter-rouge">date_of_birth</code> will result in the generation of an ISO8601 local
-date within the past 99 years e.g. <code class="language-plaintext highlighter-rouge">1971-08-02</code>.</p>
-
-<p>However, you can override this behaviour and specify which data generation strategy should be used.
-MockLab uses <a href="https://github.com/DiUS/java-faker">Faker</a> to generate example data, and
-you can specify the specific faker to use by adding an <code class="language-plaintext highlighter-rouge">x-faker</code> attribute to your schema element e.g.</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">schema</span><span class="pi">:</span>
-  <span class="na">type</span><span class="pi">:</span> <span class="s">string</span>
-  <span class="na">x-faker</span><span class="pi">:</span> <span class="s">name.first_name</span>
-</code></pre></div></div>
-
-<p>This can be used both in parameter declarations and response body schemas.</p>
-
-<p>All of the fakers <a href="https://github.com/DiUS/java-faker/tree/master/src/main/resources/en">listed here</a>
-can be used, plus there are some additional rules supplied by MockLab. The following lists all of the most
-commonly used, plus all supplied by MockLab:</p>
+<h3 id="predefined-formats">Predefined formats</h3>
+<p><code class="language-plaintext highlighter-rouge">numberFormat</code> supports the following predefined formats:</p>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">name.name</code></li>
-  <li><code class="language-plaintext highlighter-rouge">name.first_name</code></li>
-  <li><code class="language-plaintext highlighter-rouge">name.last_name</code></li>
-  <li><code class="language-plaintext highlighter-rouge">name.name_with_middle</code></li>
-  <li><code class="language-plaintext highlighter-rouge">name.title</code></li>
-  <li><code class="language-plaintext highlighter-rouge">name.prefix</code></li>
-  <li><code class="language-plaintext highlighter-rouge">name.suffix</code></li>
-  <li><code class="language-plaintext highlighter-rouge">name.username</code></li>
-  <li><code class="language-plaintext highlighter-rouge">id.alphanumeric_id</code></li>
-  <li><code class="language-plaintext highlighter-rouge">id.uuid</code></li>
-  <li><code class="language-plaintext highlighter-rouge">date_and_time.birthday</code></li>
-  <li><code class="language-plaintext highlighter-rouge">date_and_time.past_date_time</code></li>
-  <li><code class="language-plaintext highlighter-rouge">date_and_time.future_date_time</code></li>
-  <li><code class="language-plaintext highlighter-rouge">uri.url</code></li>
-  <li><code class="language-plaintext highlighter-rouge">lorem.word</code></li>
-  <li><code class="language-plaintext highlighter-rouge">lorem.sentence</code></li>
-  <li><code class="language-plaintext highlighter-rouge">lorem.paragraph</code></li>
-  <li><code class="language-plaintext highlighter-rouge">currency.code</code></li>
-  <li><code class="language-plaintext highlighter-rouge">address.street_address</code></li>
-  <li><code class="language-plaintext highlighter-rouge">address.secondary_address</code></li>
-  <li><code class="language-plaintext highlighter-rouge">address.city_name</code></li>
-  <li><code class="language-plaintext highlighter-rouge">address.state</code></li>
-  <li><code class="language-plaintext highlighter-rouge">address.postcode</code></li>
-  <li><code class="language-plaintext highlighter-rouge">country.name</code></li>
-  <li><code class="language-plaintext highlighter-rouge">country.code2</code></li>
-  <li><code class="language-plaintext highlighter-rouge">country.code3</code></li>
-  <li><code class="language-plaintext highlighter-rouge">phone_number.phone_number</code></li>
-  <li><code class="language-plaintext highlighter-rouge">avatar.image</code></li>
+  <li><code class="language-plaintext highlighter-rouge">integer</code></li>
+  <li><code class="language-plaintext highlighter-rouge">currency</code></li>
+  <li><code class="language-plaintext highlighter-rouge">percent</code></li>
 </ul>
 
-<blockquote>
-  <p><strong>note</strong></p>
+<p>Predefined formats can be affected by locale, so it’s usually a good idea to explicitly
+specify this.</p>
 
-  <p>Only required query parameters will be included in the stubs’ request criteria. Non-required query parameters
-will excluded, meaning that any or no value will be accepted.</p>
-</blockquote>
+<p>For example, to format a decimal number as currency, specifically British pounds:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">numberFormat</span> <span class="nv">123</span><span class="p">.</span><span class="nv">4567</span> <span class="s1">'currency'</span> <span class="s1">'en_GB'</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<p>Output: <code class="language-plaintext highlighter-rouge">£123.46</code>.</p>
+
+<p>Alternatively, if we wanted to output the number as a percentage:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">numberFormat</span> <span class="nv">123</span><span class="p">.</span><span class="nv">4567</span> <span class="s1">'percent'</span> <span class="s1">'en_GB'</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<p>Output: <code class="language-plaintext highlighter-rouge">12,346%</code>.</p>
+
+<h3 id="custom-format-string">Custom format string</h3>
+<p>For maximum control over the number format you can specify a format string:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">numberFormat</span> <span class="nv">123</span><span class="p">.</span><span class="nv">4567</span> <span class="s1">'###.000000'</span> <span class="s1">'en_GB'</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<p>Output: <code class="language-plaintext highlighter-rouge">123.456700</code>.</p>
+
+<p>See the <a href="https://docs.oracle.com/javase/8/docs/api/java/text/DecimalFormat.html" target="_blank">Java DecimalFormat documentation</a>
+for details on how to use format strings.</p>
+
+<h3 id="configuring-number-of-digits">Configuring number of digits</h3>
+<p>Separate from the format parameter, the number of digits before and after the
+decimal place can be bounded using one or more of four parameters:
+<code class="language-plaintext highlighter-rouge">maximumFractionDigits</code>, <code class="language-plaintext highlighter-rouge">minimumFractionDigits</code>, <code class="language-plaintext highlighter-rouge">maximumIntegerDigits</code>, <code class="language-plaintext highlighter-rouge">minimumIntegerDigits</code>.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">numberFormat</span> <span class="nv">1234</span><span class="p">.</span><span class="nv">567</span> <span class="nv">maximumIntegerDigits</span><span class="o">=</span><span class="nv">3</span> <span class="nv">minimumFractionDigits</span><span class="o">=</span><span class="nv">6</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<p>Output: <code class="language-plaintext highlighter-rouge">234.567000</code>.</p>
+
+<h3 id="disabling-grouping">Disabling grouping</h3>
+<p>By default <code class="language-plaintext highlighter-rouge">numberFormat</code> will insert commas, periods etc. per the locale between
+groups of digits e.g. <code class="language-plaintext highlighter-rouge">1,234.5</code>.</p>
+
+<p>This behaviour can be disabled with <code class="language-plaintext highlighter-rouge">groupingUsed</code>.</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">numberFormat</span> <span class="nv">12345</span><span class="p">.</span><span class="nv">678</span> <span class="nv">groupingUsed</span><span class="o">=</span><span class="kc">false</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<p>Output: <code class="language-plaintext highlighter-rouge">12345.678</code>.</p>
+
+<h3 id="rounding-mode">Rounding mode</h3>
+<p>The <code class="language-plaintext highlighter-rouge">roundingMode</code> parameter affects how numbers will be rounded up or down when
+it’s necessary to do so.</p>
+
+<p>For instance, to always round down:</p>
+
+<div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">{{{</span><span class="nv">numberFormat</span> <span class="nv">1</span><span class="p">.</span><span class="nv">239</span> <span class="nv">roundingMode</span><span class="o">=</span><span class="s1">'down'</span> <span class="nv">maximumFractionDigits</span><span class="o">=</span><span class="nv">2</span><span class="k">}}}</span>
+</code></pre></div></div>
+
+<p>Output: <code class="language-plaintext highlighter-rouge">1.23</code>.</p>
+
+<p>Available rounding modes are:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">up</code></li>
+  <li><code class="language-plaintext highlighter-rouge">down</code></li>
+  <li><code class="language-plaintext highlighter-rouge">half_up</code></li>
+  <li><code class="language-plaintext highlighter-rouge">half_down</code></li>
+  <li><code class="language-plaintext highlighter-rouge">half_even</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ceiling</code></li>
+  <li><code class="language-plaintext highlighter-rouge">floor</code>.</li>
+</ul>
+
+<p>See the <a href="https://docs.oracle.com/javase/8/docs/api/java/math/RoundingMode.html" target="_blank">Java RoundingMode documentation</a>
+for the exact meaning of each of these.</p>
 
         
       </section>
